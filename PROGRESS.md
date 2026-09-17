@@ -12,4 +12,5 @@
 | **Step 0.8** | Diagnosis: we need a network transport | Completed | `6d6c634` | Refactored server.py with AGENTGUARD_TRANSPORT switch and verified NotImplementedError for http |
 | **Step 1.1** | Add the HTTP transport | Completed | `fb0708d` | Integrated Starlette ASGI web app and Uvicorn with /healthz, /sse, and /messages |
 | **Step 1.2** | Run it over HTTP | Completed | `fb0708d` | Verified running Uvicorn server on port 8080 and curl testing |
-| **Step 1.3** | The error: anyone can call it | Completed | `pending` | Demonstrated unauthenticated public access vulnerability leading to data exfiltration |
+| **Step 1.3** | The error: anyone can call it | Completed | `c046e54` | Demonstrated unauthenticated public access vulnerability leading to data exfiltration |
+| **Step 1.4** | Diagnosis: we need authentication | Completed | `4a29d86` | Established OAuth 2.1 Resource Server architecture over static API keys |
