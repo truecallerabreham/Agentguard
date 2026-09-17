@@ -32,3 +32,4 @@ def test_http_app_endpoints():
 
 if __name__ == "__main__":
     test_http_app_endpoints()
+
