@@ -10,6 +10,7 @@ class ServerSettings(BaseSettings):
         env_prefix="AGENTGUARD_",
         env_file=".env",
         extra="ignore",
+        frozen=True,
     )
 
     # Transport
@@ -27,3 +28,4 @@ class ServerSettings(BaseSettings):
 def get_settings() -> ServerSettings:
     """Module-level singleton — read once, used everywhere."""
     return ServerSettings()
+
