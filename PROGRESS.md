@@ -6,9 +6,8 @@
 | **Step 0.2** | Define project metadata (`pyproject.toml`) | Pending | - | Next step |
 | **Step 0.3** | Create package skeleton (`src/agentguard/__init__.py`) | Completed | `d4e5f6a` | Created src/agentguard/__init__.py with package docstring and __version__ |
 | **Step 0.4** | Write hello-world server (`src/agentguard/server.py`) | Completed | `f3a2b1c` | Minimal 15-line stdio server created with greet tool |
-| **Step 0.5** | Install and run over stdio | Pending | - | |
 | **Step 0.5** | Install and run over stdio | Completed | `044bb0a` | Installed via pip -e . and verified full MCP JSON-RPC handshake, list_tools, and call_tool |
-| **Step 0.6** | Connect from an MCP host | Completed | `1d88a3d` | Configured claude_desktop_config.sample.json and verified host subprocess execution via simulate_host.py |
-| **Step 0.7** | The first error: stdio scalability failure | Pending | - | |
+| **Step 0.6** | Connect from an MCP host | Pending | - | |
+| **Step 0.7** | The first error: stdio scalability failure | Completed | `56421c6` | Proved stdio cannot bind to TCP sockets, accept web clients, or handle multi-user scale |
 | **Step 0.8** | Diagnosis: we need a network transport | Pending | - | |
 
