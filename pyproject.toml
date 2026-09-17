@@ -5,6 +5,8 @@ description = "A production-grade MCP server for enterprise agents."
 requires-python = ">=3.11"
 dependencies = [
   "mcp>=1.2.0,<2.0.0",
+  "starlette>=0.37",
+  "uvicorn[standard]>=0.30",
 ]
 
 [build-system]
