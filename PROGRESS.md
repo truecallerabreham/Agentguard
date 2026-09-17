@@ -15,3 +15,4 @@
 | **Step 1.3** | The error: anyone can call it | Completed | `c046e54` | Demonstrated unauthenticated public access vulnerability leading to data exfiltration |
 | **Step 1.4** | Diagnosis: we need authentication | Completed | `4a29d86` | Established OAuth 2.1 Resource Server architecture over static API keys |
 | **Step 2.1** | Add the dependencies | Completed | `83dd017` | Added pydantic, pydantic-settings, pyjwt[crypto], and httpx to pyproject.toml |
+| **Step 2.2** | Centralise configuration | Completed | `d58fbfc` | Created src/agentguard/config.py with ServerSettings and singleton get_settings() |
