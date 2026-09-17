@@ -6,7 +6,8 @@ requires-python = ">=3.11"
 
 dependencies = [
   "mcp>=1.2.0,<2.0.0",        # the official Model Context Protocol SDK (v1 LTS)
-  "uvicorn[standard]>=0.30",   # ASGI server for Streamable HTTP (Milestone 1)
+  "starlette>=0.37",          # ASGI web framework for HTTP endpoints
+  "uvicorn[standard]>=0.30",   # ASGI web server for Streamable HTTP
 ]
 
 [build-system]

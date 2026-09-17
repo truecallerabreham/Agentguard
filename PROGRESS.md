@@ -7,7 +7,7 @@
 | **Step 0.3** | Create package skeleton (`src/agentguard/__init__.py`) | Completed | `d4e5f6a` | Created src/agentguard/__init__.py with package docstring and __version__ |
 | **Step 0.4** | Write hello-world server (`src/agentguard/server.py`) | Completed | `f3a2b1c` | Minimal 15-line stdio server created with greet tool |
 | **Step 0.5** | Install and run over stdio | Completed | `044bb0a` | Installed via pip -e . and verified full MCP JSON-RPC handshake, list_tools, and call_tool |
-| **Step 0.6** | Connect from an MCP host | Pending | - | |
-| **Step 0.7** | The first error: stdio scalability failure | Completed | `56421c6` | Proved stdio cannot bind to TCP sockets, accept web clients, or handle multi-user scale |
-| **Step 0.8** | Diagnosis: we need a network transport | Completed | `9ac70fa` | Refactored server.py with AGENTGUARD_TRANSPORT switch and verified NotImplementedError for http |
-
+| **Step 0.6** | Connect from an MCP host | Completed | `56421c6` | Configured claude_desktop_config.sample.json and verified host subprocess execution |
+| **Step 0.7** | The first error: stdio scalability failure | Completed | `9ac70fa` | Proved stdio cannot bind to TCP sockets, accept web clients, or handle multi-user scale |
+| **Step 0.8** | Diagnosis: we need a network transport | Completed | `6d6c634` | Refactored server.py with AGENTGUARD_TRANSPORT switch and verified NotImplementedError for http |
+| **Step 1.1** | Add the HTTP transport | Completed | `pending` | Integrated Starlette ASGI web app and Uvicorn with /healthz, /sse, and /messages |
