@@ -8,6 +8,10 @@ dependencies = [
   "mcp>=1.2.0,<2.0.0",        # the official Model Context Protocol SDK (v1 LTS)
   "starlette>=0.37",          # ASGI web framework for HTTP endpoints
   "uvicorn[standard]>=0.30",   # ASGI web server for Streamable HTTP
+  "pydantic>=2.7",            # Data validation and settings management
+  "pydantic-settings>=2.3",   # Typed configuration via environment variables
+  "pyjwt[crypto]>=2.9",       # JWT decoding, signature verification and JWKS
+  "httpx>=0.27",              # HTTP client for fetching JWKS keysets
 ]
 
 [build-system]
