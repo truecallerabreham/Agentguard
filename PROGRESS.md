@@ -9,5 +9,5 @@
 | **Step 0.5** | Install and run over stdio | Completed | `044bb0a` | Installed via pip -e . and verified full MCP JSON-RPC handshake, list_tools, and call_tool |
 | **Step 0.6** | Connect from an MCP host | Pending | - | |
 | **Step 0.7** | The first error: stdio scalability failure | Completed | `56421c6` | Proved stdio cannot bind to TCP sockets, accept web clients, or handle multi-user scale |
-| **Step 0.8** | Diagnosis: we need a network transport | Pending | - | |
+| **Step 0.8** | Diagnosis: we need a network transport | Completed | `9ac70fa` | Refactored server.py with AGENTGUARD_TRANSPORT switch and verified NotImplementedError for http |
 
