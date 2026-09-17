@@ -32,3 +32,4 @@
 2. **Terminal-First Manual Testing**: No temporary test scripts cluttering the repository. Every milestone includes exact, copy-pasteable PowerShell/Bash commands so you can run the server and test it with real requests in your own terminal.
 3. **Deep Educational Python Explanations**: For every milestone, we explain the architecture and teach the core Python concepts needed (dataclasses, async/await, decorators, middleware, Pydantic, closures, exception hierarchies) in a way tailored to an intermediate Python learner / AI engineer.
 4. **Clean Commits**: Every milestone is cleanly committed to Git.
+
