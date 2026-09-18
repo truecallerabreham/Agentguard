@@ -82,3 +82,4 @@ class PostgresQueryInput(BaseModel):
     @classmethod
     def validate_sql(cls, v: str) -> str:
         return validate_sql_ast(v)
+

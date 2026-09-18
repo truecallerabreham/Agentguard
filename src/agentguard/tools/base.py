@@ -153,3 +153,4 @@ def validate_input(schema_cls: Type[BaseModel]) -> Callable:
             return sync_wrapper
 
     return decorator
+

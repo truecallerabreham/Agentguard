@@ -80,3 +80,4 @@ def validate_sql_ast(sql: str) -> str:
 
     _inspect_tokens(stmt)
     return clean_sql
+

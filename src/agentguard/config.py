@@ -33,6 +33,12 @@ class ServerSettings(BaseSettings):
     policy_file: str = "config/policy.yaml"
     enforce_policy: bool = True
 
+    # Rate Limiting (Token Bucket)
+    redis_url: str = "redis://localhost:6379/0"
+    rate_limit_enabled: bool = True
+    rate_limit_capacity: int = 10        # Maximum burst capacity of bucket
+    rate_limit_refill_rate: float = 2.0  # Tokens refilled per second (e.g. 2 tokens/sec)
+
 
 @lru_cache(maxsize=1)
 def get_settings() -> ServerSettings:

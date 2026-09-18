@@ -17,3 +17,4 @@ __all__ = [
     "PostgresQueryInput",
     "validate_sql_ast",
 ]
+

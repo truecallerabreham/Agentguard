@@ -14,6 +14,7 @@ from agentguard.config import ServerSettings, get_settings
 from agentguard.auth.middleware import AuthMiddleware
 from agentguard.auth.policy import enforce_policy
 from agentguard.governance.tenant import TenantMiddleware
+from agentguard.ratelimit import RateLimitMiddleware, get_rate_limiter
 from agentguard.db.pool import get_db_manager
 from agentguard.tools.atomic.postgres import postgres_query as run_postgres_query
 from agentguard.tools.base import validate_input
@@ -84,16 +85,20 @@ def build_http_app(settings: ServerSettings | None = None) -> Starlette:
     app.add_route("/healthz", lambda req: JSONResponse({"status": "ok"}), methods=["GET"])
 
     # Starlette wraps middleware in reverse order (outermost to innermost):
-    # Request enters: AuthMiddleware -> TenantMiddleware -> App endpoint
+    # Request enters: AuthMiddleware -> TenantMiddleware -> RateLimitMiddleware -> App endpoint
+    app.add_middleware(RateLimitMiddleware, settings=settings)
     app.add_middleware(TenantMiddleware, settings=settings)
     app.add_middleware(AuthMiddleware, settings=settings)
 
     @asynccontextmanager
     async def lifespan(asgi_app):
         db = get_db_manager(settings)
+        limiter = get_rate_limiter(settings)
         await db.initialize()
+        await limiter.initialize()
         yield
         await db.close()
+        await limiter.close()
 
     app.router.lifespan_context = lifespan
     return app
