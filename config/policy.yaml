@@ -66,3 +66,4 @@ roles:
     scopes:
       - "tool:*"
       - "tenant:*:impersonate"
+

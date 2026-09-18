@@ -1,4 +1,4 @@
-"""AgentGuard MCP Server supporting stdio, authenticated HTTP, multi-tenant RLS, and RBAC policy enforcement."""
+"""AgentGuard MCP Server supporting stdio, authenticated HTTP, multi-tenant RLS, and input validation."""
 
 from __future__ import annotations
 from contextlib import asynccontextmanager
@@ -16,6 +16,14 @@ from agentguard.auth.policy import enforce_policy
 from agentguard.governance.tenant import TenantMiddleware
 from agentguard.db.pool import get_db_manager
 from agentguard.tools.atomic.postgres import postgres_query as run_postgres_query
+from agentguard.tools.base import validate_input
+from agentguard.validation.schemas import (
+    GreetInput,
+    AddInput,
+    EchoInput,
+    CustomerInput,
+    PostgresQueryInput,
+)
 
 # Initialize the Model Context Protocol server
 mcp = FastMCP("agentguard")
@@ -23,6 +31,7 @@ mcp = FastMCP("agentguard")
 
 @mcp.tool()
 @enforce_policy("greet")
+@validate_input(GreetInput)
 def greet(name: str = "World") -> str:
     """Return a personalized greeting for an agent or user."""
     return f"Hello, {name}!"
@@ -30,6 +39,7 @@ def greet(name: str = "World") -> str:
 
 @mcp.tool()
 @enforce_policy("add")
+@validate_input(AddInput)
 def add(a: int, b: int) -> int:
     """Add two integers together."""
     return a + b
@@ -37,6 +47,7 @@ def add(a: int, b: int) -> int:
 
 @mcp.tool()
 @enforce_policy("echo")
+@validate_input(EchoInput)
 def echo(message: str) -> str:
     """Echo back the input message."""
     return f"AgentGuard received: {message}"
@@ -44,6 +55,7 @@ def echo(message: str) -> str:
 
 @mcp.tool()
 @enforce_policy("get_customer")
+@validate_input(CustomerInput)
 async def get_customer(customer_id: str) -> str:
     """Fetch customer record by customer ID, strictly isolated to the caller's tenant."""
     rows = await run_postgres_query("SELECT * FROM customers WHERE id = $1", [customer_id])
@@ -54,6 +66,7 @@ async def get_customer(customer_id: str) -> str:
 
 @mcp.tool()
 @enforce_policy("postgres_query")
+@validate_input(PostgresQueryInput)
 async def postgres_query(sql: str) -> str:
     """Execute a read-only SQL query inside the caller's tenant-isolated database session.
 
