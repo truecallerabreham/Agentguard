@@ -47,3 +47,4 @@ class ValidationError(ToolError):
 
 class UpstreamError(ToolError):
     """Backend (Postgres, Redis, external API) failed."""
+

@@ -21,14 +21,23 @@ class Principal:
 
     subject: str                    # Agent identity (sub claim)
     delegator: str | None           # Human who authorized the agent (act.sub claim)
-    tenant: str                     # Multi-tenancy scope (tenant claim)
-    scopes: frozenset[str]          # Tool-level permissions (scope claim)
-    token_id: str                   # jti claim — for revocation and audit
-    issued_at: int
-    expires_at: int
+    tenant: str | None = None       # Multi-tenancy scope (tenant claim)
+    scopes: frozenset[str] = frozenset()  # Tool-level permissions (scope claim)
+    token_id: str = ""              # jti claim — for revocation and audit
+    issued_at: int = 0
+    expires_at: int = 0
+
+    @property
+    def sub(self) -> str:
+        return self.subject
 
     def has_scope(self, required: str) -> bool:
-        return required in self.scopes or "tool:*:admin" in self.scopes
+        return (
+            required in self.scopes
+            or "tool:*:admin" in self.scopes
+            or "admin" in self.scopes
+            or "*:*" in self.scopes
+        )
 
 
 class TokenValidator:
@@ -92,7 +101,7 @@ class TokenValidator:
         return Principal(
             subject=claims["sub"],
             delegator=claims.get("act", {}).get("sub"),
-            tenant=claims.get("tenant", "default"),
+            tenant=claims.get("tenant"),
             scopes=frozenset(
                 scopes.split() if isinstance(scopes, str) else scopes
             ),
@@ -109,3 +118,4 @@ def get_validator(settings: ServerSettings | None = None) -> TokenValidator:
 
         settings = get_settings()
     return TokenValidator(settings)
+

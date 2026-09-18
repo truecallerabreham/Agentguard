@@ -24,8 +24,14 @@ class ServerSettings(BaseSettings):
     auth_jwks_url: str = "https://auth.agentguard.local/.well-known/jwks.json"
     auth_secret: str | None = None  # Optional secret for local testing with HS256
 
+    # Database & Multi-Tenancy
+    postgres_url: str = "postgresql://agentguard:agentguard@localhost:5432/agentguard"
+    require_tenant: bool = True
+    tenant_header: str = "X-Tenant-Id"
+
 
 @lru_cache(maxsize=1)
 def get_settings() -> ServerSettings:
     """Module-level singleton — read once, cached for application lifetime."""
     return ServerSettings()
+
