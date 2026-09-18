@@ -31,7 +31,6 @@ class TenantMiddleware(BaseHTTPMiddleware):
         # Check for tenant impersonation header (e.g. for superadmins/platform ops)
         header_name = self.settings.tenant_header
         requested_tenant = request.headers.get(header_name)
-
         if requested_tenant:
             requested_tenant = requested_tenant.strip()
             # Impersonation requires explicit permission scope
@@ -79,3 +78,4 @@ class TenantMiddleware(BaseHTTPMiddleware):
             return await call_next(request)
         finally:
             current_tenant.reset(token)
+

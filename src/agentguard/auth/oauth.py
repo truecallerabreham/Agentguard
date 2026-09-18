@@ -1,6 +1,7 @@
 """OAuth 2.1 resource server — validates bearer tokens against JWKS."""
 
 from __future__ import annotations
+from contextvars import ContextVar
 from dataclasses import dataclass
 from functools import lru_cache
 import jwt
@@ -8,6 +9,9 @@ from jwt import PyJWKClient
 
 from agentguard.config import ServerSettings
 from agentguard.errors import AuthError
+
+# Context variable for the currently authenticated principal (task-safe)
+current_principal: ContextVar[Principal | None] = ContextVar("current_principal", default=None)
 
 
 @dataclass(frozen=True, slots=True)
@@ -19,11 +23,12 @@ class Principal:
     identifies the human who authorized the agent (RFC 8693 actor claim).
     """
 
-    subject: str                    # Agent identity (sub claim)
-    delegator: str | None           # Human who authorized the agent (act.sub claim)
-    tenant: str | None = None       # Multi-tenancy scope (tenant claim)
+    subject: str                          # Agent identity (sub claim)
+    delegator: str | None                 # Human who authorized the agent (act.sub claim)
+    tenant: str | None = None             # Multi-tenancy scope (tenant claim)
     scopes: frozenset[str] = frozenset()  # Tool-level permissions (scope claim)
-    token_id: str = ""              # jti claim — for revocation and audit
+    roles: frozenset[str] = frozenset()   # Role assignments (role/roles claims)
+    token_id: str = ""                    # jti claim — for revocation and audit
     issued_at: int = 0
     expires_at: int = 0
 
@@ -38,6 +43,9 @@ class Principal:
             or "admin" in self.scopes
             or "*:*" in self.scopes
         )
+
+    def has_role(self, role: str) -> bool:
+        return role in self.roles or "admin" in self.roles
 
 
 class TokenValidator:
@@ -97,14 +105,22 @@ class TokenValidator:
                 hint=f"Unable to verify token: {exc}",
             ) from exc
 
-        scopes = claims.get("scope", "")
+        scopes_raw = claims.get("scope", "")
+        scope_list = scopes_raw.split() if isinstance(scopes_raw, str) else list(scopes_raw)
+
+        # Parse roles from role/roles claims or role:<name> scopes
+        roles_claim = claims.get("roles") or claims.get("role") or []
+        roles_set = set([roles_claim] if isinstance(roles_claim, str) else roles_claim)
+        for s in scope_list:
+            if s.startswith("role:"):
+                roles_set.add(s[5:])
+
         return Principal(
             subject=claims["sub"],
             delegator=claims.get("act", {}).get("sub"),
             tenant=claims.get("tenant"),
-            scopes=frozenset(
-                scopes.split() if isinstance(scopes, str) else scopes
-            ),
+            scopes=frozenset(scope_list),
+            roles=frozenset(roles_set),
             token_id=claims["jti"],
             issued_at=claims["iat"],
             expires_at=claims["exp"],

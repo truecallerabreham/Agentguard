@@ -39,3 +39,4 @@ CREATE POLICY tenant_isolation_customers ON customers
 
 CREATE POLICY tenant_isolation_orders ON orders
     USING (tenant_id = current_setting('app.tenant_id', true));
+

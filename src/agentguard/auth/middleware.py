@@ -5,7 +5,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 
-from agentguard.auth.oauth import get_validator
+from agentguard.auth.oauth import current_principal, get_validator
 from agentguard.config import ServerSettings
 from agentguard.errors import AuthError
 
@@ -41,9 +41,13 @@ class AuthMiddleware(BaseHTTPMiddleware):
         except AuthError as exc:
             return self._unauthenticated(exc.code, exc.hint)
 
-        # 4. Attach verified Principal to request state for downstream handlers
+        # 4. Attach verified Principal to request state and task-safe context variable
         request.state.principal = principal
-        return await call_next(request)
+        token = current_principal.set(principal)
+        try:
+            return await call_next(request)
+        finally:
+            current_principal.reset(token)
 
     def _unauthenticated(self, error_code: str, hint: str | None = None) -> JSONResponse:
         """Return RFC 6750 401 Unauthorized response with WWW-Authenticate challenge header."""

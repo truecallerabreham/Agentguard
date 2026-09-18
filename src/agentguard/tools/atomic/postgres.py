@@ -19,3 +19,4 @@ async def postgres_query(sql: str, params: list[Any] | None = None) -> list[dict
 
     db = get_db_manager()
     return await db.execute_query(tenant_id=tenant_id, sql=sql, params=params)
+

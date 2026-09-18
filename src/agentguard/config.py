@@ -29,6 +29,10 @@ class ServerSettings(BaseSettings):
     require_tenant: bool = True
     tenant_header: str = "X-Tenant-Id"
 
+    # Policy & Authorization (RBAC)
+    policy_file: str = "config/policy.yaml"
+    enforce_policy: bool = True
+
 
 @lru_cache(maxsize=1)
 def get_settings() -> ServerSettings:

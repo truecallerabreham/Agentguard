@@ -1,0 +1,68 @@
+# config/policy.yaml: Declarative Role-Based Access Control (RBAC) & Tool Scopes for AgentGuard
+# Deny-by-default: If a tool is not defined or the caller lacks required scopes, access is rejected.
+
+default_action: deny
+
+# Tool definitions and the OAuth scopes required to invoke them
+tools:
+  greet:
+    description: "Public friendly greeting"
+    required_scopes:
+      - "tool:greet"
+      - "tool:read"
+      - "tool:*"
+
+  add:
+    description: "Mathematical computation"
+    required_scopes:
+      - "tool:math"
+      - "tool:write"
+      - "tool:*"
+
+  echo:
+    description: "Echo message back"
+    required_scopes:
+      - "tool:echo"
+      - "tool:read"
+      - "tool:*"
+
+  get_customer:
+    description: "Lookup confidential customer records by ID within tenant"
+    required_scopes:
+      - "tool:customers:read"
+      - "tool:read"
+      - "tool:*"
+
+  postgres_query:
+    description: "Execute SQL queries within tenant-isolated session"
+    required_scopes:
+      - "tool:db:query"
+      - "tool:*"
+
+# Standard Role definitions mapping high-level roles to granular tool scopes
+roles:
+  guest:
+    description: "Unprivileged guest agent"
+    scopes:
+      - "tool:greet"
+
+  reader:
+    description: "Read-only agent (can view greeting, echo, and customer profile)"
+    scopes:
+      - "tool:greet"
+      - "tool:echo"
+      - "tool:customers:read"
+
+  analyst:
+    description: "Data analysis agent with database query capabilities"
+    scopes:
+      - "tool:greet"
+      - "tool:echo"
+      - "tool:customers:read"
+      - "tool:db:query"
+
+  admin:
+    description: "Platform administrator with full permissions"
+    scopes:
+      - "tool:*"
+      - "tenant:*:impersonate"

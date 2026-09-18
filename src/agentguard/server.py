@@ -1,4 +1,4 @@
-"""AgentGuard MCP Server supporting stdio, authenticated HTTP, and multi-tenant RLS."""
+"""AgentGuard MCP Server supporting stdio, authenticated HTTP, multi-tenant RLS, and RBAC policy enforcement."""
 
 from __future__ import annotations
 from contextlib import asynccontextmanager
@@ -10,8 +10,9 @@ from starlette.responses import JSONResponse
 import uvicorn
 from mcp.server.fastmcp import FastMCP
 
-from agentguard.config import get_settings
+from agentguard.config import ServerSettings, get_settings
 from agentguard.auth.middleware import AuthMiddleware
+from agentguard.auth.policy import enforce_policy
 from agentguard.governance.tenant import TenantMiddleware
 from agentguard.db.pool import get_db_manager
 from agentguard.tools.atomic.postgres import postgres_query as run_postgres_query
@@ -21,24 +22,38 @@ mcp = FastMCP("agentguard")
 
 
 @mcp.tool()
+@enforce_policy("greet")
 def greet(name: str = "World") -> str:
     """Return a personalized greeting for an agent or user."""
     return f"Hello, {name}!"
 
 
 @mcp.tool()
+@enforce_policy("add")
 def add(a: int, b: int) -> int:
     """Add two integers together."""
     return a + b
 
 
 @mcp.tool()
+@enforce_policy("echo")
 def echo(message: str) -> str:
     """Echo back the input message."""
     return f"AgentGuard received: {message}"
 
 
 @mcp.tool()
+@enforce_policy("get_customer")
+async def get_customer(customer_id: str) -> str:
+    """Fetch customer record by customer ID, strictly isolated to the caller's tenant."""
+    rows = await run_postgres_query("SELECT * FROM customers WHERE id = $1", [customer_id])
+    if rows:
+        return json.dumps(rows[0], indent=2)
+    return f"Customer '{customer_id}' not found in caller's tenant records."
+
+
+@mcp.tool()
+@enforce_policy("postgres_query")
 async def postgres_query(sql: str) -> str:
     """Execute a read-only SQL query inside the caller's tenant-isolated database session.
 
@@ -47,15 +62,6 @@ async def postgres_query(sql: str) -> str:
     """
     rows = await run_postgres_query(sql)
     return json.dumps(rows, indent=2)
-
-
-@mcp.tool()
-async def get_customer(customer_id: str) -> str:
-    """Fetch customer record by customer ID, strictly isolated to the caller's tenant."""
-    rows = await run_postgres_query("SELECT * FROM customers WHERE id = $1", [customer_id])
-    if rows:
-        return json.dumps(rows[0], indent=2)
-    return f"Customer '{customer_id}' not found in caller's tenant records."
 
 
 def build_http_app(settings: ServerSettings | None = None) -> Starlette:
