@@ -11,6 +11,7 @@ import uvicorn
 from mcp.server.fastmcp import FastMCP
 
 from agentguard.config import ServerSettings, get_settings
+from agentguard.errors import serf_protected
 from agentguard.auth.middleware import AuthMiddleware
 from agentguard.auth.policy import enforce_policy
 from agentguard.governance.tenant import TenantMiddleware
@@ -32,6 +33,7 @@ mcp = FastMCP("agentguard")
 
 
 @mcp.tool()
+@serf_protected
 @enforce_policy("greet")
 @validate_input(GreetInput)
 def greet(name: str = "World") -> str:
@@ -40,6 +42,7 @@ def greet(name: str = "World") -> str:
 
 
 @mcp.tool()
+@serf_protected
 @enforce_policy("add")
 @validate_input(AddInput)
 def add(a: int, b: int) -> int:
@@ -48,6 +51,7 @@ def add(a: int, b: int) -> int:
 
 
 @mcp.tool()
+@serf_protected
 @enforce_policy("echo")
 @validate_input(EchoInput)
 def echo(message: str) -> str:
@@ -56,6 +60,7 @@ def echo(message: str) -> str:
 
 
 @mcp.tool()
+@serf_protected
 @enforce_policy("get_customer")
 @validate_input(CustomerInput)
 @cached_tool(ttl_l1=30, ttl_l2=300)
@@ -68,6 +73,7 @@ async def get_customer(customer_id: str) -> str:
 
 
 @mcp.tool()
+@serf_protected
 @enforce_policy("postgres_query")
 @validate_input(PostgresQueryInput)
 @cached_tool(ttl_l1=30, ttl_l2=300)
