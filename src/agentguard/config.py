@@ -39,6 +39,12 @@ class ServerSettings(BaseSettings):
     rate_limit_capacity: int = 10        # Maximum burst capacity of bucket
     rate_limit_refill_rate: float = 2.0  # Tokens refilled per second (e.g. 2 tokens/sec)
 
+    # Two-Tier Caching (L1 LRU + L2 Redis)
+    cache_enabled: bool = True
+    cache_l1_capacity: int = 1000
+    cache_l1_ttl_seconds: int = 30
+    cache_l2_ttl_seconds: int = 300
+
 
 @lru_cache(maxsize=1)
 def get_settings() -> ServerSettings:

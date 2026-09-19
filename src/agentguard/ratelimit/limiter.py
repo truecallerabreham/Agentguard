@@ -161,3 +161,4 @@ def get_rate_limiter(settings: ServerSettings | None = None) -> RateLimiter:
     if _rate_limiter is None:
         _rate_limiter = RateLimiter(settings)
     return _rate_limiter
+

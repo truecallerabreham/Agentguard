@@ -39,3 +39,4 @@ else
     redis.call("EXPIRE", key, math.max(60, ttl))
     return {0, math.floor(tokens), string.format("%.2f", retry_after)}
 end
+

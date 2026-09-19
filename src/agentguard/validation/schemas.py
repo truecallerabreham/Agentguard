@@ -17,7 +17,7 @@ class GreetInput(BaseModel):
         description="Name of the person or agent to greet",
     )
 
-    @field_validator("name")
+    @ field_validator("name")
     @classmethod
     def sanitize_name(cls, v: str) -> str:
         clean = v.strip()

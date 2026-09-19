@@ -15,6 +15,7 @@ from agentguard.auth.middleware import AuthMiddleware
 from agentguard.auth.policy import enforce_policy
 from agentguard.governance.tenant import TenantMiddleware
 from agentguard.ratelimit import RateLimitMiddleware, get_rate_limiter
+from agentguard.cache import cached_tool, get_cache_manager
 from agentguard.db.pool import get_db_manager
 from agentguard.tools.atomic.postgres import postgres_query as run_postgres_query
 from agentguard.tools.base import validate_input
@@ -57,6 +58,7 @@ def echo(message: str) -> str:
 @mcp.tool()
 @enforce_policy("get_customer")
 @validate_input(CustomerInput)
+@cached_tool(ttl_l1=30, ttl_l2=300)
 async def get_customer(customer_id: str) -> str:
     """Fetch customer record by customer ID, strictly isolated to the caller's tenant."""
     rows = await run_postgres_query("SELECT * FROM customers WHERE id = $1", [customer_id])
@@ -68,6 +70,7 @@ async def get_customer(customer_id: str) -> str:
 @mcp.tool()
 @enforce_policy("postgres_query")
 @validate_input(PostgresQueryInput)
+@cached_tool(ttl_l1=30, ttl_l2=300)
 async def postgres_query(sql: str) -> str:
     """Execute a read-only SQL query inside the caller's tenant-isolated database session.
 
@@ -94,11 +97,14 @@ def build_http_app(settings: ServerSettings | None = None) -> Starlette:
     async def lifespan(asgi_app):
         db = get_db_manager(settings)
         limiter = get_rate_limiter(settings)
+        cache = get_cache_manager(settings)
         await db.initialize()
         await limiter.initialize()
+        await cache.initialize()
         yield
         await db.close()
         await limiter.close()
+        await cache.close()
 
     app.router.lifespan_context = lifespan
     return app
