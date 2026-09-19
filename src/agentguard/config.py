@@ -45,6 +45,11 @@ class ServerSettings(BaseSettings):
     cache_l1_ttl_seconds: int = 30
     cache_l2_ttl_seconds: int = 300
 
+    # Reliability & Circuit Breaker
+    circuit_breaker_failure_threshold: int = 5
+    circuit_breaker_recovery_timeout: float = 10.0
+    timeout_budget_default_seconds: float = 30.0
+
 
 @lru_cache(maxsize=1)
 def get_settings() -> ServerSettings:

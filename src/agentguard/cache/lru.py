@@ -69,3 +69,4 @@ class LRUCache(Generic[T]):
         for k in expired:
             del self._cache[k]
         return len(expired)
+
