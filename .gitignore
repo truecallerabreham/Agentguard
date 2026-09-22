@@ -21,5 +21,7 @@ htmlcov/
 # IDE / Editor
 .vscode/
 .idea/
-*.swp
+# Logs
+logs/
+*.log
 

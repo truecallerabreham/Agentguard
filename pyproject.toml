@@ -15,6 +15,7 @@ dependencies = [
   "pyyaml>=6.0",
   "sqlparse>=0.5.0",
   "redis>=5.0.0",
+  "prometheus-client>=0.20.0",
 ]
 
 [build-system]

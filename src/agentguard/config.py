@@ -50,6 +50,12 @@ class ServerSettings(BaseSettings):
     circuit_breaker_recovery_timeout: float = 10.0
     timeout_budget_default_seconds: float = 30.0
 
+    # Observability Stack (Tracing, Metrics, Audit Logging)
+    metrics_enabled: bool = True
+    tracing_enabled: bool = True
+    audit_logging_enabled: bool = True
+    audit_log_path: str = "logs/audit.jsonl"
+
 
 @lru_cache(maxsize=1)
 def get_settings() -> ServerSettings:

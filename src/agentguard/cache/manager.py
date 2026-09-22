@@ -13,6 +13,7 @@ import redis.asyncio as aioredis
 from agentguard.cache.lru import LRUCache
 from agentguard.config import ServerSettings, get_settings
 from agentguard.governance.tenant import current_tenant
+from agentguard.observability.metrics import record_cache_operation
 
 logger = logging.getLogger("agentguard.cache")
 
@@ -91,7 +92,9 @@ class CacheManager:
         l1_val = self._l1.get(key)
         if l1_val is not None:
             self.l1_hits += 1
+            record_cache_operation("l1", "hit")
             return l1_val
+        record_cache_operation("l1", "miss")
 
         # 2. Check L2 distributed Redis cache
         if not self._initialized:
@@ -105,11 +108,13 @@ class CacheManager:
                     # Backfill L1 cache from L2
                     self._l1.set(key, val, ttl=float(self.settings.cache_l1_ttl_seconds))
                     self.l2_hits += 1
+                    record_cache_operation("l2", "hit")
                     return val
             except Exception as exc:
                 logger.warning("Redis L2 cache read error (%s)", exc)
 
         self.misses += 1
+        record_cache_operation("l2", "miss")
         return None
 
     async def set(
@@ -128,6 +133,7 @@ class CacheManager:
 
         # Store in L1
         self._l1.set(key, value, ttl=effective_l1)
+        record_cache_operation("l1", "set")
 
         # Store in L2 Redis
         if not self._initialized:
@@ -137,6 +143,7 @@ class CacheManager:
             try:
                 serialized = json.dumps(value, default=str)
                 await self._redis.set(key, serialized, ex=effective_l2)
+                record_cache_operation("l2", "set")
             except Exception as exc:
                 logger.warning("Redis L2 cache write error (%s)", exc)
 

@@ -10,6 +10,7 @@ from typing import Any, Callable
 
 from agentguard.config import ServerSettings, get_settings
 from agentguard.errors import UpstreamError
+from agentguard.observability.metrics import record_circuit_breaker_state
 
 logger = logging.getLogger("agentguard.reliability.circuit_breaker")
 
@@ -37,6 +38,7 @@ class CircuitBreaker:
         self._failure_count: int = 0
         self._last_state_change: float = time.time()
         self._lock = asyncio.Lock()
+        record_circuit_breaker_state(self.name, self._state.value)
 
     @property
     def state(self) -> CircuitState:
@@ -57,6 +59,7 @@ class CircuitBreaker:
                 if elapsed >= self.recovery_timeout:
                     self._state = CircuitState.HALF_OPEN
                     self._last_state_change = now
+                    record_circuit_breaker_state(self.name, "HALF_OPEN")
                     logger.info("CircuitBreaker '%s' entered HALF_OPEN state (trial request).", self.name)
                 else:
                     cooldown_left = round(self.recovery_timeout - elapsed, 2)
@@ -79,6 +82,7 @@ class CircuitBreaker:
                 self._state = CircuitState.CLOSED
                 self._failure_count = 0
                 self._last_state_change = time.time()
+                record_circuit_breaker_state(self.name, "CLOSED")
             elif self._state == CircuitState.CLOSED:
                 self._failure_count = 0
 
@@ -93,6 +97,7 @@ class CircuitBreaker:
                 logger.warning("CircuitBreaker '%s' trial failed; reverting to OPEN.", self.name)
                 self._state = CircuitState.OPEN
                 self._last_state_change = now
+                record_circuit_breaker_state(self.name, "OPEN")
             elif self._state == CircuitState.CLOSED:
                 if self._failure_count >= self.failure_threshold:
                     logger.error(
@@ -102,6 +107,7 @@ class CircuitBreaker:
                     )
                     self._state = CircuitState.OPEN
                     self._last_state_change = now
+                    record_circuit_breaker_state(self.name, "OPEN")
 
     async def call(self, func: Callable, *args: Any, **kwargs: Any) -> Any:
         """Execute callable protected by the circuit breaker state machine."""

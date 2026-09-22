@@ -6,12 +6,18 @@ import json
 import os
 from typing import Any
 from starlette.applications import Starlette
-from starlette.responses import JSONResponse
+from starlette.responses import JSONResponse, Response
 import uvicorn
 from mcp.server.fastmcp import FastMCP
 
 from agentguard.config import ServerSettings, get_settings
 from agentguard.errors import serf_protected
+from agentguard.observability import (
+    ObservabilityMiddleware,
+    observe_tool,
+    generate_metrics_response,
+    get_audit_logger,
+)
 from agentguard.auth.middleware import AuthMiddleware
 from agentguard.auth.policy import enforce_policy
 from agentguard.governance.tenant import TenantMiddleware
@@ -34,6 +40,7 @@ mcp = FastMCP("agentguard")
 
 @mcp.tool()
 @serf_protected
+@observe_tool("greet")
 @enforce_policy("greet")
 @validate_input(GreetInput)
 def greet(name: str = "World") -> str:
@@ -43,6 +50,7 @@ def greet(name: str = "World") -> str:
 
 @mcp.tool()
 @serf_protected
+@observe_tool("add")
 @enforce_policy("add")
 @validate_input(AddInput)
 def add(a: int, b: int) -> int:
@@ -52,6 +60,7 @@ def add(a: int, b: int) -> int:
 
 @mcp.tool()
 @serf_protected
+@observe_tool("echo")
 @enforce_policy("echo")
 @validate_input(EchoInput)
 def echo(message: str) -> str:
@@ -61,6 +70,7 @@ def echo(message: str) -> str:
 
 @mcp.tool()
 @serf_protected
+@observe_tool("get_customer")
 @enforce_policy("get_customer")
 @validate_input(CustomerInput)
 @cached_tool(ttl_l1=30, ttl_l2=300)
@@ -74,6 +84,7 @@ async def get_customer(customer_id: str) -> str:
 
 @mcp.tool()
 @serf_protected
+@observe_tool("postgres_query")
 @enforce_policy("postgres_query")
 @validate_input(PostgresQueryInput)
 @cached_tool(ttl_l1=30, ttl_l2=300)
@@ -88,22 +99,35 @@ async def postgres_query(sql: str) -> str:
 
 
 def build_http_app(settings: ServerSettings | None = None) -> Starlette:
-    """Build the Starlette ASGI application with Auth and Tenant isolation middlewares."""
+    """Build the Starlette ASGI application with Observability, Auth, and Tenant isolation middlewares."""
     settings = settings or get_settings()
     app = mcp.sse_app()
     app.add_route("/healthz", lambda req: JSONResponse({"status": "ok"}), methods=["GET"])
 
+    if settings.metrics_enabled:
+        def metrics_endpoint(req):
+            content, media_type = generate_metrics_response()
+            return Response(content=content, media_type=media_type)
+
+        app.add_route("/metrics", metrics_endpoint, methods=["GET"])
+
     # Starlette wraps middleware in reverse order (outermost to innermost):
-    # Request enters: AuthMiddleware -> TenantMiddleware -> RateLimitMiddleware -> App endpoint
+    # Request enters: ObservabilityMiddleware -> AuthMiddleware -> TenantMiddleware -> RateLimitMiddleware -> App endpoint
     app.add_middleware(RateLimitMiddleware, settings=settings)
     app.add_middleware(TenantMiddleware, settings=settings)
     app.add_middleware(AuthMiddleware, settings=settings)
+    if settings.tracing_enabled:
+        app.add_middleware(ObservabilityMiddleware)
 
     @asynccontextmanager
     async def lifespan(asgi_app):
         db = get_db_manager(settings)
         limiter = get_rate_limiter(settings)
         cache = get_cache_manager(settings)
+        audit = get_audit_logger(
+            log_path=settings.audit_log_path,
+            enabled=settings.audit_logging_enabled,
+        )
         await db.initialize()
         await limiter.initialize()
         await cache.initialize()

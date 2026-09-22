@@ -22,7 +22,7 @@ class TenantMiddleware(BaseHTTPMiddleware):
 
     async def dispatch(self, request: Request, call_next: RequestResponseEndpoint) -> Response:
         # Public endpoints bypass tenant isolation checks
-        if request.url.path in ("/healthz", "/docs", "/openapi.json"):
+        if request.url.path in ("/healthz", "/metrics", "/docs", "/openapi.json"):
             return await call_next(request)
 
         principal: Principal | None = getattr(request.state, "principal", None)
