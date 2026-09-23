@@ -1,239 +1,231 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-slate-950 text-slate-100 antialiased selection:bg-indigo-500 selection:text-white">
+<html lang="en" class="h-full bg-[#090D16] text-slate-100 antialiased selection:bg-blue-600 selection:text-white">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AgentGuard — Autonomous E-Commerce Merchant Control Panel</title>
+  <title>AgentGuard — Merchant Control Panel</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
-    code, pre { font-family: 'JetBrains Mono', monospace; }
+    code, pre, .font-mono { font-family: 'JetBrains Mono', monospace; }
   </style>
 </head>
-<body class="h-full flex flex-col font-sans antialiased bg-slate-950 text-slate-100">
-  <!-- Top Navigation Bar -->
-  <header class="bg-slate-900 border-b border-slate-800 px-6 py-4 flex items-center justify-between sticky top-0 z-50">
-    <div class="flex items-center space-x-4">
+<body class="h-full flex flex-col bg-[#090D16] text-slate-100 font-sans antialiased">
+
+  <!-- Top Navigation Header -->
+  <header class="bg-[#0D121F] border-b border-slate-800/80 px-6 py-3.5 flex items-center justify-between sticky top-0 z-50">
+    <div class="flex items-center space-x-6">
       <a href="/" class="flex items-center space-x-3 group">
-        <div class="w-9 h-9 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/20 group-hover:scale-105 transition transform">
-          🛡️
+        <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white shadow-sm shadow-blue-500/20 group-hover:bg-blue-500 transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
         </div>
         <div>
-          <h1 class="font-bold text-lg text-white leading-tight">AgentGuard</h1>
-          <p class="text-xs text-slate-400">Autonomous E-Commerce Merchant Control Panel</p>
+          <h1 class="font-bold text-sm text-white tracking-tight leading-tight">AgentGuard</h1>
+          <p class="text-[11px] text-slate-400">Merchant Operations Console</p>
         </div>
       </a>
 
-      <!-- Active Store Tenant Badge -->
-      <div class="hidden sm:flex items-center space-x-2 bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800 text-xs">
+      <!-- Active Tenant Badge -->
+      <div class="hidden sm:flex items-center space-x-2 bg-slate-900/90 px-3 py-1 rounded-md border border-slate-800 text-xs">
         <span class="text-slate-400">Store:</span>
-        <span id="header-store-name" class="font-bold text-white">Lumina Audio</span>
-        <span id="header-store-id-pill" class="font-mono text-indigo-400 bg-indigo-950/60 px-2 py-0.5 rounded text-[11px] border border-indigo-800/60">demo-store</span>
-        <button onclick="copyStoreId()" title="Copy Store ID" class="text-slate-400 hover:text-white">
+        <span id="header-store-name" class="font-semibold text-white">Lumina Audio</span>
+        <span id="header-store-id-pill" class="font-mono text-blue-400 bg-blue-950/60 px-1.5 py-0.5 rounded text-[11px] border border-blue-800/60">demo-store</span>
+        <button onclick="copyStoreId()" title="Copy Store ID" class="text-slate-400 hover:text-white transition">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
         </button>
       </div>
     </div>
 
-    <!-- System Status Badges & Merchant Account -->
+    <!-- Status & Action Badges -->
     <div class="flex items-center space-x-3 text-xs">
-      <div class="hidden md:flex items-center space-x-1.5 bg-emerald-950/60 border border-emerald-800/80 px-2.5 py-1 rounded-full text-emerald-400">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span class="font-medium">Engine Active</span>
+      <div class="hidden md:flex items-center space-x-1.5 bg-emerald-950/40 border border-emerald-800/60 px-2.5 py-1 rounded-md text-emerald-400">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span class="font-medium text-[11px]">Engine Active</span>
       </div>
 
-      <div class="hidden lg:flex items-center space-x-1.5 bg-indigo-950/60 border border-indigo-800/80 px-2.5 py-1 rounded-full text-indigo-300">
-        <span>🔐 SHA-256 Audit:</span>
-        <span id="header-chain-status" class="font-semibold text-emerald-400">VERIFIED</span>
+      <div class="hidden lg:flex items-center space-x-1.5 bg-slate-900 border border-slate-800 px-2.5 py-1 rounded-md text-slate-300">
+        <span class="text-slate-500 font-mono">Audit:</span>
+        <span id="header-chain-status" class="font-semibold text-emerald-400 font-mono text-[11px]">VERIFIED</span>
       </div>
 
-      <div id="approvals-badge" class="hidden items-center space-x-1 bg-amber-950/80 border border-amber-600 px-2.5 py-1 rounded-full text-amber-300 font-semibold cursor-pointer animate-pulse" onclick="switchTab('approvals')">
-        <span>⚠️</span>
+      <div id="approvals-badge" class="hidden items-center space-x-1.5 bg-amber-950/60 border border-amber-600/80 px-2.5 py-1 rounded-md text-amber-300 font-semibold cursor-pointer animate-pulse" onclick="switchTab('approvals')">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
         <span id="pending-count">0</span>
-        <span>Pending Approval</span>
+        <span>Review Required</span>
       </div>
 
-      <a href="/" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white px-3 py-1.5 rounded-lg border border-slate-700 transition">
-        Storefront Home
+      <a id="nav-storefront-btn" href="/store?store_id=demo-store" target="_blank" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold px-3 py-1.5 rounded-md transition flex items-center space-x-1 text-xs shadow-sm">
+        <span>Storefront Simulator</span>
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
       </a>
+
+      <button onclick="handleSignOut()" class="text-slate-400 hover:text-white px-2 py-1 rounded hover:bg-slate-800 transition" title="Sign out">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+      </button>
     </div>
   </header>
 
-  <!-- Main Workspace -->
+  <!-- Main Layout -->
   <div class="flex-1 flex overflow-hidden">
     <!-- Sidebar Navigation -->
-    <aside class="w-64 bg-slate-900/60 border-r border-slate-800 flex flex-col justify-between p-4">
-      <nav class="space-y-1.5">
-        <button onclick="switchTab('chat')" id="nav-chat" class="w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium transition bg-indigo-600 text-white shadow-sm">
-          <span>💬</span>
+    <aside class="w-64 bg-[#0D121F]/70 border-r border-slate-800/80 flex flex-col justify-between p-3.5">
+      <nav class="space-y-1">
+        <button onclick="switchTab('chat')" id="nav-chat" class="w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-semibold transition bg-blue-600 text-white shadow-sm">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
           <span>Live Support Console</span>
         </button>
 
-        <button onclick="switchTab('approvals')" id="nav-approvals" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition">
+        <button onclick="switchTab('approvals')" id="nav-approvals" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 transition">
           <div class="flex items-center space-x-3">
-            <span>🛡️</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
             <span>Approval Inbox</span>
           </div>
-          <span id="nav-approvals-pill" class="hidden text-xs bg-amber-500 text-slate-950 font-bold px-1.5 py-0.5 rounded-full">0</span>
+          <span id="nav-approvals-pill" class="hidden text-[10px] bg-amber-500 text-slate-950 font-bold px-1.5 py-0.2 rounded-full">0</span>
         </button>
 
-        <button onclick="switchTab('kb')" id="nav-kb" class="w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition">
-          <span>📚</span>
+        <button onclick="switchTab('kb')" id="nav-kb" class="w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
           <span>Knowledge Base & FAQs</span>
         </button>
 
-        <button onclick="switchTab('embed')" id="nav-embed" class="w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition">
-          <span>🚀</span>
+        <button onclick="switchTab('embed')" id="nav-embed" class="w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
           <span>1-Click Embed Widget</span>
         </button>
 
-        <button onclick="switchTab('store')" id="nav-store" class="w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition">
-          <span>⚙️</span>
+        <button onclick="switchTab('store')" id="nav-store" class="w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
           <span>Store Settings</span>
         </button>
 
-        <button onclick="switchTab('audit')" id="nav-audit" class="w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition">
-          <span>📜</span>
+        <button onclick="switchTab('audit')" id="nav-audit" class="w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
           <span>Cryptographic Audit Vault</span>
         </button>
       </nav>
 
-      <div class="border-t border-slate-800/80 pt-4 text-xs text-slate-400 space-y-1">
-        <p><span class="text-slate-400">Current Store:</span> <strong id="sidebar-store-name" class="text-slate-200">Lumina Audio</strong></p>
-        <p><span class="text-slate-400">Platform:</span> <span id="sidebar-platform" class="text-indigo-400">SIMULATOR</span></p>
-        <p><span class="text-slate-400">Return Window:</span> <span id="sidebar-window" class="text-slate-200">30 Days</span></p>
+      <!-- Active Connection Status Card -->
+      <div class="bg-slate-900 border border-slate-800 rounded-lg p-3 text-[11px] space-y-1.5">
+        <div class="flex items-center justify-between text-slate-400">
+          <span>Connector:</span>
+          <span id="sidebar-platform" class="font-mono text-white font-semibold">SIMULATOR</span>
+        </div>
+        <div class="flex items-center justify-between text-slate-400">
+          <span>Return Window:</span>
+          <span id="sidebar-window" class="text-white font-medium">30 Days</span>
+        </div>
       </div>
     </aside>
 
-    <!-- Content View Area -->
-    <main class="flex-1 overflow-y-auto bg-slate-950 p-6">
-      
+    <!-- Main Workspace Content -->
+    <main class="flex-1 overflow-y-auto p-6 bg-[#090D16]">
+
       <!-- TAB 1: LIVE SUPPORT CONSOLE -->
-      <section id="tab-chat" class="space-y-6 max-w-5xl mx-auto">
+      <section id="tab-chat" class="space-y-4 max-w-5xl mx-auto">
         <div class="flex items-center justify-between">
           <div>
-            <h2 class="text-xl font-bold text-white">Live Customer Support Console</h2>
-            <p class="text-sm text-slate-400">Test the Multi-Agent Copilot against simulated or live store orders with zero hallucinations.</p>
+            <h2 class="text-lg font-bold text-white tracking-tight">Live Support Console</h2>
+            <p class="text-xs text-slate-400">Evaluate inquiries against store policy, test order tracking, and inspect multi-agent reasoning traces.</p>
           </div>
-          <button onclick="resetConsole()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-md border border-slate-700 transition">
-            Clear Chat
+          <button onclick="resetConsole()" class="text-xs text-slate-400 hover:text-white px-2.5 py-1.5 bg-slate-900 border border-slate-800 rounded-lg transition">
+            Clear Console
           </button>
         </div>
 
-        <!-- Quick Demo Scenarios Chips -->
-        <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl space-y-2">
-          <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Quick Test Scenarios (1-Click Recruiter Demo):</p>
-          <div class="flex flex-wrap gap-2 text-xs">
-            <button onclick="fillPrompt('Where is my order #1001? My email is sarah.connor@example.com.')" class="bg-slate-800 hover:bg-indigo-600 hover:text-white text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-700/80 transition">
-              📦 Order #1001 Tracking (Delivered)
-            </button>
-            <button onclick="fillPrompt('What is the status of order #1002 for john.smith@example.com?')" class="bg-slate-800 hover:bg-indigo-600 hover:text-white text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-700/80 transition">
-              🚚 Order #1002 (In Transit)
-            </button>
-            <button onclick="fillPrompt('I want to return order #1001. My email is sarah.connor@example.com. The product is defective.')" class="bg-slate-800 hover:bg-indigo-600 hover:text-white text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-700/80 transition">
-              🔄 Return #1001 (Queues HITL Approval)
-            </button>
-            <button onclick="fillPrompt('Can I return order #1003? Email: elena.rostova@example.com.')" class="bg-slate-800 hover:bg-indigo-600 hover:text-white text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-700/80 transition">
-              ⏳ Order #1003 (Outside 30-Day Window)
-            </button>
-            <button onclick="fillPrompt('Where is order #1001? My email is attacker@evil.com')" class="bg-slate-800 hover:bg-rose-600 hover:text-white text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-700/80 transition">
-              🛡️ Privacy Defense (Email Mismatch)
-            </button>
-          </div>
+        <!-- Quick Prompts Bar -->
+        <div class="flex flex-wrap gap-2 text-xs">
+          <button onclick="fillPrompt('Where is order #1001? (Customer email: sarah.connor@example.com)')" class="bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 px-3 py-1.5 rounded-lg transition">
+            Track Order #1001
+          </button>
+          <button onclick="fillPrompt('I want to return order #1001 for a full refund. (Customer email: sarah.connor@example.com)')" class="bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 px-3 py-1.5 rounded-lg transition">
+            Evaluate Return (#1001)
+          </button>
+          <button onclick="fillPrompt('What is your store return window and policy?')" class="bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 px-3 py-1.5 rounded-lg transition">
+            Query Return Policy
+          </button>
+          <button onclick="fillPrompt('Where is order #1001? (Customer email: intruder@badactor.org)')" class="bg-rose-950/40 hover:bg-rose-900/40 text-rose-300 border border-rose-800/80 px-3 py-1.5 rounded-lg transition">
+            Test Privacy Snooping
+          </button>
         </div>
 
-        <!-- Chat Container -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl flex flex-col h-[520px] overflow-hidden shadow-xl">
-          <div id="chat-messages" class="flex-1 p-5 overflow-y-auto space-y-4">
+        <!-- Console Dialogue Window -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl flex flex-col h-[520px] shadow-xl overflow-hidden">
+          <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-4">
             <div class="flex items-start space-x-3">
-              <div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-sm font-bold shadow-md">🤖</div>
-              <div class="bg-slate-800/90 border border-slate-700/60 rounded-2xl rounded-tl-none p-3.5 text-sm text-slate-100 max-w-xl shadow leading-relaxed">
-                Hello! I am your <strong>AgentGuard Autonomous Support Copilot</strong>. I am integrated directly into your store's live database. How can I help you today?
+              <div class="w-7 h-7 rounded-lg bg-blue-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">AG</div>
+              <div class="bg-[#090D16] border border-slate-800 rounded-xl p-3.5 text-xs text-slate-200 max-w-xl shadow-sm leading-relaxed">
+                AgentGuard Live Console active. Select a scenario above or enter a customer inquiry below with an order number (e.g. <code>#1001</code>) and customer email to test verified multi-agent resolution.
               </div>
             </div>
           </div>
 
-          <!-- Input Bar -->
-          <form onsubmit="handleChatSubmit(event)" class="p-3 bg-slate-950 border-t border-slate-800 flex items-center space-x-2">
-            <input type="text" id="chat-input" placeholder="Type a customer inquiry (e.g. 'Where is order #1001 for sarah.connor@example.com?')..." class="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-400 focus:outline-none focus:border-indigo-500">
-            <button type="submit" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm px-5 py-2.5 rounded-xl shadow-lg shadow-indigo-600/30 transition">
-              Send
+          <!-- Trace Inspector Drawer -->
+          <div id="inspector" class="hidden border-t border-slate-800 bg-[#070A11] p-3 text-[11px] font-mono text-slate-400 flex items-center justify-between">
+            <div id="inspector-plan" class="truncate max-w-2xl text-slate-300">Execution Plan: Awaiting turn...</div>
+            <div id="inspector-critic-score" class="font-bold text-emerald-400 flex-shrink-0">Score: 100%</div>
+          </div>
+
+          <!-- Message Input -->
+          <form onsubmit="handleChatSubmit(event)" class="p-3 border-t border-slate-800 bg-[#0D121F] flex gap-2">
+            <input type="text" id="chat-input" placeholder="Type a customer support inquiry..." class="flex-1 bg-[#090D16] border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500">
+            <button type="submit" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs px-4 py-2 rounded-lg transition">
+              Send Inquiry
             </button>
           </form>
         </div>
-
-        <!-- Real-Time Diagnostic Inspector -->
-        <div id="inspector" class="hidden bg-slate-900/60 border border-slate-800 p-4 rounded-xl text-xs space-y-2 font-mono">
-          <div class="flex items-center justify-between text-slate-400">
-            <span class="font-bold text-slate-200">🔍 Copilot Ground Truth Inspector</span>
-            <span id="inspector-critic-score" class="text-emerald-400 font-bold">Critic Score: 100%</span>
-          </div>
-          <p id="inspector-plan" class="text-slate-300 truncate"></p>
-        </div>
       </section>
 
-      <!-- TAB 2: APPROVAL INBOX (HITL) -->
-      <section id="tab-approvals" class="hidden space-y-6 max-w-5xl mx-auto">
-        <div class="flex items-center justify-between">
-          <div>
-            <h2 class="text-xl font-bold text-white">Human-in-the-Loop Approval Inbox</h2>
-            <p class="text-sm text-slate-400">High-risk financial refunds and destructive actions requiring store manager authorization.</p>
-          </div>
-          <button onclick="loadApprovals()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-md border border-slate-700 transition">
-            Refresh Inbox
-          </button>
+      <!-- TAB 2: APPROVAL INBOX -->
+      <section id="tab-approvals" class="hidden space-y-6 max-w-4xl mx-auto">
+        <div>
+          <h2 class="text-lg font-bold text-white tracking-tight">Human-in-the-Loop Approval Queue</h2>
+          <p class="text-xs text-slate-400">High-risk financial actions (refunds exceeding safety thresholds) are gated here for merchant authorization.</p>
         </div>
-
         <div id="approvals-list" class="space-y-4">
-          <div class="p-8 text-center text-slate-500 bg-slate-900 border border-slate-800 rounded-xl">
-            No pending approval requests. Orders requiring refund sign-off will appear here.
+          <div class="p-8 text-center text-slate-500 bg-slate-900 border border-slate-800 rounded-xl text-xs">
+            Loading approval queue...
           </div>
         </div>
       </section>
 
-      <!-- TAB 3: KNOWLEDGE BASE & STORE POLICIES -->
+      <!-- TAB 3: KNOWLEDGE BASE & FAQS -->
       <section id="tab-kb" class="hidden space-y-6 max-w-5xl mx-auto">
         <div class="flex items-center justify-between">
           <div>
-            <h2 class="text-xl font-bold text-white">Store Knowledge Base & Policies</h2>
-            <p class="text-sm text-slate-400">Add custom store return rules, warranty policies, and FAQs. The AI agent searches these before answering customers.</p>
+            <h2 class="text-lg font-bold text-white tracking-tight">Store Knowledge Base & Policies</h2>
+            <p class="text-xs text-slate-400">Add custom store return windows, warranty terms, and shipping guidelines. The Copilot strictly cites these policies.</p>
           </div>
-          <button onclick="loadKnowledgeBase()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-md border border-slate-700 transition">
-            Refresh Articles
-          </button>
         </div>
 
         <!-- Add Policy Form -->
-        <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4 shadow-xl">
-          <h3 class="font-bold text-white text-base">Add New Policy or FAQ Article</h3>
-          <form onsubmit="handleSaveKbArticle(event)" class="space-y-4">
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div class="sm:col-span-2">
-                <label class="block text-xs font-semibold text-slate-300 mb-1">Article Title</label>
-                <input type="text" id="kb-title" required placeholder="e.g. 60-Day VIP Hardware Replacement Policy" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500">
+        <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl space-y-4 shadow-lg">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300">Add Store Policy / FAQ Article</h3>
+          <form onsubmit="handleSaveKbArticle(event)" class="space-y-4 text-xs">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div class="md:col-span-2">
+                <label class="block font-semibold text-slate-300 mb-1">Article Title</label>
+                <input type="text" id="kb-title" required placeholder="e.g., 30-Day Hassle-Free Return Policy" class="w-full bg-[#090D16] border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500">
               </div>
               <div>
-                <label class="block text-xs font-semibold text-slate-300 mb-1">Category</label>
-                <select id="kb-category" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
+                <label class="block font-semibold text-slate-300 mb-1">Category</label>
+                <select id="kb-category" class="w-full bg-[#090D16] border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500">
                   <option value="returns">Returns & Refunds</option>
-                  <option value="warranty">Warranty & Repairs</option>
                   <option value="shipping">Shipping & Delivery</option>
-                  <option value="faq">General FAQ</option>
+                  <option value="warranty">Warranty & Repairs</option>
+                  <option value="general">General Store FAQ</option>
                 </select>
               </div>
             </div>
-
             <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Policy Content / Answer Text</label>
-              <textarea id="kb-content" required rows="3" placeholder="Explain the exact rules, eligibility deadlines, and requirements..." class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"></textarea>
+              <label class="block font-semibold text-slate-300 mb-1">Policy Content</label>
+              <textarea id="kb-content" required rows="3" placeholder="Exact policy details that the AI support copilot must cite when answering customer questions..." class="w-full bg-[#090D16] border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500"></textarea>
             </div>
-
             <div class="flex justify-end">
-              <button type="submit" id="kb-save-btn" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs px-5 py-2.5 rounded-lg shadow-lg shadow-indigo-600/30 transition">
-                + Save Policy to Store Agent
+              <button type="submit" id="kb-save-btn" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold px-4 py-2 rounded-lg transition">
+                Add Policy Article
               </button>
             </div>
           </form>
@@ -241,10 +233,10 @@
 
         <!-- Articles List -->
         <div class="space-y-3">
-          <h3 class="font-bold text-white text-base">Active Store Policies</h3>
-          <div id="kb-articles-list" class="grid grid-cols-1 gap-3">
-            <div class="p-6 text-center text-slate-500 bg-slate-900 border border-slate-800 rounded-xl">
-              Loading store knowledge base...
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Current Knowledge Base Articles</h3>
+          <div id="kb-articles-list" class="space-y-3">
+            <div class="p-6 text-center text-slate-500 bg-slate-900 border border-slate-800 rounded-xl text-xs">
+              Loading knowledge base...
             </div>
           </div>
         </div>
@@ -253,121 +245,117 @@
       <!-- TAB 4: 1-CLICK EMBED WIDGET -->
       <section id="tab-embed" class="hidden space-y-6 max-w-5xl mx-auto">
         <div>
-          <h2 class="text-xl font-bold text-white">1-Click Storefront Widget Integration</h2>
-          <p class="text-sm text-slate-400">Deploy your autonomous customer support agent on any online store with zero build configuration.</p>
-        </div>
-
-        <!-- Snippet Card -->
-        <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4 shadow-xl">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold uppercase tracking-wider text-indigo-400">Your Storefront Embed Script</span>
-            <button onclick="copyWidgetSnippet()" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-bold shadow transition flex items-center space-x-1">
-              <span>📋 Copy Code</span>
-            </button>
-          </div>
-
-          <pre id="widget-code" class="bg-slate-950 border border-slate-800 rounded-xl p-4 text-xs text-indigo-300 font-mono overflow-x-auto whitespace-pre-wrap leading-relaxed">&lt;!-- AgentGuard Storefront Widget --&gt;
-&lt;script src="https://agentguard.local/widget.js" data-store-id="demo-store"&gt;&lt;/script&gt;</pre>
+          <h2 class="text-lg font-bold text-white tracking-tight">1-Click Storefront Integration</h2>
+          <p class="text-xs text-slate-400">Deploy your autonomous customer support agent on any online store with zero build configuration.</p>
         </div>
 
         <!-- Direct Shareable Storefront Demo Card -->
-        <div class="bg-gradient-to-r from-slate-900 via-indigo-950/40 to-slate-900 border border-indigo-500/30 p-6 rounded-2xl space-y-4 shadow-xl">
-          <div class="flex items-center justify-between">
+        <div class="bg-slate-900 border border-blue-500/30 p-6 rounded-xl space-y-4 shadow-xl">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <div class="flex items-center space-x-2">
-                <span class="text-lg">🛍️</span>
-                <h3 class="text-base font-bold text-white">Live Customer Storefront Simulator & Shareable Link</h3>
-                <span class="bg-emerald-500/20 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded border border-emerald-500/30">READY TO SHARE</span>
+                <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+                  LIVE DEMO READY
+                </span>
+                <h3 class="text-sm font-bold text-white">Customer Storefront Simulator & Shareable Link</h3>
               </div>
-              <p class="text-xs text-slate-300 mt-1">Want to test the full customer experience or send your AI support agent to friends or evaluators to test? Use this direct storefront demo link:</p>
+              <p class="text-xs text-slate-400 mt-1">Send this direct link to colleagues, investors, or friends to test the customer support experience on an authentic storefront:</p>
             </div>
-            <button onclick="openStoreDemo()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-bold shadow-lg shadow-indigo-600/30 transition flex items-center space-x-1.5">
-              <span>🚀 Open Live Storefront</span>
-              <span>↗</span>
+            <button onclick="openStoreDemo()" class="px-3.5 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-semibold shadow transition flex items-center space-x-1.5 flex-shrink-0">
+              <span>Open Storefront Simulator</span>
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
             </button>
           </div>
 
           <div class="flex items-center space-x-2">
-            <input type="text" id="store-demo-link" readonly class="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-indigo-300 font-mono focus:outline-none" value="http://localhost:8080/store?store_id=demo-store">
-            <button onclick="copyStoreDemoLink()" class="px-3.5 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl text-xs font-semibold transition">
+            <input type="text" id="store-demo-link" readonly class="flex-1 bg-[#090D16] border border-slate-800 rounded-lg px-3 py-2 text-xs text-blue-400 font-mono focus:outline-none" value="http://localhost:8080/store?store_id=demo-store">
+            <button onclick="copyStoreDemoLink()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg text-xs font-medium transition">
               Copy Link
             </button>
           </div>
         </div>
 
+        <!-- Snippet Card -->
+        <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl space-y-4 shadow-xl">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-300">Your Storefront Embed Script</span>
+            <button onclick="copyWidgetSnippet()" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-semibold shadow transition">
+              Copy Code
+            </button>
+          </div>
+
+          <pre id="widget-code" class="bg-[#090D16] border border-slate-800 rounded-lg p-4 text-xs text-blue-300 font-mono overflow-x-auto whitespace-pre-wrap leading-relaxed">&lt;!-- AgentGuard Storefront Widget --&gt;
+&lt;script src="https://agentguard.local/widget.js" data-store-id="demo-store"&gt;&lt;/script&gt;</pre>
+        </div>
+
         <!-- Installation Instructions -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl">
-            <div class="text-2xl mb-2">🛍️</div>
-            <h4 class="font-bold text-white text-sm">Shopify Integration</h4>
-            <ol class="mt-2 text-xs text-slate-400 space-y-1 list-decimal list-inside leading-relaxed">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl space-y-2">
+            <h4 class="font-bold text-white text-xs">Shopify Integration</h4>
+            <ol class="text-xs text-slate-400 space-y-1 list-decimal list-inside leading-relaxed">
               <li>Open Online Store &gt; Themes &gt; Edit Code</li>
-              <li>Open <code class="text-indigo-300">theme.liquid</code></li>
-              <li>Paste script before <code class="text-indigo-300">&lt;/body&gt;</code></li>
+              <li>Open <code class="text-blue-300">theme.liquid</code></li>
+              <li>Paste script before <code class="text-blue-300">&lt;/body&gt;</code></li>
             </ol>
           </div>
 
-          <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl">
-            <div class="text-2xl mb-2">📦</div>
-            <h4 class="font-bold text-white text-sm">WooCommerce (WordPress)</h4>
-            <ol class="mt-2 text-xs text-slate-400 space-y-1 list-decimal list-inside leading-relaxed">
+          <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl space-y-2">
+            <h4 class="font-bold text-white text-xs">WooCommerce (WordPress)</h4>
+            <ol class="text-xs text-slate-400 space-y-1 list-decimal list-inside leading-relaxed">
               <li>Go to Appearance &gt; Theme File Editor</li>
-              <li>Open <code class="text-indigo-300">footer.php</code> (or use Insert Headers/Footers)</li>
-              <li>Paste snippet and click Save</li>
+              <li>Open <code class="text-blue-300">footer.php</code></li>
+              <li>Paste snippet and save</li>
             </ol>
           </div>
 
-          <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl">
-            <div class="text-2xl mb-2">⚡</div>
-            <h4 class="font-bold text-white text-sm">Custom HTML / React / Next.js</h4>
-            <ol class="mt-2 text-xs text-slate-400 space-y-1 list-decimal list-inside leading-relaxed">
-              <li>Add script tag to your HTML <code class="text-indigo-300">&lt;head&gt;</code> or layout</li>
-              <li>Set <code class="text-indigo-300">data-store-id</code> to your ID</li>
-              <li>Works with zero npm dependencies</li>
+          <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl space-y-2">
+            <h4 class="font-bold text-white text-xs">Custom HTML / React</h4>
+            <ol class="text-xs text-slate-400 space-y-1 list-decimal list-inside leading-relaxed">
+              <li>Add script tag before <code class="text-blue-300">&lt;/body&gt;</code></li>
+              <li>Set <code class="text-blue-300">data-store-id</code> to your ID</li>
+              <li>Zero npm dependencies required</li>
             </ol>
           </div>
         </div>
       </section>
 
       <!-- TAB 5: STORE SETTINGS -->
-      <section id="tab-store" class="hidden space-y-6 max-w-5xl mx-auto">
-        <div class="flex items-center justify-between">
-          <div>
-            <h2 class="text-xl font-bold text-white">Store Connection & Policy Settings</h2>
-            <p class="text-sm text-slate-400">Configure your store platform, API credentials, and default return policies.</p>
-          </div>
+      <section id="tab-store" class="hidden space-y-6 max-w-4xl mx-auto">
+        <div>
+          <h2 class="text-lg font-bold text-white tracking-tight">Store Connection & Policy Settings</h2>
+          <p class="text-xs text-slate-400">Configure your store platform, API endpoints, and automated return window rules.</p>
         </div>
 
-        <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-6 shadow-xl">
+        <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl space-y-5 shadow-xl text-xs">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Store Name</label>
-              <input type="text" id="cfg-store-name" value="Lumina Audio & Tech" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-white">
+              <label class="block font-semibold text-slate-300 mb-1">Store Name</label>
+              <input type="text" id="cfg-store-name" value="Lumina Audio & Tech" class="w-full bg-[#090D16] border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500">
             </div>
             <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">E-Commerce Platform</label>
-              <select id="cfg-platform" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-white">
-                <option value="simulator">Lumina In-Memory Simulator (Recommended for Demos)</option>
+              <label class="block font-semibold text-slate-300 mb-1">Platform Connector</label>
+              <select id="cfg-platform" class="w-full bg-[#090D16] border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+                <option value="simulator">Simulator (Built-in Demo Orders)</option>
                 <option value="shopify">Shopify Admin REST API</option>
                 <option value="woocommerce">WooCommerce REST API v3</option>
               </select>
             </div>
             <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Store API URL / Domain</label>
-              <input type="text" id="cfg-api-url" value="https://demo.lumina-audio.com" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-white">
+              <label class="block font-semibold text-slate-300 mb-1">Store API URL / Domain</label>
+              <input type="text" id="cfg-api-url" value="https://demo.lumina-audio.com" class="w-full bg-[#090D16] border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500">
             </div>
             <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Return Window (Days)</label>
-              <input type="number" id="cfg-window" value="30" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-white">
+              <label class="block font-semibold text-slate-300 mb-1">Return Window (Days)</label>
+              <input type="number" id="cfg-window" value="30" class="w-full bg-[#090D16] border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500">
             </div>
-            <div class="col-span-1 md:col-span-2">
-              <label class="block text-xs font-semibold text-slate-300 mb-1">API Token / Secret Key</label>
-              <input type="password" id="cfg-token" placeholder="shpat_xxxxxxxxxxxxxxx" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-white">
+            <div class="md:col-span-2">
+              <label class="block font-semibold text-slate-300 mb-1">API Token / Private Key</label>
+              <input type="password" id="cfg-token" placeholder="shpat_••••••••••••••••" class="w-full bg-[#090D16] border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500">
             </div>
           </div>
-          <div class="flex justify-end">
-            <button onclick="saveStoreConfig()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs px-5 py-2.5 rounded-lg shadow-lg shadow-indigo-600/30 transition">
-              Save Store Settings
+          <div class="flex justify-end pt-2">
+            <button onclick="saveStoreConfig()" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold px-4 py-2 rounded-lg transition">
+              Save Configuration
             </button>
           </div>
         </div>
@@ -377,25 +365,15 @@
       <section id="tab-audit" class="hidden space-y-6 max-w-5xl mx-auto">
         <div class="flex items-center justify-between">
           <div>
-            <h2 class="text-xl font-bold text-white">Cryptographic Audit Vault</h2>
-            <p class="text-sm text-slate-400">Tamper-evident SHA-256 hash-chained ledger logging all AI actions, lookups, and financial disbursements.</p>
+            <h2 class="text-lg font-bold text-white tracking-tight">Cryptographic Audit Vault</h2>
+            <p class="text-xs text-slate-400">Verifiable, immutable ledger of all agent tool executions, privacy checks, and refund actions.</p>
           </div>
-          <button onclick="loadAuditVault()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-md border border-slate-700 transition">
-            Refresh Ledger
-          </button>
-        </div>
-
-        <div id="audit-banner" class="bg-emerald-950/40 border border-emerald-800/80 p-4 rounded-xl flex items-center justify-between text-xs">
-          <div class="flex items-center space-x-2 text-emerald-300">
-            <span class="text-base">🛡️</span>
-            <span>Cryptographic Chain Integrity: <strong class="text-emerald-400">VERIFIED</strong></span>
-          </div>
-          <span id="audit-block-count" class="font-mono text-emerald-400">Total Entries: 0</span>
+          <div class="text-xs font-mono text-slate-400" id="audit-block-count">Total Entries: 0</div>
         </div>
 
         <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-xl">
           <table class="w-full text-left text-xs">
-            <thead class="bg-slate-950/70 border-b border-slate-800 text-slate-400 uppercase font-semibold">
+            <thead class="bg-[#0D121F] border-b border-slate-800 text-[11px] text-slate-400 uppercase font-mono">
               <tr>
                 <th class="p-3">#</th>
                 <th class="p-3">Action</th>
@@ -405,7 +383,7 @@
                 <th class="p-3">Timestamp</th>
               </tr>
             </thead>
-            <tbody id="audit-table-body" class="divide-y divide-slate-800/60 font-mono text-slate-300">
+            <tbody id="audit-table-body" class="divide-y divide-slate-800 font-mono text-slate-300 text-[11px]">
               <tr><td colspan="6" class="p-4 text-center text-slate-500">Loading audit entries...</td></tr>
             </tbody>
           </table>
@@ -416,10 +394,13 @@
   </div>
 
   <script>
-    // Discover Active Store ID from URL or localStorage
     const urlParams = new URLSearchParams(window.location.search);
     let currentStoreId = urlParams.get('store_id') || localStorage.getItem('agentguard_store_id') || 'demo-store';
     let activeTab = 'chat';
+
+    // Update Storefront button link
+    const sfBtn = document.getElementById('nav-storefront-btn');
+    if (sfBtn) sfBtn.href = `/store?store_id=${encodeURIComponent(currentStoreId)}`;
 
     function switchTab(tab) {
       activeTab = tab;
@@ -430,10 +411,10 @@
         if (sec && nav) {
           if (t === tab) {
             sec.classList.remove('hidden');
-            nav.className = 'w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium transition bg-indigo-600 text-white shadow-sm';
+            nav.className = 'w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-semibold transition bg-blue-600 text-white shadow-sm';
           } else {
             sec.classList.add('hidden');
-            nav.className = 'w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition';
+            nav.className = 'w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 transition';
           }
         }
       });
@@ -474,8 +455,8 @@
     function resetConsole() {
       document.getElementById('chat-messages').innerHTML = `
         <div class="flex items-start space-x-3">
-          <div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-sm font-bold shadow-md">🤖</div>
-          <div class="bg-slate-800/90 border border-slate-700/60 rounded-2xl rounded-tl-none p-3.5 text-sm text-slate-100 max-w-xl shadow leading-relaxed">
+          <div class="w-7 h-7 rounded-lg bg-blue-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">AG</div>
+          <div class="bg-[#090D16] border border-slate-800 rounded-xl p-3.5 text-xs text-slate-200 max-w-xl shadow-sm leading-relaxed">
             Console cleared. Enter an Order Number (e.g. <code>#1001</code>) and email to begin a new resolution turn.
           </div>
         </div>
@@ -493,7 +474,7 @@
       appendChatMessage('user', text);
 
       const loadingId = 'loading-' + Date.now();
-      appendChatMessage('agent', '<span class="animate-pulse">Thinking with Multi-Agent Copilot...</span>', loadingId);
+      appendChatMessage('agent', '<span class="animate-pulse">Reasoning with Gemini Multi-Agent Copilot...</span>', loadingId);
 
       try {
         const res = await fetch('/api/chat', {
@@ -509,11 +490,11 @@
           showInspector(data);
           loadApprovalsCount();
         } else {
-          appendChatMessage('agent', `❌ Error: ${data.message || 'Operation failed'}`);
+          appendChatMessage('agent', `Error: ${data.message || 'Operation failed'}`);
         }
       } catch (err) {
         document.getElementById(loadingId)?.remove();
-        appendChatMessage('agent', `❌ Network error: ${err.message}`);
+        appendChatMessage('agent', `Network error: ${err.message}`);
       }
     }
 
@@ -526,15 +507,14 @@
       if (sender === 'user') {
         msgDiv.className += ' justify-end';
         msgDiv.innerHTML = `
-          <div class="bg-indigo-600 text-white rounded-2xl rounded-tr-none p-3.5 text-sm max-w-xl shadow">
+          <div class="bg-blue-600 text-white rounded-xl p-3 text-xs max-w-xl shadow-sm">
             ${escapeHtml(content)}
           </div>
-          <div class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-sm font-semibold">👤</div>
         `;
       } else {
         msgDiv.innerHTML = `
-          <div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-sm">🤖</div>
-          <div class="bg-slate-800/90 border border-slate-700/60 rounded-2xl rounded-tl-none p-3.5 text-sm text-slate-100 max-w-xl shadow leading-relaxed whitespace-pre-line">
+          <div class="w-7 h-7 rounded-lg bg-blue-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">AG</div>
+          <div class="bg-[#090D16] border border-slate-800 rounded-xl p-3 text-xs text-slate-100 max-w-xl shadow-sm leading-relaxed whitespace-pre-line">
             ${content}
           </div>
         `;
@@ -548,9 +528,9 @@
       drawer.classList.remove('hidden');
       const score = data.critique?.score ?? 1.0;
       const scoreElem = document.getElementById('inspector-critic-score');
-      scoreElem.textContent = `Critic Score: ${(score * 100).toFixed(0)}% (Hallucinations: ${data.critique?.hallucinations?.length || 0})`;
+      scoreElem.textContent = `Critic Score: ${(score * 100).toFixed(0)}% (${data.critique?.hallucinations?.length || 0} hallucinations)`;
 
-      const planSteps = (data.plan || []).map(s => `[Step ${s.step_number}: ${s.tool_name}]`).join(' → ');
+      const planSteps = (data.plan || []).map(s => `[${s.step_number}. ${s.tool_name}]`).join(' → ');
       document.getElementById('inspector-plan').textContent = `Execution Plan (${data.execution_time_ms}ms): ${planSteps}`;
     }
 
@@ -587,7 +567,7 @@
 
         if (approvals.length === 0) {
           container.innerHTML = `
-            <div class="p-8 text-center text-slate-500 bg-slate-900 border border-slate-800 rounded-xl">
+            <div class="p-8 text-center text-slate-500 bg-slate-900 border border-slate-800 rounded-xl text-xs">
               ✓ All clear! Zero pending refund approvals requiring human review.
             </div>
           `;
@@ -598,32 +578,32 @@
           const args = it.arguments || {};
           const amountUsd = args.amount_cents ? `$${(args.amount_cents / 100).toFixed(2)}` : 'Amount Pending';
           return `
-            <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl flex items-center justify-between shadow-lg">
+            <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl flex items-center justify-between shadow-lg text-xs">
               <div class="space-y-1">
                 <div class="flex items-center space-x-2">
-                  <span class="bg-amber-950 border border-amber-800 text-amber-300 font-bold px-2 py-0.5 rounded text-xs">
+                  <span class="bg-amber-950/60 border border-amber-800 text-amber-300 font-bold px-2 py-0.5 rounded text-[11px]">
                     HIGH-RISK REFUND
                   </span>
-                  <span class="text-xs text-slate-400">Order #${args.order_number || 'N/A'}</span>
-                  <span class="text-xs font-mono text-indigo-400">(${it.approval_id})</span>
+                  <span class="text-slate-400">Order #${args.order_number || 'N/A'}</span>
+                  <span class="font-mono text-blue-400 text-[10px]">(${it.approval_id})</span>
                 </div>
-                <p class="text-sm font-semibold text-white">Refund Request: <span class="text-emerald-400">${amountUsd}</span></p>
-                <p class="text-xs text-slate-400">Reason: "${args.reason || 'Customer inquiry request'}"</p>
+                <p class="font-semibold text-white">Refund Request: <span class="text-emerald-400 font-mono">${amountUsd}</span></p>
+                <p class="text-slate-400">Reason: "${args.reason || 'Customer inquiry request'}"</p>
                 <p class="text-[11px] text-slate-500">Customer Email: ${args.customer_email || 'Verified'}</p>
               </div>
               <div class="flex items-center space-x-2">
-                <button onclick="decideApproval('${it.approval_id}', 'approve')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs px-4 py-2 rounded-lg shadow transition">
+                <button onclick="decideApproval('${it.approval_id}', 'approve')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold px-3 py-1.5 rounded-lg shadow transition">
                   ✓ Approve & Refund
                 </button>
-                <button onclick="decideApproval('${it.approval_id}', 'reject')" class="bg-rose-950 hover:bg-rose-900 text-rose-300 border border-rose-800 font-semibold text-xs px-3 py-2 rounded-lg transition">
-                  ✕ Reject
+                <button onclick="decideApproval('${it.approval_id}', 'reject')" class="bg-rose-950 hover:bg-rose-900 text-rose-300 border border-rose-800 px-3 py-1.5 rounded-lg transition">
+                  Reject
                 </button>
               </div>
             </div>
           `;
         }).join('');
       } catch (err) {
-        container.innerHTML = `<div class="text-rose-400 text-sm p-4">Error loading approvals: ${err.message}</div>`;
+        container.innerHTML = `<div class="text-rose-400 text-xs p-4">Error loading approvals: ${err.message}</div>`;
       }
     }
 
@@ -637,6 +617,7 @@
         const data = await res.json();
         alert(data.message || `Decision recorded: ${decision}`);
         loadApprovals();
+        loadApprovalsCount();
         loadAuditVault();
       } catch (err) {
         alert(`Failed to record decision: ${err.message}`);
@@ -652,7 +633,7 @@
 
         if (articles.length === 0) {
           container.innerHTML = `
-            <div class="p-8 text-center text-slate-500 bg-slate-900 border border-slate-800 rounded-xl">
+            <div class="p-8 text-center text-slate-500 bg-slate-900 border border-slate-800 rounded-xl text-xs">
               No custom policies added yet. Add a policy above to customize your store's AI responses.
             </div>
           `;
@@ -660,23 +641,23 @@
         }
 
         container.innerHTML = articles.map(a => `
-          <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl flex items-start justify-between shadow">
+          <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl flex items-start justify-between shadow text-xs">
             <div class="space-y-1.5 max-w-2xl">
               <div class="flex items-center space-x-2">
-                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-indigo-950 border border-indigo-800 text-indigo-300">
+                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-blue-950 border border-blue-800 text-blue-300">
                   ${a.category}
                 </span>
-                <span class="font-bold text-white text-sm">${escapeHtml(a.title)}</span>
+                <span class="font-bold text-white text-xs">${escapeHtml(a.title)}</span>
               </div>
-              <p class="text-xs text-slate-300 leading-relaxed">${escapeHtml(a.content)}</p>
+              <p class="text-slate-300 leading-relaxed text-xs">${escapeHtml(a.content)}</p>
             </div>
-            <button onclick="deleteKnowledgeBaseArticle('${a.article_id}')" class="text-xs text-rose-400 hover:text-rose-300 p-2 rounded hover:bg-rose-950/40 transition">
+            <button onclick="deleteKnowledgeBaseArticle('${a.article_id}')" class="text-xs text-rose-400 hover:text-rose-300 p-1.5 rounded hover:bg-rose-950/40 transition">
               Delete
             </button>
           </div>
         `).join('');
       } catch (err) {
-        container.innerHTML = `<div class="text-rose-400 text-sm p-4">Error loading knowledge base: ${err.message}</div>`;
+        container.innerHTML = `<div class="text-rose-400 text-xs p-4">Error loading knowledge base: ${err.message}</div>`;
       }
     }
 
@@ -686,8 +667,8 @@
       const category = document.getElementById('kb-category').value;
       const content = document.getElementById('kb-content').value.trim();
       const btn = document.getElementById('kb-save-btn');
-
       btn.disabled = true;
+
       try {
         const res = await fetch('/api/kb', {
           method: 'POST',
@@ -696,41 +677,40 @@
             store_id: currentStoreId,
             category: category,
             title: title,
-            content: content,
-          }),
+            content: content
+          })
         });
         const data = await res.json();
         if (data.status === 'success') {
           document.getElementById('kb-title').value = '';
           document.getElementById('kb-content').value = '';
-          alert('Knowledge base article saved successfully!');
           loadKnowledgeBase();
         } else {
-          alert(`Error saving policy: ${data.message}`);
+          alert('Failed to save article: ' + (data.message || 'Unknown error'));
         }
       } catch (err) {
-        alert(`Failed to save policy: ${err.message}`);
+        alert('Network error saving policy article');
       } finally {
         btn.disabled = false;
       }
     }
 
     async function deleteKnowledgeBaseArticle(articleId) {
-      if (!confirm('Are you sure you want to delete this policy from your store?')) return;
+      if (!confirm('Are you sure you want to delete this policy article?')) return;
       try {
         const res = await fetch('/api/kb/delete', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ store_id: currentStoreId, article_id: articleId }),
+          body: JSON.stringify({ store_id: currentStoreId, article_id: articleId })
         });
         const data = await res.json();
         if (data.status === 'success') {
           loadKnowledgeBase();
         } else {
-          alert(`Delete failed: ${data.message}`);
+          alert('Failed to delete: ' + (data.message || 'Unknown error'));
         }
       } catch (err) {
-        alert(`Delete failed: ${err.message}`);
+        alert('Network error deleting article');
       }
     }
 
@@ -746,7 +726,6 @@
           document.getElementById('cfg-window').value = s.return_window_days;
           document.getElementById('header-store-name').textContent = s.store_name;
           document.getElementById('header-store-id-pill').textContent = s.store_id;
-          document.getElementById('sidebar-store-name').textContent = s.store_name;
           document.getElementById('sidebar-platform').textContent = s.platform.toUpperCase();
           document.getElementById('sidebar-window').textContent = `${s.return_window_days} Days`;
           document.getElementById('widget-code').textContent = `<!-- AgentGuard Storefront Widget -->\n<script src="${window.location.origin}/widget.js" data-store-id="${s.store_id}"><\/script>`;
@@ -802,12 +781,12 @@
           const hashShort = (e.hash || '').substring(0, 12);
           const paramsStr = JSON.stringify(e.parameters || {});
           return `
-            <tr class="hover:bg-slate-900/60 transition">
+            <tr class="hover:bg-slate-800/40 transition">
               <td class="p-3 text-slate-500">${e.entry_id || (idx + 1)}</td>
               <td class="p-3 font-semibold text-slate-200">${e.action}</td>
               <td class="p-3 font-bold ${statusColor}">${e.status}</td>
               <td class="p-3 text-slate-400 truncate max-w-xs" title="${escapeHtml(paramsStr)}">${escapeHtml(paramsStr)}</td>
-              <td class="p-3 text-indigo-400 font-mono">${hashShort}...</td>
+              <td class="p-3 text-blue-400 font-mono">${hashShort}...</td>
               <td class="p-3 text-slate-500">${(e.timestamp || '').replace('T', ' ').substring(0, 19)}</td>
             </tr>
           `;
@@ -815,6 +794,13 @@
       } catch (err) {
         console.error(err);
       }
+    }
+
+    function handleSignOut() {
+      localStorage.removeItem('agentguard_merchant');
+      localStorage.removeItem('agentguard_store_id');
+      localStorage.removeItem('agentguard_api_key');
+      window.location.href = '/';
     }
 
     function escapeHtml(str) {
@@ -827,6 +813,7 @@
     loadApprovalsCount();
     loadStoreConfig();
   </script>
+
   <!-- Embeddable Storefront Chat Widget Bound to Current Merchant Tenant -->
   <script>
     window.AgentGuardConfig = { storeId: currentStoreId };

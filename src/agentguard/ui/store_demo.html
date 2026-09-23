@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-slate-950 text-slate-100 antialiased selection:bg-indigo-500 selection:text-white">
+<html lang="en" class="h-full bg-[#0B0F17] text-slate-100 antialiased selection:bg-blue-600 selection:text-white">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,84 +10,85 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
-    code, pre { font-family: 'JetBrains Mono', monospace; }
+    code, pre, .font-mono { font-family: 'JetBrains Mono', monospace; }
   </style>
 </head>
-<body class="min-h-full flex flex-col bg-slate-950 text-slate-100">
+<body class="min-h-full flex flex-col bg-[#0B0F17] text-slate-100">
 
   <!-- Top Announcement Bar -->
-  <div class="bg-gradient-to-r from-indigo-900 via-indigo-700 to-purple-800 text-indigo-100 px-4 py-2 text-xs text-center font-medium flex items-center justify-between border-b border-indigo-500/20">
-    <div class="flex items-center space-x-2 mx-auto">
-      <span class="bg-emerald-500/30 text-emerald-300 px-2 py-0.5 rounded-full text-[11px] font-bold border border-emerald-400/40">● LIVE STORE SIMULATION</span>
-      <span>Autonomous Customer Support Active • Need help? Click the chat bubble in the bottom right!</span>
+  <div class="bg-slate-900/90 border-b border-slate-800 px-4 py-2 text-xs text-slate-300 flex items-center justify-between">
+    <div class="max-w-7xl mx-auto flex items-center space-x-2">
+      <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-500/10 text-blue-400 border border-blue-500/20">
+        ● LIVE STORE SIMULATION
+      </span>
+      <span>Autonomous Customer Support Active • Need assistance? Click the support bubble in the bottom right corner.</span>
     </div>
-    <a id="merchant-dash-link" href="/dashboard" class="hidden sm:inline-flex items-center space-x-1 text-xs text-white bg-black/30 hover:bg-black/50 px-2.5 py-1 rounded transition border border-white/20">
-      <span>⚙️ Merchant Admin</span>
-      <span>→</span>
+    <a id="merchant-dash-link" href="/dashboard" class="hidden sm:inline-flex items-center space-x-1 text-xs text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 px-2.5 py-1 rounded transition border border-slate-700">
+      <span>Merchant Console</span>
+      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
     </a>
   </div>
 
   <!-- Store Navigation Header -->
-  <header class="bg-slate-900/90 backdrop-blur-md border-b border-slate-800 sticky top-0 z-40 px-6 py-4">
+  <header class="bg-[#0E131F]/90 backdrop-blur-md border-b border-slate-800/80 sticky top-0 z-40 px-6 py-4">
     <div class="max-w-7xl mx-auto flex items-center justify-between">
-      <div class="flex items-center space-x-4">
+      <div class="flex items-center space-x-6">
         <a href="/" class="flex items-center space-x-3 group">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-xl shadow-lg shadow-indigo-500/20 group-hover:scale-105 transition">
-            🛍️
+          <div class="w-9 h-9 rounded-lg bg-blue-600 flex items-center justify-center text-white shadow-sm shadow-blue-500/20 group-hover:bg-blue-500 transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
           </div>
           <div>
-            <h1 id="store-brand-name" class="font-bold text-lg text-white leading-tight">Lumina Audio & Tech</h1>
-            <p id="store-platform-badge" class="text-xs text-slate-400 font-mono">Platform: Simulator (ID: <span id="store-id-text">demo-store</span>)</p>
+            <h1 id="store-brand-name" class="font-bold text-base text-white tracking-tight leading-tight">Lumina Audio & Acoustics</h1>
+            <p id="store-platform-badge" class="text-[11px] text-slate-400 font-mono">Platform: Simulator (ID: <span id="store-id-text">demo-store</span>)</p>
           </div>
         </a>
       </div>
 
       <!-- Quick Nav Links -->
-      <nav class="hidden md:flex items-center space-x-6 text-sm text-slate-300">
-        <a href="#products" class="hover:text-white transition">Featured Catalog</a>
+      <nav class="hidden md:flex items-center space-x-6 text-xs font-medium text-slate-300">
+        <a href="#products" class="hover:text-white transition">Featured Products</a>
         <button onclick="triggerSupportQuery('What is your return policy and window?')" class="hover:text-white transition">Return Policy</button>
         <button onclick="triggerSupportQuery('How long does standard shipping take and what carriers do you use?')" class="hover:text-white transition">Shipping Info</button>
-        <button onclick="triggerSupportQuery('What warranty covers hardware purchases?')" class="hover:text-white transition">Warranty</button>
+        <button onclick="triggerSupportQuery('What warranty covers hardware purchases?')" class="hover:text-white transition">Warranty Terms</button>
       </nav>
 
       <!-- Cart & Support Trigger -->
       <div class="flex items-center space-x-3">
-        <button onclick="openChatWithOrderPrompt()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-3.5 py-2 rounded-lg shadow-md transition flex items-center space-x-1.5">
-          <span>💬</span>
+        <button onclick="openChatWithOrderPrompt()" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold px-3.5 py-2 rounded-lg shadow-sm transition flex items-center space-x-1.5">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
           <span>Ask Store Support</span>
         </button>
-        <div class="bg-slate-800 border border-slate-700 text-slate-200 px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center space-x-1.5 cursor-pointer">
-          <span>🛒</span>
+        <div class="bg-slate-900 border border-slate-800 text-slate-300 px-3 py-1.5 rounded-lg text-xs font-medium flex items-center space-x-1.5 cursor-pointer">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
           <span>Cart (2)</span>
         </div>
       </div>
     </div>
   </header>
 
-  <!-- Interactive Demo Tester Bar (For evaluators and visitors) -->
-  <div class="bg-indigo-950/70 border-b border-indigo-900/60 px-6 py-3">
+  <!-- Interactive Tester Bench -->
+  <div class="bg-slate-900/90 border-b border-slate-800 px-6 py-3">
     <div class="max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-center justify-between gap-3 text-xs">
       <div class="flex items-center space-x-2">
-        <span class="text-base">🧪</span>
-        <span class="font-bold text-indigo-200">Interactive Tester Bench:</span>
-        <span class="text-slate-300">Click any sample customer order to test verified AI lookups & returns:</span>
+        <span class="font-bold text-slate-200">Interactive Tester Bench:</span>
+        <span class="text-slate-400">Click a sample order to test autonomous tracking & return evaluation:</span>
       </div>
-      <div class="flex flex-wrap items-center gap-2">
-        <button onclick="testOrderLookup('1001', 'sarah.connor@example.com', 'Where is my order #1001?')" class="bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 px-2.5 py-1.5 rounded text-xs font-mono transition flex items-center space-x-1.5">
-          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+      <div class="flex flex-wrap items-center gap-2 font-mono text-[11px]">
+        <button onclick="testOrderLookup('1001', 'sarah.connor@example.com', 'Where is my order #1001?')" class="bg-[#090D16] hover:bg-slate-800 text-slate-200 border border-slate-800 px-2.5 py-1.5 rounded transition flex items-center space-x-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
           <span>#1001 (Delivered • $129.00)</span>
         </button>
-        <button onclick="testOrderLookup('1002', 'john.doe@example.com', 'Can I track order #1002?')" class="bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 px-2.5 py-1.5 rounded text-xs font-mono transition flex items-center space-x-1.5">
-          <span class="w-2 h-2 rounded-full bg-blue-400"></span>
+        <button onclick="testOrderLookup('1002', 'john.doe@example.com', 'Can I track order #1002?')" class="bg-[#090D16] hover:bg-slate-800 text-slate-200 border border-slate-800 px-2.5 py-1.5 rounded transition flex items-center space-x-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
           <span>#1002 (In Transit • $49.00)</span>
         </button>
-        <button onclick="testOrderLookup('1003', 'alice.wonder@example.com', 'I want to return order #1003 for a full refund.')" class="bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 px-2.5 py-1.5 rounded text-xs font-mono transition flex items-center space-x-1.5">
-          <span class="w-2 h-2 rounded-full bg-amber-400"></span>
-          <span>#1003 (Delivered 45d ago)</span>
+        <button onclick="testOrderLookup('1003', 'alice.wonder@example.com', 'I want to return order #1003 for a full refund.')" class="bg-[#090D16] hover:bg-slate-800 text-slate-200 border border-slate-800 px-2.5 py-1.5 rounded transition flex items-center space-x-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+          <span>#1003 (Delivered 48d ago)</span>
         </button>
-        <button onclick="testSnoopingAttempt('1001', 'intruder@snoop.org')" class="bg-rose-950/80 hover:bg-rose-900 text-rose-300 border border-rose-800/80 px-2.5 py-1.5 rounded text-xs font-mono transition flex items-center space-x-1.5" title="Test privacy protection against email mismatch">
-          <span>🛡️</span>
-          <span>Test Privacy Defense (Mismatch Email)</span>
+        <button onclick="testSnoopingAttempt('1001', 'intruder@snoop.org')" class="bg-rose-950/40 hover:bg-rose-900/40 text-rose-300 border border-rose-800/80 px-2.5 py-1.5 rounded transition flex items-center space-x-1.5" title="Test privacy protection against email mismatch">
+          <svg class="w-3 h-3 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+          <span>Test Privacy Defense</span>
         </button>
       </div>
     </div>
@@ -95,26 +96,25 @@
 
   <!-- Hero Section -->
   <main class="flex-1 max-w-7xl mx-auto px-6 py-12 w-full space-y-16">
-    <section class="relative rounded-3xl bg-gradient-to-br from-slate-900 via-indigo-950/40 to-slate-900 border border-slate-800 p-8 sm:p-12 overflow-hidden shadow-2xl">
-      <div class="relative z-10 max-w-2xl space-y-6">
-        <div class="inline-flex items-center space-x-2 bg-indigo-950/80 border border-indigo-700/60 px-3.5 py-1 rounded-full text-xs font-semibold text-indigo-300">
-          <span>⚡ High-Fidelity Audio & Tech</span>
+    <section class="rounded-2xl bg-gradient-to-br from-slate-900 to-[#0D121F] border border-slate-800 p-8 sm:p-12 shadow-xl">
+      <div class="max-w-2xl space-y-5">
+        <div class="inline-flex items-center space-x-2 bg-[#090D16] border border-slate-800 px-3 py-1 rounded-full text-xs font-medium text-slate-300">
+          <span>High-Fidelity Studio Sound</span>
           <span>•</span>
-          <span id="hero-return-window-badge">30-Day Hassle-Free Returns</span>
+          <span id="hero-return-window-badge" class="text-blue-400">30-Day Hassle-Free Returns</span>
         </div>
         <h2 id="hero-title" class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
-          Next-Generation Sound.<br>
-          <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-400">Protected by Autonomous AI.</span>
+          Precision Acoustics.<br>
+          <span class="text-slate-400">Supported by Autonomous AI.</span>
         </h2>
-        <p class="text-base text-slate-300 leading-relaxed">
-          Explore our signature studio headphones, waterproof wireless speakers, and ergonomic accessories. Every order includes instant 24/7 AI-powered tracking, self-service return remediation, and verified warranty support.
+        <p class="text-sm text-slate-400 leading-relaxed">
+          Explore our signature wireless studio monitors, waterproof active speakers, and broadcast microphones. Every order includes instant 24/7 AI-powered tracking and self-service return remediation.
         </p>
         <div class="flex flex-wrap items-center gap-4 pt-2">
-          <a href="#products" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-6 py-3 rounded-xl shadow-lg shadow-indigo-600/30 transition text-sm">
-            Browse Catalog
+          <a href="#products" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold px-5 py-2.5 rounded-lg shadow-sm transition text-xs">
+            Browse Featured Catalog
           </a>
-          <button onclick="openChatWithOrderPrompt()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold px-6 py-3 rounded-xl transition text-sm flex items-center space-x-2">
-            <span>💬</span>
+          <button onclick="openChatWithOrderPrompt()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold px-5 py-2.5 rounded-lg transition text-xs flex items-center space-x-2">
             <span>Ask Support Copilot</span>
           </button>
         </div>
@@ -125,100 +125,100 @@
     <section id="products" class="space-y-6">
       <div class="flex items-end justify-between border-b border-slate-800 pb-4">
         <div>
-          <h3 class="text-xl font-bold text-white">Featured Products</h3>
+          <h3 class="text-lg font-bold text-white tracking-tight">Featured Products</h3>
           <p class="text-xs text-slate-400">Click any product to inquire with the AI support copilot regarding specifications, compatibility, or warranty.</p>
         </div>
-        <span class="text-xs text-slate-400">Showing 4 items</span>
+        <span class="text-xs text-slate-500">Showing 4 items</span>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <!-- Product 1 -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between hover:border-indigo-600/50 transition group shadow-lg">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between hover:border-slate-700 transition shadow-sm">
           <div class="space-y-4">
-            <div class="h-44 bg-slate-950 rounded-xl border border-slate-800 flex items-center justify-center text-5xl group-hover:scale-105 transition transform">
-              🎧
+            <div class="h-40 bg-[#090D16] rounded-lg border border-slate-800 flex items-center justify-center text-slate-600">
+              <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/></svg>
             </div>
             <div>
-              <div class="flex items-center justify-between text-xs text-indigo-400 font-semibold mb-1">
+              <div class="flex items-center justify-between text-[11px] text-blue-400 font-medium mb-1">
                 <span>Studio Series</span>
-                <span>★★★★★ (4.9)</span>
+                <span class="text-slate-400">4.9 / 5.0</span>
               </div>
-              <h4 class="font-bold text-white text-base">Lumina Pro Wireless ANC</h4>
-              <p class="text-xs text-slate-400 mt-1">Active Noise Cancellation with 40h battery life and spatial audio.</p>
+              <h4 class="font-bold text-white text-sm">Lumina Pro Wireless ANC</h4>
+              <p class="text-xs text-slate-400 mt-1 leading-relaxed">Active Noise Cancellation with 40h battery life and spatial audio driver.</p>
             </div>
           </div>
-          <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between">
-            <span class="font-mono font-bold text-white text-base">$129.00</span>
-            <button onclick="triggerSupportQuery('Tell me about the warranty and return policy for the Lumina Pro Wireless ANC headphones')" class="text-xs bg-indigo-950 text-indigo-300 hover:bg-indigo-900 px-3 py-1.5 rounded-lg border border-indigo-800 transition">
+          <div class="mt-5 pt-3 border-t border-slate-800 flex items-center justify-between">
+            <span class="font-mono font-bold text-white text-sm">$129.00</span>
+            <button onclick="triggerSupportQuery('Tell me about the warranty and return policy for the Lumina Pro Wireless ANC headphones')" class="text-xs bg-slate-800 text-slate-200 hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-700 transition">
               Inquire AI
             </button>
           </div>
         </div>
 
         <!-- Product 2 -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between hover:border-indigo-600/50 transition group shadow-lg">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between hover:border-slate-700 transition shadow-sm">
           <div class="space-y-4">
-            <div class="h-44 bg-slate-950 rounded-xl border border-slate-800 flex items-center justify-center text-5xl group-hover:scale-105 transition transform">
-              🔊
+            <div class="h-40 bg-[#090D16] rounded-lg border border-slate-800 flex items-center justify-center text-slate-600">
+              <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
             </div>
             <div>
-              <div class="flex items-center justify-between text-xs text-indigo-400 font-semibold mb-1">
-                <span>Outdoor Series</span>
-                <span>★★★★☆ (4.7)</span>
+              <div class="flex items-center justify-between text-[11px] text-blue-400 font-medium mb-1">
+                <span>Active Series</span>
+                <span class="text-slate-400">4.7 / 5.0</span>
               </div>
-              <h4 class="font-bold text-white text-base">AeroSound Waterproof Mini</h4>
-              <p class="text-xs text-slate-400 mt-1">IPX7 waterproof 360-degree Bluetooth speaker with rugged rubberized housing.</p>
+              <h4 class="font-bold text-white text-sm">AeroSound Waterproof Mini</h4>
+              <p class="text-xs text-slate-400 mt-1 leading-relaxed">IPX7 waterproof 360-degree Bluetooth speaker with rugged silicone housing.</p>
             </div>
           </div>
-          <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between">
-            <span class="font-mono font-bold text-white text-base">$49.00</span>
-            <button onclick="triggerSupportQuery('Is the AeroSound Waterproof Mini covered if it gets dropped in water?')" class="text-xs bg-indigo-950 text-indigo-300 hover:bg-indigo-900 px-3 py-1.5 rounded-lg border border-indigo-800 transition">
+          <div class="mt-5 pt-3 border-t border-slate-800 flex items-center justify-between">
+            <span class="font-mono font-bold text-white text-sm">$49.00</span>
+            <button onclick="triggerSupportQuery('Is the AeroSound Waterproof Mini covered if it gets dropped in water?')" class="text-xs bg-slate-800 text-slate-200 hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-700 transition">
               Inquire AI
             </button>
           </div>
         </div>
 
         <!-- Product 3 -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between hover:border-indigo-600/50 transition group shadow-lg">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between hover:border-slate-700 transition shadow-sm">
           <div class="space-y-4">
-            <div class="h-44 bg-slate-950 rounded-xl border border-slate-800 flex items-center justify-center text-5xl group-hover:scale-105 transition transform">
-              🎙️
+            <div class="h-40 bg-[#090D16] rounded-lg border border-slate-800 flex items-center justify-center text-slate-600">
+              <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/></svg>
             </div>
             <div>
-              <div class="flex items-center justify-between text-xs text-indigo-400 font-semibold mb-1">
+              <div class="flex items-center justify-between text-[11px] text-blue-400 font-medium mb-1">
                 <span>Creator Series</span>
-                <span>★★★★★ (4.8)</span>
+                <span class="text-slate-400">4.8 / 5.0</span>
               </div>
-              <h4 class="font-bold text-white text-base">Lumina Wave Condenser Mic</h4>
-              <p class="text-xs text-slate-400 mt-1">24-bit 96kHz studio broadcast microphone with integrated shock mount.</p>
+              <h4 class="font-bold text-white text-sm">Lumina Wave Condenser Mic</h4>
+              <p class="text-xs text-slate-400 mt-1 leading-relaxed">24-bit 96kHz studio broadcast microphone with integrated internal shock mount.</p>
             </div>
           </div>
-          <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between">
-            <span class="font-mono font-bold text-white text-base">$89.00</span>
-            <button onclick="triggerSupportQuery('How long does shipping take for the Lumina Wave microphone?')" class="text-xs bg-indigo-950 text-indigo-300 hover:bg-indigo-900 px-3 py-1.5 rounded-lg border border-indigo-800 transition">
+          <div class="mt-5 pt-3 border-t border-slate-800 flex items-center justify-between">
+            <span class="font-mono font-bold text-white text-sm">$89.00</span>
+            <button onclick="triggerSupportQuery('How long does shipping take for the Lumina Wave microphone?')" class="text-xs bg-slate-800 text-slate-200 hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-700 transition">
               Inquire AI
             </button>
           </div>
         </div>
 
         <!-- Product 4 -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between hover:border-indigo-600/50 transition group shadow-lg">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between hover:border-slate-700 transition shadow-sm">
           <div class="space-y-4">
-            <div class="h-44 bg-slate-950 rounded-xl border border-slate-800 flex items-center justify-center text-5xl group-hover:scale-105 transition transform">
-              🔌
+            <div class="h-40 bg-[#090D16] rounded-lg border border-slate-800 flex items-center justify-center text-slate-600">
+              <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
             </div>
             <div>
-              <div class="flex items-center justify-between text-xs text-indigo-400 font-semibold mb-1">
-                <span>Accessories</span>
-                <span>★★★★★ (5.0)</span>
+              <div class="flex items-center justify-between text-[11px] text-blue-400 font-medium mb-1">
+                <span>Power Series</span>
+                <span class="text-slate-400">5.0 / 5.0</span>
               </div>
-              <h4 class="font-bold text-white text-base">MagFast 3-in-1 Charging Dock</h4>
-              <p class="text-xs text-slate-400 mt-1">Fast 15W wireless magnetic charging stand for phone, watch, and earbuds.</p>
+              <h4 class="font-bold text-white text-sm">MagFast 3-in-1 Charging Stand</h4>
+              <p class="text-xs text-slate-400 mt-1 leading-relaxed">Fast 15W wireless magnetic charging dock for phone, watch, and audio accessories.</p>
             </div>
           </div>
-          <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between">
-            <span class="font-mono font-bold text-white text-base">$39.00</span>
-            <button onclick="triggerSupportQuery('What is your exchange policy if the MagFast charging dock is defective?')" class="text-xs bg-indigo-950 text-indigo-300 hover:bg-indigo-900 px-3 py-1.5 rounded-lg border border-indigo-800 transition">
+          <div class="mt-5 pt-3 border-t border-slate-800 flex items-center justify-between">
+            <span class="font-mono font-bold text-white text-sm">$39.00</span>
+            <button onclick="triggerSupportQuery('What is your exchange policy if the MagFast charging dock is defective?')" class="text-xs bg-slate-800 text-slate-200 hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-700 transition">
               Inquire AI
             </button>
           </div>
@@ -227,45 +227,45 @@
     </section>
 
     <!-- Support FAQ Highlights -->
-    <section class="bg-slate-900/60 border border-slate-800 rounded-3xl p-8 space-y-6">
+    <section class="bg-slate-900 border border-slate-800 rounded-2xl p-8 space-y-6">
       <div class="text-center max-w-xl mx-auto space-y-2">
-        <h3 class="text-2xl font-bold text-white">Customer Support & FAQs</h3>
+        <h3 class="text-xl font-bold text-white tracking-tight">Customer Support & FAQs</h3>
         <p class="text-xs text-slate-400">Our customer support is 100% autonomous, powered by multi-agent reasoning, privacy shields, and policy grounding.</p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
-        <div class="bg-slate-950 border border-slate-800/80 p-5 rounded-xl space-y-2">
-          <h4 class="text-sm font-bold text-white flex items-center space-x-2">
-            <span>📦</span>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 text-xs">
+        <div class="bg-[#090D16] border border-slate-800 p-5 rounded-xl space-y-2">
+          <h4 class="font-bold text-white flex items-center space-x-2">
+            <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
             <span>Real-Time Order Tracking</span>
           </h4>
-          <p class="text-xs text-slate-400 leading-relaxed">
+          <p class="text-slate-400 leading-relaxed">
             Enter your order number and customer billing email in the support widget for instant carrier status, dispatch tracking, and delivery timelines.
           </p>
-          <button onclick="triggerSupportQuery('Where is my package? Order #1001')" class="text-[11px] text-indigo-400 hover:text-indigo-300 font-medium">
+          <button onclick="triggerSupportQuery('Where is my package? Order #1001')" class="text-[11px] text-blue-400 hover:text-blue-300 font-medium">
             Test Track Order #1001 →
           </button>
         </div>
 
-        <div class="bg-slate-950 border border-slate-800/80 p-5 rounded-xl space-y-2">
-          <h4 class="text-sm font-bold text-white flex items-center space-x-2">
-            <span>🔄</span>
+        <div class="bg-[#090D16] border border-slate-800 p-5 rounded-xl space-y-2">
+          <h4 class="font-bold text-white flex items-center space-x-2">
+            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
             <span>Hassle-Free Returns</span>
           </h4>
-          <p class="text-xs text-slate-400 leading-relaxed">
+          <p class="text-slate-400 leading-relaxed">
             Delivered items within our return window can be evaluated instantly for return authorization and pre-paid return label creation.
           </p>
-          <button onclick="triggerSupportQuery('I would like to return order #1001 for a refund.')" class="text-[11px] text-indigo-400 hover:text-indigo-300 font-medium">
+          <button onclick="triggerSupportQuery('I would like to return order #1001 for a refund.')" class="text-[11px] text-blue-400 hover:text-blue-300 font-medium">
             Test Return Order #1001 →
           </button>
         </div>
 
-        <div class="bg-slate-950 border border-slate-800/80 p-5 rounded-xl space-y-2">
-          <h4 class="text-sm font-bold text-white flex items-center space-x-2">
-            <span>🛡️</span>
+        <div class="bg-[#090D16] border border-slate-800 p-5 rounded-xl space-y-2">
+          <h4 class="font-bold text-white flex items-center space-x-2">
+            <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
             <span>Email Privacy Defense</span>
           </h4>
-          <p class="text-xs text-slate-400 leading-relaxed">
+          <p class="text-slate-400 leading-relaxed">
             Customer data is guarded by strict email verification. Unauthorized third-party order lookups are instantly blocked and logged to the audit vault.
           </p>
           <button onclick="testSnoopingAttempt('1001', 'snooper@test.com')" class="text-[11px] text-rose-400 hover:text-rose-300 font-medium">
@@ -285,24 +285,20 @@
         <span>Customer Storefront Simulation</span>
       </div>
       <div class="flex items-center space-x-4">
-        <a id="footer-dash-link" href="/dashboard" class="text-indigo-400 hover:text-indigo-300 font-medium">Open Merchant Control Panel</a>
+        <a id="footer-dash-link" href="/dashboard" class="text-blue-400 hover:text-blue-300 font-medium">Open Merchant Control Panel</a>
         <a href="/" class="hover:text-slate-300">AgentGuard Platform Home</a>
       </div>
     </div>
   </footer>
 
-  <!-- Scripts -->
   <script>
-    // Discover Active Store ID from URL parameter (e.g., /store?store_id=demo-store)
     const urlParams = new URLSearchParams(window.location.search);
     const storeId = urlParams.get('store_id') || 'demo-store';
 
-    // Update Links
     document.getElementById('merchant-dash-link').href = `/dashboard?store_id=${encodeURIComponent(storeId)}`;
     document.getElementById('footer-dash-link').href = `/dashboard?store_id=${encodeURIComponent(storeId)}`;
     document.getElementById('store-id-text').textContent = storeId;
 
-    // Load Dynamic Store Metadata
     async function loadStoreMetadata() {
       try {
         const res = await fetch(`/api/store?store_id=${encodeURIComponent(storeId)}`);
@@ -311,7 +307,7 @@
           const s = data.store;
           document.getElementById('store-brand-name').textContent = s.store_name;
           document.getElementById('page-title').textContent = `${s.store_name} — Powered by AgentGuard AI Support`;
-          document.getElementById('store-platform-badge').innerHTML = `Platform: ${s.platform.toUpperCase()} (ID: <span class="font-mono text-indigo-400">${s.store_id}</span>)`;
+          document.getElementById('store-platform-badge').innerHTML = `Platform: ${s.platform.toUpperCase()} (ID: <span class="font-mono text-blue-400">${s.store_id}</span>)`;
           document.getElementById('hero-return-window-badge').textContent = `${s.return_window_days}-Day Hassle-Free Returns`;
         }
       } catch (err) {
@@ -320,7 +316,6 @@
     }
     loadStoreMetadata();
 
-    // Helper functions for testing from storefront UI
     function triggerSupportQuery(text) {
       if (window.__AGENTGUARD_TRIGGER_CHAT) {
         window.__AGENTGUARD_TRIGGER_CHAT();
