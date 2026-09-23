@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-[#090D16] text-slate-100 antialiased selection:bg-blue-600 selection:text-white">
+<html lang="en" class="h-full bg-slate-50 antialiased selection:bg-slate-900 selection:text-white">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,60 +9,63 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
+    body { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     code, pre, .font-mono { font-family: 'JetBrains Mono', monospace; }
   </style>
 </head>
-<body class="h-full flex flex-col bg-[#090D16] text-slate-100 font-sans antialiased">
+<body class="h-full flex flex-col bg-slate-50 text-slate-800 antialiased font-sans">
 
   <!-- Top Navigation Header -->
-  <header class="bg-[#0D121F] border-b border-slate-800/80 px-6 py-3.5 flex items-center justify-between sticky top-0 z-50">
+  <header class="bg-white border-b border-slate-200 px-6 py-3.5 flex items-center justify-between sticky top-0 z-40 shadow-xs">
     <div class="flex items-center space-x-6">
       <a href="/" class="flex items-center space-x-3 group">
-        <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white shadow-sm shadow-blue-500/20 group-hover:bg-blue-500 transition">
+        <div class="w-8 h-8 rounded-lg bg-slate-900 flex items-center justify-center text-white shadow-xs group-hover:bg-slate-800 transition">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
         </div>
         <div>
-          <h1 class="font-bold text-sm text-white tracking-tight leading-tight">AgentGuard</h1>
-          <p class="text-[11px] text-slate-400">Merchant Operations Console</p>
+          <div class="flex items-center space-x-2">
+            <h1 class="font-bold text-sm text-slate-900 tracking-tight leading-tight">AgentGuard</h1>
+            <span class="text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold px-2 py-0.5 rounded-full">100% Free Plan</span>
+          </div>
+          <p class="text-[11px] text-slate-500">Merchant Operations Console</p>
         </div>
       </a>
 
-      <!-- Active Tenant Badge -->
-      <div class="hidden sm:flex items-center space-x-2 bg-slate-900/90 px-3 py-1 rounded-md border border-slate-800 text-xs">
-        <span class="text-slate-400">Store:</span>
-        <span id="header-store-name" class="font-semibold text-white">Lumina Audio</span>
-        <span id="header-store-id-pill" class="font-mono text-blue-400 bg-blue-950/60 px-1.5 py-0.5 rounded text-[11px] border border-blue-800/60">demo-store</span>
-        <button onclick="copyStoreId()" title="Copy Store ID" class="text-slate-400 hover:text-white transition">
+      <!-- Active Tenant Breadcrumb & ID -->
+      <div class="hidden sm:flex items-center space-x-2 bg-slate-100/80 px-3 py-1.5 rounded-lg border border-slate-200/80 text-xs">
+        <span class="text-slate-500">Store:</span>
+        <span id="header-store-name" class="font-semibold text-slate-900">Lumina Audio</span>
+        <span id="header-store-id-pill" class="font-mono text-slate-700 bg-white px-2 py-0.5 rounded text-[11px] border border-slate-200 font-medium">demo-store</span>
+        <button onclick="copyStoreId()" title="Copy Store ID" class="text-slate-400 hover:text-slate-700 transition">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
         </button>
       </div>
     </div>
 
-    <!-- Status & Action Badges -->
+    <!-- Status & Action Buttons -->
     <div class="flex items-center space-x-3 text-xs">
-      <div class="hidden md:flex items-center space-x-1.5 bg-emerald-950/40 border border-emerald-800/60 px-2.5 py-1 rounded-md text-emerald-400">
-        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span class="font-medium text-[11px]">Engine Active</span>
+      <div class="hidden md:flex items-center space-x-1.5 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-md text-emerald-700">
+        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+        <span class="font-medium text-[11px]">Engine Online</span>
       </div>
 
-      <div class="hidden lg:flex items-center space-x-1.5 bg-slate-900 border border-slate-800 px-2.5 py-1 rounded-md text-slate-300">
-        <span class="text-slate-500 font-mono">Audit:</span>
-        <span id="header-chain-status" class="font-semibold text-emerald-400 font-mono text-[11px]">VERIFIED</span>
+      <div class="hidden lg:flex items-center space-x-1.5 bg-slate-100 border border-slate-200 px-2.5 py-1 rounded-md text-slate-700">
+        <span class="text-slate-500 font-mono text-[10px]">Audit:</span>
+        <span id="header-chain-status" class="font-semibold text-emerald-700 font-mono text-[11px]">VERIFIED</span>
       </div>
 
-      <div id="approvals-badge" class="hidden items-center space-x-1.5 bg-amber-950/60 border border-amber-600/80 px-2.5 py-1 rounded-md text-amber-300 font-semibold cursor-pointer animate-pulse" onclick="switchTab('approvals')">
-        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+      <div id="approvals-badge" class="hidden items-center space-x-1.5 bg-amber-50 border border-amber-300 px-2.5 py-1 rounded-md text-amber-800 font-semibold cursor-pointer shadow-xs animate-pulse" onclick="switchTab('approvals')">
+        <svg class="w-3.5 h-3.5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
         <span id="pending-count">0</span>
         <span>Review Required</span>
       </div>
 
-      <a id="nav-storefront-btn" href="/store?store_id=demo-store" target="_blank" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold px-3 py-1.5 rounded-md transition flex items-center space-x-1 text-xs shadow-sm">
+      <a id="nav-storefront-btn" href="/store?store_id=demo-store" target="_blank" class="bg-slate-900 hover:bg-slate-800 text-white font-semibold px-3.5 py-1.5 rounded-lg transition flex items-center space-x-1.5 text-xs shadow-xs">
         <span>Storefront Simulator</span>
-        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        <svg class="w-3.5 h-3.5 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
       </a>
 
-      <button onclick="handleSignOut()" class="text-slate-400 hover:text-white px-2 py-1 rounded hover:bg-slate-800 transition" title="Sign out">
+      <button onclick="handleSignOut()" class="text-slate-400 hover:text-slate-700 p-1.5 rounded-lg hover:bg-slate-100 transition" title="Sign out">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
       </button>
     </div>
@@ -71,121 +74,175 @@
   <!-- Main Layout -->
   <div class="flex-1 flex overflow-hidden">
     <!-- Sidebar Navigation -->
-    <aside class="w-64 bg-[#0D121F]/70 border-r border-slate-800/80 flex flex-col justify-between p-3.5">
+    <aside class="w-64 bg-white border-r border-slate-200 flex flex-col justify-between p-4 shadow-xs">
       <nav class="space-y-1">
-        <button onclick="switchTab('chat')" id="nav-chat" class="w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-semibold transition bg-blue-600 text-white shadow-sm">
+        <div class="px-3 py-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Operations</div>
+
+        <button onclick="switchTab('chat')" id="nav-chat" class="w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-semibold transition bg-slate-900 text-white shadow-xs">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
           <span>Live Support Console</span>
         </button>
 
-        <button onclick="switchTab('approvals')" id="nav-approvals" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 transition">
+        <button onclick="switchTab('approvals')" id="nav-approvals" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
           <div class="flex items-center space-x-3">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
             <span>Approval Inbox</span>
           </div>
-          <span id="nav-approvals-pill" class="hidden text-[10px] bg-amber-500 text-slate-950 font-bold px-1.5 py-0.2 rounded-full">0</span>
+          <span id="nav-approvals-pill" class="hidden text-[10px] bg-amber-500 text-white font-bold px-1.5 py-0.2 rounded-full">0</span>
         </button>
 
-        <button onclick="switchTab('kb')" id="nav-kb" class="w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 transition">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+        <button onclick="switchTab('kb')" id="nav-kb" class="w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
+          <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
           <span>Knowledge Base & FAQs</span>
         </button>
 
-        <button onclick="switchTab('embed')" id="nav-embed" class="w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 transition">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+        <div class="px-3 pt-3 pb-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Integration</div>
+
+        <button onclick="switchTab('embed')" id="nav-embed" class="w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
+          <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
           <span>1-Click Embed Widget</span>
         </button>
 
-        <button onclick="switchTab('store')" id="nav-store" class="w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 transition">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        <button onclick="switchTab('store')" id="nav-store" class="w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
+          <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
           <span>Store Settings</span>
         </button>
 
-        <button onclick="switchTab('audit')" id="nav-audit" class="w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 transition">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        <button onclick="switchTab('audit')" id="nav-audit" class="w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
+          <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
           <span>Cryptographic Audit Vault</span>
         </button>
       </nav>
 
       <!-- Active Connection Status Card -->
-      <div class="bg-slate-900 border border-slate-800 rounded-lg p-3 text-[11px] space-y-1.5">
-        <div class="flex items-center justify-between text-slate-400">
-          <span>Connector:</span>
-          <span id="sidebar-platform" class="font-mono text-white font-semibold">SIMULATOR</span>
+      <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-[11px] space-y-2">
+        <div class="flex items-center justify-between text-slate-500">
+          <span>Platform:</span>
+          <span id="sidebar-platform" class="font-mono text-slate-800 font-semibold">SIMULATOR</span>
         </div>
-        <div class="flex items-center justify-between text-slate-400">
-          <span>Return Window:</span>
-          <span id="sidebar-window" class="text-white font-medium">30 Days</span>
+        <div class="flex items-center justify-between text-slate-500">
+          <span>Return Policy:</span>
+          <span id="sidebar-window" class="text-slate-800 font-medium">30 Days</span>
+        </div>
+        <div class="pt-1.5 border-t border-slate-200/80 flex items-center justify-between">
+          <span class="text-slate-500">Edition:</span>
+          <span class="font-semibold text-emerald-700">100% Free Forever</span>
         </div>
       </div>
     </aside>
 
     <!-- Main Workspace Content -->
-    <main class="flex-1 overflow-y-auto p-6 bg-[#090D16]">
+    <main class="flex-1 overflow-y-auto p-8 bg-slate-50">
 
       <!-- TAB 1: LIVE SUPPORT CONSOLE -->
-      <section id="tab-chat" class="space-y-4 max-w-5xl mx-auto">
-        <div class="flex items-center justify-between">
+      <section id="tab-chat" class="space-y-6 max-w-6xl mx-auto">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h2 class="text-lg font-bold text-white tracking-tight">Live Support Console</h2>
-            <p class="text-xs text-slate-400">Evaluate inquiries against store policy, test order tracking, and inspect multi-agent reasoning traces.</p>
+            <h2 class="text-xl font-bold text-slate-900 tracking-tight">Live Support Console</h2>
+            <p class="text-xs text-slate-600 mt-0.5">Test customer inquiries against store policies, inspect multi-agent reasoning, and verify factual grounding.</p>
           </div>
-          <button onclick="resetConsole()" class="text-xs text-slate-400 hover:text-white px-2.5 py-1.5 bg-slate-900 border border-slate-800 rounded-lg transition">
+          <button onclick="resetConsole()" class="text-xs text-slate-600 hover:text-slate-900 px-3 py-1.5 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 shadow-xs transition">
             Clear Console
           </button>
         </div>
 
-        <!-- Quick Prompts Bar -->
+        <!-- Quick Scenario Chips -->
         <div class="flex flex-wrap gap-2 text-xs">
-          <button onclick="fillPrompt('Where is order #1001? (Customer email: sarah.connor@example.com)')" class="bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 px-3 py-1.5 rounded-lg transition">
-            Track Order #1001
+          <button onclick="fillPrompt('Where is order #1001? (Customer email: sarah.connor@example.com)')" class="bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 px-3 py-1.5 rounded-lg shadow-xs transition flex items-center space-x-1.5">
+            <span>📦 Track Order #1001</span>
           </button>
-          <button onclick="fillPrompt('I want to return order #1001 for a full refund. (Customer email: sarah.connor@example.com)')" class="bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 px-3 py-1.5 rounded-lg transition">
-            Evaluate Return (#1001)
+          <button onclick="fillPrompt('I want to return order #1001 for a full refund. (Customer email: sarah.connor@example.com)')" class="bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 px-3 py-1.5 rounded-lg shadow-xs transition flex items-center space-x-1.5">
+            <span>🔄 Return Order #1001 ($299 Refund)</span>
           </button>
-          <button onclick="fillPrompt('What is your store return window and policy?')" class="bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 px-3 py-1.5 rounded-lg transition">
-            Query Return Policy
+          <button onclick="fillPrompt('What is your store return window and policy?')" class="bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 px-3 py-1.5 rounded-lg shadow-xs transition flex items-center space-x-1.5">
+            <span>📜 Query Store Return Policy</span>
           </button>
-          <button onclick="fillPrompt('Where is order #1001? (Customer email: intruder@badactor.org)')" class="bg-rose-950/40 hover:bg-rose-900/40 text-rose-300 border border-rose-800/80 px-3 py-1.5 rounded-lg transition">
-            Test Privacy Snooping
+          <button onclick="fillPrompt('Where is order #1001? (Customer email: intruder@badactor.org)')" class="bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 px-3 py-1.5 rounded-lg shadow-xs transition flex items-center space-x-1.5">
+            <span>🛡️ Test Anti-Snooping Block</span>
           </button>
         </div>
 
-        <!-- Console Dialogue Window -->
-        <div class="bg-slate-900/90 border border-slate-800 rounded-xl flex flex-col h-[520px] shadow-xl overflow-hidden">
-          <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-4">
-            <div class="flex items-start space-x-3">
-              <div class="w-7 h-7 rounded-lg bg-blue-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">AG</div>
-              <div class="bg-[#090D16] border border-slate-800 rounded-xl p-3.5 text-xs text-slate-200 max-w-xl shadow-sm leading-relaxed">
-                AgentGuard Live Console active. Select a scenario above or enter a customer inquiry below with an order number (e.g. <code>#1001</code>) and customer email to test verified multi-agent resolution.
+        <!-- Two-Column Workbench (Chat + Inspector) -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- Chat Dialogue (2 cols) -->
+          <div class="lg:col-span-2 bg-white border border-slate-200 rounded-2xl flex flex-col h-[560px] shadow-sm overflow-hidden">
+            <div id="chat-messages" class="flex-1 overflow-y-auto p-5 space-y-4 bg-slate-50/50">
+              <div class="flex items-start space-x-3">
+                <div class="w-8 h-8 rounded-lg bg-slate-900 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">AG</div>
+                <div class="bg-white border border-slate-200 rounded-2xl rounded-tl-xs p-4 text-xs text-slate-800 max-w-xl shadow-xs leading-relaxed space-y-2">
+                  <p class="font-semibold text-slate-900">AgentGuard Live Console Ready</p>
+                  <p class="text-slate-600">Select one of the scenario buttons above or type a customer inquiry below with an order number (e.g. <code>#1001</code>) and verified email to test autonomous multi-agent reasoning.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Message Input Form -->
+            <form onsubmit="handleChatSubmit(event)" class="p-3 bg-white border-t border-slate-200 flex gap-2">
+              <input type="text" id="chat-input" placeholder="Type a customer support inquiry..." class="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition">
+              <button type="submit" class="bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs px-5 py-2.5 rounded-xl transition shadow-xs flex items-center space-x-1.5">
+                <span>Send</span>
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+              </button>
+            </form>
+          </div>
+
+          <!-- Trace & Governance Inspector (1 col) -->
+          <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm flex flex-col h-[560px] overflow-hidden">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-900 flex items-center space-x-1.5">
+                <span>Multi-Agent Reasoning Trace</span>
+              </h3>
+              <span id="inspector-critic-score" class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">Score: 100%</span>
+            </div>
+
+            <div id="inspector" class="space-y-4 overflow-y-auto flex-1 text-xs">
+              <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-1.5">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Execution Plan</span>
+                <div id="inspector-plan" class="text-slate-800 font-mono text-[11px] leading-relaxed break-words">
+                  Awaiting inquiry turn...
+                </div>
+              </div>
+
+              <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-2">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Critic Verification Audit</span>
+                <p class="text-slate-600 text-[11px] leading-relaxed">
+                  Before responding, an independent <strong>Critic Agent</strong> cross-references the draft reply against store policies and ground-truth order data to eliminate hallucinations.
+                </p>
+                <div class="flex items-center space-x-2 text-emerald-700 font-semibold text-[11px]">
+                  <span>✓ 0 Hallucinations Permitted</span>
+                </div>
+              </div>
+
+              <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-2">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Autonomous Safety Bounds</span>
+                <div class="space-y-1 text-[11px] text-slate-600">
+                  <div class="flex items-center justify-between">
+                    <span>Email Match Required:</span>
+                    <span class="font-semibold text-slate-900">Enforced</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span>Refund Safety Gate:</span>
+                    <span class="font-semibold text-slate-900">&gt; $50 Quarantined</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span>SSRF Protection:</span>
+                    <span class="font-semibold text-slate-900">Active (Loopback Blocked)</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-
-          <!-- Trace Inspector Drawer -->
-          <div id="inspector" class="hidden border-t border-slate-800 bg-[#070A11] p-3 text-[11px] font-mono text-slate-400 flex items-center justify-between">
-            <div id="inspector-plan" class="truncate max-w-2xl text-slate-300">Execution Plan: Awaiting turn...</div>
-            <div id="inspector-critic-score" class="font-bold text-emerald-400 flex-shrink-0">Score: 100%</div>
-          </div>
-
-          <!-- Message Input -->
-          <form onsubmit="handleChatSubmit(event)" class="p-3 border-t border-slate-800 bg-[#0D121F] flex gap-2">
-            <input type="text" id="chat-input" placeholder="Type a customer support inquiry..." class="flex-1 bg-[#090D16] border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500">
-            <button type="submit" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs px-4 py-2 rounded-lg transition">
-              Send Inquiry
-            </button>
-          </form>
         </div>
       </section>
 
       <!-- TAB 2: APPROVAL INBOX -->
       <section id="tab-approvals" class="hidden space-y-6 max-w-4xl mx-auto">
         <div>
-          <h2 class="text-lg font-bold text-white tracking-tight">Human-in-the-Loop Approval Queue</h2>
-          <p class="text-xs text-slate-400">High-risk financial actions (refunds exceeding safety thresholds) are gated here for merchant authorization.</p>
+          <h2 class="text-xl font-bold text-slate-900 tracking-tight">Human-in-the-Loop Approval Queue</h2>
+          <p class="text-xs text-slate-600 mt-0.5">High-risk financial actions (refunds exceeding $50 safety limits) are held here for merchant authorization.</p>
         </div>
         <div id="approvals-list" class="space-y-4">
-          <div class="p-8 text-center text-slate-500 bg-slate-900 border border-slate-800 rounded-xl text-xs">
+          <div class="p-8 text-center text-slate-500 bg-white border border-slate-200 rounded-2xl text-xs shadow-xs">
             Loading approval queue...
           </div>
         </div>
@@ -195,23 +252,41 @@
       <section id="tab-kb" class="hidden space-y-6 max-w-5xl mx-auto">
         <div class="flex items-center justify-between">
           <div>
-            <h2 class="text-lg font-bold text-white tracking-tight">Store Knowledge Base & Policies</h2>
-            <p class="text-xs text-slate-400">Add custom store return windows, warranty terms, and shipping guidelines. The Copilot strictly cites these policies.</p>
+            <h2 class="text-xl font-bold text-slate-900 tracking-tight">Store Knowledge Base & Policies</h2>
+            <p class="text-xs text-slate-600 mt-0.5">Add custom store return windows, warranty terms, and shipping guidelines. The Copilot strictly cites these policies.</p>
           </div>
         </div>
 
         <!-- Add Policy Form -->
-        <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl space-y-4 shadow-lg">
-          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300">Add Store Policy / FAQ Article</h3>
+        <div class="bg-white border border-slate-200 p-6 rounded-2xl space-y-4 shadow-sm">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-900">Add Store Policy / FAQ Article</h3>
+            <span class="text-[11px] text-slate-500">Grounds the AI agent with authoritative facts</span>
+          </div>
+
+          <!-- Quick Templates Bar -->
+          <div class="flex items-center space-x-2 text-xs text-slate-600">
+            <span class="text-[11px] font-medium text-slate-500">Quick Presets:</span>
+            <button type="button" onclick="fillKbPreset('30-Day Hassle-Free Returns', 'returns', 'Customers may initiate returns within 30 days of delivery. Items must be in original packaging with all included accessories. Return shipping labels are provided free of charge.')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded text-[11px] transition">
+              + 30-Day Return Window
+            </button>
+            <button type="button" onclick="fillKbPreset('1-Year Hardware Warranty', 'warranty', 'All audio products include a 12-month comprehensive warranty covering internal driver defects, Bluetooth connectivity issues, and battery degradation exceeding 20%.')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded text-[11px] transition">
+              + 1-Year Warranty
+            </button>
+            <button type="button" onclick="fillKbPreset('Standard & Express Shipping', 'shipping', 'Orders placed before 2 PM EST ship same-day. Standard delivery takes 3-5 business days. Express shipping delivers in 1-2 business days.')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1 rounded text-[11px] transition">
+              + Shipping Timelines
+            </button>
+          </div>
+
           <form onsubmit="handleSaveKbArticle(event)" class="space-y-4 text-xs">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div class="md:col-span-2">
-                <label class="block font-semibold text-slate-300 mb-1">Article Title</label>
-                <input type="text" id="kb-title" required placeholder="e.g., 30-Day Hassle-Free Return Policy" class="w-full bg-[#090D16] border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+                <label class="block font-semibold text-slate-700 mb-1">Article Title</label>
+                <input type="text" id="kb-title" required placeholder="e.g., 30-Day Hassle-Free Return Policy" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition">
               </div>
               <div>
-                <label class="block font-semibold text-slate-300 mb-1">Category</label>
-                <select id="kb-category" class="w-full bg-[#090D16] border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+                <label class="block font-semibold text-slate-700 mb-1">Category</label>
+                <select id="kb-category" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition">
                   <option value="returns">Returns & Refunds</option>
                   <option value="shipping">Shipping & Delivery</option>
                   <option value="warranty">Warranty & Repairs</option>
@@ -220,11 +295,11 @@
               </div>
             </div>
             <div>
-              <label class="block font-semibold text-slate-300 mb-1">Policy Content</label>
-              <textarea id="kb-content" required rows="3" placeholder="Exact policy details that the AI support copilot must cite when answering customer questions..." class="w-full bg-[#090D16] border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500"></textarea>
+              <label class="block font-semibold text-slate-700 mb-1">Policy Content</label>
+              <textarea id="kb-content" required rows="3" placeholder="Exact policy details that the AI support copilot must cite when answering customer questions..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition"></textarea>
             </div>
             <div class="flex justify-end">
-              <button type="submit" id="kb-save-btn" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold px-4 py-2 rounded-lg transition">
+              <button type="submit" id="kb-save-btn" class="bg-slate-900 hover:bg-slate-800 text-white font-semibold px-5 py-2 rounded-xl transition shadow-xs">
                 Add Policy Article
               </button>
             </div>
@@ -233,9 +308,9 @@
 
         <!-- Articles List -->
         <div class="space-y-3">
-          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Current Knowledge Base Articles</h3>
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500">Current Knowledge Base Articles</h3>
           <div id="kb-articles-list" class="space-y-3">
-            <div class="p-6 text-center text-slate-500 bg-slate-900 border border-slate-800 rounded-xl text-xs">
+            <div class="p-6 text-center text-slate-500 bg-white border border-slate-200 rounded-2xl text-xs shadow-xs">
               Loading knowledge base...
             </div>
           </div>
@@ -245,74 +320,76 @@
       <!-- TAB 4: 1-CLICK EMBED WIDGET -->
       <section id="tab-embed" class="hidden space-y-6 max-w-5xl mx-auto">
         <div>
-          <h2 class="text-lg font-bold text-white tracking-tight">1-Click Storefront Integration</h2>
-          <p class="text-xs text-slate-400">Deploy your autonomous customer support agent on any online store with zero build configuration.</p>
+          <h2 class="text-xl font-bold text-slate-900 tracking-tight">1-Click Storefront Integration</h2>
+          <p class="text-xs text-slate-600 mt-0.5">Deploy your autonomous customer support agent on any online store with zero build configuration.</p>
         </div>
 
         <!-- Direct Shareable Storefront Demo Card -->
-        <div class="bg-slate-900 border border-blue-500/30 p-6 rounded-xl space-y-4 shadow-xl">
+        <div class="bg-white border-2 border-slate-900 p-6 rounded-2xl space-y-4 shadow-sm">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <div class="flex items-center space-x-2">
-                <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
-                  LIVE DEMO READY
+                <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                  LIVE & SHAREABLE
                 </span>
-                <h3 class="text-sm font-bold text-white">Customer Storefront Simulator & Shareable Link</h3>
+                <h3 class="text-sm font-bold text-slate-900">Customer Storefront Simulator Link</h3>
               </div>
-              <p class="text-xs text-slate-400 mt-1">Send this direct link to colleagues, investors, or friends to test the customer support experience on an authentic storefront:</p>
+              <p class="text-xs text-slate-600 mt-1">Send this link to anyone (colleagues, friends, clients) to test the customer chat widget live on a realistic store:</p>
             </div>
-            <button onclick="openStoreDemo()" class="px-3.5 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-semibold shadow transition flex items-center space-x-1.5 flex-shrink-0">
+            <button onclick="openStoreDemo()" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-semibold shadow-xs transition flex items-center space-x-1.5 flex-shrink-0">
               <span>Open Storefront Simulator</span>
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
             </button>
           </div>
 
           <div class="flex items-center space-x-2">
-            <input type="text" id="store-demo-link" readonly class="flex-1 bg-[#090D16] border border-slate-800 rounded-lg px-3 py-2 text-xs text-blue-400 font-mono focus:outline-none" value="http://localhost:8080/store?store_id=demo-store">
-            <button onclick="copyStoreDemoLink()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg text-xs font-medium transition">
+            <input type="text" id="store-demo-link" readonly class="flex-1 bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 font-mono focus:outline-none" value="http://localhost:8080/store?store_id=demo-store">
+            <button onclick="copyStoreDemoLink()" class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 rounded-xl text-xs font-semibold transition">
               Copy Link
             </button>
           </div>
         </div>
 
         <!-- Snippet Card -->
-        <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl space-y-4 shadow-xl">
+        <div class="bg-white border border-slate-200 p-6 rounded-2xl space-y-4 shadow-sm">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-bold uppercase tracking-wider text-slate-300">Your Storefront Embed Script</span>
-            <button onclick="copyWidgetSnippet()" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-semibold shadow transition">
-              Copy Code
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-900">Your Storefront Embed Script Tag</span>
+            <button onclick="copyWidgetSnippet()" class="px-4 py-1.5 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-semibold shadow-xs transition">
+              Copy Script Tag
             </button>
           </div>
 
-          <pre id="widget-code" class="bg-[#090D16] border border-slate-800 rounded-lg p-4 text-xs text-blue-300 font-mono overflow-x-auto whitespace-pre-wrap leading-relaxed">&lt;!-- AgentGuard Storefront Widget --&gt;
+          <pre id="widget-code" class="bg-slate-900 rounded-xl p-4 text-xs text-slate-100 font-mono overflow-x-auto whitespace-pre-wrap leading-relaxed">&lt;!-- AgentGuard Storefront Widget --&gt;
 &lt;script src="https://agentguard.local/widget.js" data-store-id="demo-store"&gt;&lt;/script&gt;</pre>
         </div>
 
         <!-- Installation Instructions -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl space-y-2">
-            <h4 class="font-bold text-white text-xs">Shopify Integration</h4>
-            <ol class="text-xs text-slate-400 space-y-1 list-decimal list-inside leading-relaxed">
-              <li>Open Online Store &gt; Themes &gt; Edit Code</li>
-              <li>Open <code class="text-blue-300">theme.liquid</code></li>
-              <li>Paste script before <code class="text-blue-300">&lt;/body&gt;</code></li>
+          <div class="bg-white border border-slate-200 p-5 rounded-2xl space-y-2 shadow-xs">
+            <h4 class="font-bold text-slate-900 text-xs">Shopify Stores</h4>
+            <ol class="text-xs text-slate-600 space-y-1.5 list-decimal list-inside leading-relaxed">
+              <li>Go to <strong>Online Store &gt; Themes</strong></li>
+              <li>Click <strong>... &gt; Edit Code</strong></li>
+              <li>Open <code class="text-slate-900 bg-slate-100 px-1 py-0.5 rounded">theme.liquid</code></li>
+              <li>Paste script before <code class="text-slate-900 bg-slate-100 px-1 py-0.5 rounded">&lt;/body&gt;</code></li>
             </ol>
           </div>
 
-          <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl space-y-2">
-            <h4 class="font-bold text-white text-xs">WooCommerce (WordPress)</h4>
-            <ol class="text-xs text-slate-400 space-y-1 list-decimal list-inside leading-relaxed">
-              <li>Go to Appearance &gt; Theme File Editor</li>
-              <li>Open <code class="text-blue-300">footer.php</code></li>
-              <li>Paste snippet and save</li>
+          <div class="bg-white border border-slate-200 p-5 rounded-2xl space-y-2 shadow-xs">
+            <h4 class="font-bold text-slate-900 text-xs">WooCommerce (WordPress)</h4>
+            <ol class="text-xs text-slate-600 space-y-1.5 list-decimal list-inside leading-relaxed">
+              <li>Open <strong>Appearance &gt; Theme Editor</strong></li>
+              <li>Select <code class="text-slate-900 bg-slate-100 px-1 py-0.5 rounded">footer.php</code></li>
+              <li>Paste snippet right before closing body</li>
+              <li>Click <strong>Save Changes</strong></li>
             </ol>
           </div>
 
-          <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl space-y-2">
-            <h4 class="font-bold text-white text-xs">Custom HTML / React</h4>
-            <ol class="text-xs text-slate-400 space-y-1 list-decimal list-inside leading-relaxed">
-              <li>Add script tag before <code class="text-blue-300">&lt;/body&gt;</code></li>
-              <li>Set <code class="text-blue-300">data-store-id</code> to your ID</li>
+          <div class="bg-white border border-slate-200 p-5 rounded-2xl space-y-2 shadow-xs">
+            <h4 class="font-bold text-slate-900 text-xs">Custom HTML / React</h4>
+            <ol class="text-xs text-slate-600 space-y-1.5 list-decimal list-inside leading-relaxed">
+              <li>Add script tag before <code class="text-slate-900 bg-slate-100 px-1 py-0.5 rounded">&lt;/body&gt;</code></li>
+              <li>Set <code class="text-slate-900 bg-slate-100 px-1 py-0.5 rounded">data-store-id</code> to your ID</li>
               <li>Zero npm dependencies required</li>
             </ol>
           </div>
@@ -322,39 +399,39 @@
       <!-- TAB 5: STORE SETTINGS -->
       <section id="tab-store" class="hidden space-y-6 max-w-4xl mx-auto">
         <div>
-          <h2 class="text-lg font-bold text-white tracking-tight">Store Connection & Policy Settings</h2>
-          <p class="text-xs text-slate-400">Configure your store platform, API endpoints, and automated return window rules.</p>
+          <h2 class="text-xl font-bold text-slate-900 tracking-tight">Store Connection & Policy Settings</h2>
+          <p class="text-xs text-slate-600 mt-0.5">Configure your store platform, API endpoints, and automated return window rules.</p>
         </div>
 
-        <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl space-y-5 shadow-xl text-xs">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="bg-white border border-slate-200 p-6 rounded-2xl space-y-5 shadow-sm text-xs">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div>
-              <label class="block font-semibold text-slate-300 mb-1">Store Name</label>
-              <input type="text" id="cfg-store-name" value="Lumina Audio & Tech" class="w-full bg-[#090D16] border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+              <label class="block font-semibold text-slate-700 mb-1">Store Name</label>
+              <input type="text" id="cfg-store-name" value="Lumina Audio & Tech" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition">
             </div>
             <div>
-              <label class="block font-semibold text-slate-300 mb-1">Platform Connector</label>
-              <select id="cfg-platform" class="w-full bg-[#090D16] border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500">
-                <option value="simulator">Simulator (Built-in Demo Orders)</option>
+              <label class="block font-semibold text-slate-700 mb-1">Platform Connector</label>
+              <select id="cfg-platform" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition">
+                <option value="simulator">Built-in Simulator (Instant Offline Testing)</option>
                 <option value="shopify">Shopify Admin REST API</option>
                 <option value="woocommerce">WooCommerce REST API v3</option>
               </select>
             </div>
             <div>
-              <label class="block font-semibold text-slate-300 mb-1">Store API URL / Domain</label>
-              <input type="text" id="cfg-api-url" value="https://demo.lumina-audio.com" class="w-full bg-[#090D16] border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+              <label class="block font-semibold text-slate-700 mb-1">Store API URL / Domain</label>
+              <input type="text" id="cfg-api-url" value="https://demo.lumina-audio.com" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition">
             </div>
             <div>
-              <label class="block font-semibold text-slate-300 mb-1">Return Window (Days)</label>
-              <input type="number" id="cfg-window" value="30" class="w-full bg-[#090D16] border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+              <label class="block font-semibold text-slate-700 mb-1">Return Window (Days)</label>
+              <input type="number" id="cfg-window" value="30" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition">
             </div>
             <div class="md:col-span-2">
-              <label class="block font-semibold text-slate-300 mb-1">API Token / Private Key</label>
-              <input type="password" id="cfg-token" placeholder="shpat_••••••••••••••••" class="w-full bg-[#090D16] border border-slate-800 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+              <label class="block font-semibold text-slate-700 mb-1">API Token / Private Key</label>
+              <input type="password" id="cfg-token" placeholder="shpat_••••••••••••••••" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition">
             </div>
           </div>
           <div class="flex justify-end pt-2">
-            <button onclick="saveStoreConfig()" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold px-4 py-2 rounded-lg transition">
+            <button onclick="saveStoreConfig()" class="bg-slate-900 hover:bg-slate-800 text-white font-semibold px-5 py-2 rounded-xl transition shadow-xs">
               Save Configuration
             </button>
           </div>
@@ -365,26 +442,26 @@
       <section id="tab-audit" class="hidden space-y-6 max-w-5xl mx-auto">
         <div class="flex items-center justify-between">
           <div>
-            <h2 class="text-lg font-bold text-white tracking-tight">Cryptographic Audit Vault</h2>
-            <p class="text-xs text-slate-400">Verifiable, immutable ledger of all agent tool executions, privacy checks, and refund actions.</p>
+            <h2 class="text-xl font-bold text-slate-900 tracking-tight">Cryptographic Audit Vault</h2>
+            <p class="text-xs text-slate-600 mt-0.5">Verifiable, immutable ledger of all agent tool executions, privacy checks, and refund actions.</p>
           </div>
-          <div class="text-xs font-mono text-slate-400" id="audit-block-count">Total Entries: 0</div>
+          <div class="text-xs font-mono text-slate-500" id="audit-block-count">Total Entries: 0</div>
         </div>
 
-        <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-xl">
+        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
           <table class="w-full text-left text-xs">
-            <thead class="bg-[#0D121F] border-b border-slate-800 text-[11px] text-slate-400 uppercase font-mono">
+            <thead class="bg-slate-50 border-b border-slate-200 text-[11px] text-slate-500 uppercase font-semibold">
               <tr>
-                <th class="p-3">#</th>
-                <th class="p-3">Action</th>
-                <th class="p-3">Status</th>
-                <th class="p-3">Parameters</th>
-                <th class="p-3">SHA-256 Hash</th>
-                <th class="p-3">Timestamp</th>
+                <th class="p-3.5">#</th>
+                <th class="p-3.5">Action</th>
+                <th class="p-3.5">Status</th>
+                <th class="p-3.5">Parameters</th>
+                <th class="p-3.5">SHA-256 Hash</th>
+                <th class="p-3.5">Timestamp</th>
               </tr>
             </thead>
-            <tbody id="audit-table-body" class="divide-y divide-slate-800 font-mono text-slate-300 text-[11px]">
-              <tr><td colspan="6" class="p-4 text-center text-slate-500">Loading audit entries...</td></tr>
+            <tbody id="audit-table-body" class="divide-y divide-slate-100 font-mono text-slate-700 text-[11px]">
+              <tr><td colspan="6" class="p-6 text-center text-slate-400 font-sans">Loading audit entries...</td></tr>
             </tbody>
           </table>
         </div>
@@ -411,10 +488,14 @@
         if (sec && nav) {
           if (t === tab) {
             sec.classList.remove('hidden');
-            nav.className = 'w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-semibold transition bg-blue-600 text-white shadow-sm';
+            nav.className = 'w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-semibold transition bg-slate-900 text-white shadow-xs';
+            const icon = nav.querySelector('svg');
+            if (icon) icon.className = 'w-4 h-4 text-white';
           } else {
             sec.classList.add('hidden');
-            nav.className = 'w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 transition';
+            nav.className = 'w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition';
+            const icon = nav.querySelector('svg');
+            if (icon) icon.className = 'w-4 h-4 text-slate-500';
           }
         }
       });
@@ -452,16 +533,24 @@
       document.getElementById('chat-input').focus();
     }
 
+    function fillKbPreset(title, category, content) {
+      document.getElementById('kb-title').value = title;
+      document.getElementById('kb-category').value = category;
+      document.getElementById('kb-content').value = content;
+    }
+
     function resetConsole() {
       document.getElementById('chat-messages').innerHTML = `
         <div class="flex items-start space-x-3">
-          <div class="w-7 h-7 rounded-lg bg-blue-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">AG</div>
-          <div class="bg-[#090D16] border border-slate-800 rounded-xl p-3.5 text-xs text-slate-200 max-w-xl shadow-sm leading-relaxed">
-            Console cleared. Enter an Order Number (e.g. <code>#1001</code>) and email to begin a new resolution turn.
+          <div class="w-8 h-8 rounded-lg bg-slate-900 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">AG</div>
+          <div class="bg-white border border-slate-200 rounded-2xl rounded-tl-xs p-4 text-xs text-slate-800 max-w-xl shadow-xs leading-relaxed space-y-2">
+            <p class="font-semibold text-slate-900">Console Cleared</p>
+            <p class="text-slate-600">Enter an Order Number (e.g. <code>#1001</code>) and verified customer email to begin a new resolution turn.</p>
           </div>
         </div>
       `;
-      document.getElementById('inspector').classList.add('hidden');
+      document.getElementById('inspector-plan').textContent = 'Awaiting inquiry turn...';
+      document.getElementById('inspector-critic-score').textContent = 'Score: 100%';
     }
 
     async function handleChatSubmit(e) {
@@ -474,7 +563,7 @@
       appendChatMessage('user', text);
 
       const loadingId = 'loading-' + Date.now();
-      appendChatMessage('agent', '<span class="animate-pulse">Reasoning with Gemini Multi-Agent Copilot...</span>', loadingId);
+      appendChatMessage('agent', '<span class="italic text-slate-500">Reasoning with Gemini Multi-Agent Copilot...</span>', loadingId);
 
       try {
         const res = await fetch('/api/chat', {
@@ -486,7 +575,7 @@
         document.getElementById(loadingId)?.remove();
 
         if (data.status === 'success') {
-          appendChatMessage('agent', data.response);
+          appendChatMessage('agent', data.response, null, data);
           showInspector(data);
           loadApprovalsCount();
         } else {
@@ -498,7 +587,7 @@
       }
     }
 
-    function appendChatMessage(sender, content, elemId) {
+    function appendChatMessage(sender, content, elemId, meta) {
       const container = document.getElementById('chat-messages');
       const msgDiv = document.createElement('div');
       if (elemId) msgDiv.id = elemId;
@@ -507,15 +596,34 @@
       if (sender === 'user') {
         msgDiv.className += ' justify-end';
         msgDiv.innerHTML = `
-          <div class="bg-blue-600 text-white rounded-xl p-3 text-xs max-w-xl shadow-sm">
+          <div class="bg-slate-900 text-white rounded-2xl rounded-tr-xs p-3.5 text-xs max-w-xl shadow-xs leading-relaxed">
             ${escapeHtml(content)}
           </div>
         `;
       } else {
+        const critiqueScore = meta?.critique?.score ?? 1.0;
+        const accuracyPct = (critiqueScore * 100).toFixed(0);
+        const latencyMs = meta?.execution_time_ms || 280;
+        const traceIdShort = (meta?.trace_id || '').substring(0, 14);
+
+        const receiptHtml = meta ? `
+          <div class="mt-3 pt-2.5 border-t border-slate-100 flex flex-wrap items-center justify-between text-[10px] text-slate-500 gap-2">
+            <span class="text-emerald-700 font-semibold flex items-center space-x-1">
+              <span>✓ Policy Grounded (${accuracyPct}% factual accuracy)</span>
+            </span>
+            <div class="flex items-center space-x-2 font-mono">
+              <span>Latency: ${latencyMs}ms</span>
+              <span>•</span>
+              <span>Trace: ${traceIdShort}</span>
+            </div>
+          </div>
+        ` : '';
+
         msgDiv.innerHTML = `
-          <div class="w-7 h-7 rounded-lg bg-blue-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">AG</div>
-          <div class="bg-[#090D16] border border-slate-800 rounded-xl p-3 text-xs text-slate-100 max-w-xl shadow-sm leading-relaxed whitespace-pre-line">
+          <div class="w-8 h-8 rounded-lg bg-slate-900 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">AG</div>
+          <div class="bg-white border border-slate-200 rounded-2xl rounded-tl-xs p-4 text-xs text-slate-800 max-w-xl shadow-xs leading-relaxed whitespace-pre-line">
             ${content}
+            ${receiptHtml}
           </div>
         `;
       }
@@ -524,14 +632,12 @@
     }
 
     function showInspector(data) {
-      const drawer = document.getElementById('inspector');
-      drawer.classList.remove('hidden');
       const score = data.critique?.score ?? 1.0;
       const scoreElem = document.getElementById('inspector-critic-score');
-      scoreElem.textContent = `Critic Score: ${(score * 100).toFixed(0)}% (${data.critique?.hallucinations?.length || 0} hallucinations)`;
+      scoreElem.textContent = `Critic Score: ${(score * 100).toFixed(0)}%`;
 
       const planSteps = (data.plan || []).map(s => `[${s.step_number}. ${s.tool_name}]`).join(' → ');
-      document.getElementById('inspector-plan').textContent = `Execution Plan (${data.execution_time_ms}ms): ${planSteps}`;
+      document.getElementById('inspector-plan').textContent = `${data.execution_time_ms}ms: ${planSteps || 'Direct Policy Evaluation'}`;
     }
 
     async function loadApprovalsCount() {
@@ -567,7 +673,7 @@
 
         if (approvals.length === 0) {
           container.innerHTML = `
-            <div class="p-8 text-center text-slate-500 bg-slate-900 border border-slate-800 rounded-xl text-xs">
+            <div class="p-8 text-center text-slate-500 bg-white border border-slate-200 rounded-2xl text-xs shadow-xs">
               ✓ All clear! Zero pending refund approvals requiring human review.
             </div>
           `;
@@ -578,24 +684,24 @@
           const args = it.arguments || {};
           const amountUsd = args.amount_cents ? `$${(args.amount_cents / 100).toFixed(2)}` : 'Amount Pending';
           return `
-            <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl flex items-center justify-between shadow-lg text-xs">
-              <div class="space-y-1">
+            <div class="bg-white border-l-4 border-l-amber-500 border border-slate-200 p-5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm text-xs">
+              <div class="space-y-1.5">
                 <div class="flex items-center space-x-2">
-                  <span class="bg-amber-950/60 border border-amber-800 text-amber-300 font-bold px-2 py-0.5 rounded text-[11px]">
+                  <span class="bg-amber-100 border border-amber-300 text-amber-800 font-bold px-2 py-0.5 rounded text-[11px]">
                     HIGH-RISK REFUND
                   </span>
-                  <span class="text-slate-400">Order #${args.order_number || 'N/A'}</span>
-                  <span class="font-mono text-blue-400 text-[10px]">(${it.approval_id})</span>
+                  <span class="text-slate-600 font-semibold">Order #${args.order_number || 'N/A'}</span>
+                  <span class="font-mono text-slate-400 text-[10px]">(${it.approval_id})</span>
                 </div>
-                <p class="font-semibold text-white">Refund Request: <span class="text-emerald-400 font-mono">${amountUsd}</span></p>
-                <p class="text-slate-400">Reason: "${args.reason || 'Customer inquiry request'}"</p>
-                <p class="text-[11px] text-slate-500">Customer Email: ${args.customer_email || 'Verified'}</p>
+                <p class="font-bold text-slate-900 text-sm">Requested Amount: <span class="text-emerald-700 font-mono">${amountUsd}</span></p>
+                <p class="text-slate-600">Reason: "${args.reason || 'Customer inquiry request'}"</p>
+                <p class="text-[11px] text-slate-500">Customer Email: <span class="font-medium text-slate-700">${args.customer_email || 'Verified'}</span></p>
               </div>
-              <div class="flex items-center space-x-2">
-                <button onclick="decideApproval('${it.approval_id}', 'approve')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold px-3 py-1.5 rounded-lg shadow transition">
+              <div class="flex items-center space-x-2 flex-shrink-0">
+                <button onclick="decideApproval('${it.approval_id}', 'approve')" class="bg-slate-900 hover:bg-slate-800 text-white font-semibold px-4 py-2 rounded-xl shadow-xs transition">
                   ✓ Approve & Refund
                 </button>
-                <button onclick="decideApproval('${it.approval_id}', 'reject')" class="bg-rose-950 hover:bg-rose-900 text-rose-300 border border-rose-800 px-3 py-1.5 rounded-lg transition">
+                <button onclick="decideApproval('${it.approval_id}', 'reject')" class="bg-white hover:bg-rose-50 text-rose-700 border border-slate-200 hover:border-rose-300 font-semibold px-4 py-2 rounded-xl transition">
                   Reject
                 </button>
               </div>
@@ -603,7 +709,7 @@
           `;
         }).join('');
       } catch (err) {
-        container.innerHTML = `<div class="text-rose-400 text-xs p-4">Error loading approvals: ${err.message}</div>`;
+        container.innerHTML = `<div class="text-rose-600 text-xs p-4 bg-rose-50 border border-rose-200 rounded-xl">Error loading approvals: ${err.message}</div>`;
       }
     }
 
@@ -633,7 +739,7 @@
 
         if (articles.length === 0) {
           container.innerHTML = `
-            <div class="p-8 text-center text-slate-500 bg-slate-900 border border-slate-800 rounded-xl text-xs">
+            <div class="p-8 text-center text-slate-500 bg-white border border-slate-200 rounded-2xl text-xs shadow-xs">
               No custom policies added yet. Add a policy above to customize your store's AI responses.
             </div>
           `;
@@ -641,23 +747,23 @@
         }
 
         container.innerHTML = articles.map(a => `
-          <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl flex items-start justify-between shadow text-xs">
+          <div class="bg-white border border-slate-200 p-5 rounded-2xl flex items-start justify-between gap-4 shadow-xs text-xs">
             <div class="space-y-1.5 max-w-2xl">
               <div class="flex items-center space-x-2">
-                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-blue-950 border border-blue-800 text-blue-300">
+                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-slate-100 border border-slate-200 text-slate-700">
                   ${a.category}
                 </span>
-                <span class="font-bold text-white text-xs">${escapeHtml(a.title)}</span>
+                <span class="font-bold text-slate-900 text-xs">${escapeHtml(a.title)}</span>
               </div>
-              <p class="text-slate-300 leading-relaxed text-xs">${escapeHtml(a.content)}</p>
+              <p class="text-slate-600 leading-relaxed text-xs">${escapeHtml(a.content)}</p>
             </div>
-            <button onclick="deleteKnowledgeBaseArticle('${a.article_id}')" class="text-xs text-rose-400 hover:text-rose-300 p-1.5 rounded hover:bg-rose-950/40 transition">
+            <button onclick="deleteKnowledgeBaseArticle('${a.article_id}')" class="text-xs text-rose-600 hover:text-rose-800 p-1.5 rounded-lg hover:bg-rose-50 transition">
               Delete
             </button>
           </div>
         `).join('');
       } catch (err) {
-        container.innerHTML = `<div class="text-rose-400 text-xs p-4">Error loading knowledge base: ${err.message}</div>`;
+        container.innerHTML = `<div class="text-rose-600 text-xs p-4 bg-rose-50 border border-rose-200 rounded-xl">Error loading knowledge base: ${err.message}</div>`;
       }
     }
 
@@ -772,22 +878,26 @@
         const entries = data.entries || [];
 
         if (entries.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-slate-500">No audit entries recorded yet.</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="6" class="p-6 text-center text-slate-400 font-sans">No audit entries recorded yet.</td></tr>';
           return;
         }
 
         tbody.innerHTML = entries.map((e, idx) => {
-          const statusColor = e.status === 'SUCCESS' || e.status === 'SETTLED' ? 'text-emerald-400' : (e.status === 'DENIED' ? 'text-rose-400' : 'text-amber-400');
+          const statusBadge = e.status === 'SUCCESS' || e.status === 'SETTLED' 
+            ? '<span class="bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded font-bold">SUCCESS</span>' 
+            : (e.status === 'DENIED' 
+                ? '<span class="bg-rose-50 text-rose-700 border border-rose-200 px-2 py-0.5 rounded font-bold">BLOCKED</span>' 
+                : '<span class="bg-amber-50 text-amber-700 border border-amber-200 px-2 py-0.5 rounded font-bold">' + e.status + '</span>');
           const hashShort = (e.hash || '').substring(0, 12);
           const paramsStr = JSON.stringify(e.parameters || {});
           return `
-            <tr class="hover:bg-slate-800/40 transition">
-              <td class="p-3 text-slate-500">${e.entry_id || (idx + 1)}</td>
-              <td class="p-3 font-semibold text-slate-200">${e.action}</td>
-              <td class="p-3 font-bold ${statusColor}">${e.status}</td>
-              <td class="p-3 text-slate-400 truncate max-w-xs" title="${escapeHtml(paramsStr)}">${escapeHtml(paramsStr)}</td>
-              <td class="p-3 text-blue-400 font-mono">${hashShort}...</td>
-              <td class="p-3 text-slate-500">${(e.timestamp || '').replace('T', ' ').substring(0, 19)}</td>
+            <tr class="hover:bg-slate-50 transition">
+              <td class="p-3.5 text-slate-400 font-sans">${e.entry_id || (idx + 1)}</td>
+              <td class="p-3.5 font-semibold text-slate-800 font-sans">${e.action}</td>
+              <td class="p-3.5 font-sans">${statusBadge}</td>
+              <td class="p-3.5 text-slate-500 truncate max-w-xs font-sans text-xs" title="${escapeHtml(paramsStr)}">${escapeHtml(paramsStr)}</td>
+              <td class="p-3.5 text-slate-700 font-mono text-[11px]"><span class="bg-slate-100 border border-slate-200 px-1.5 py-0.5 rounded">${hashShort}...</span></td>
+              <td class="p-3.5 text-slate-400 font-sans text-[11px]">${(e.timestamp || '').replace('T', ' ').substring(0, 19)}</td>
             </tr>
           `;
         }).join('');

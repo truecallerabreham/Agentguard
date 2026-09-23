@@ -56,9 +56,9 @@
             width: 56px;
             height: 56px;
             border-radius: 16px;
-            background: #2563eb;
+            background: #0f172a;
             color: #ffffff;
-            box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.4), 0 8px 10px -6px rgba(37, 99, 235, 0.2);
+            box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.4), 0 8px 10px -6px rgba(15, 23, 42, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.15);
             cursor: pointer;
             display: flex;
@@ -69,8 +69,8 @@
         }
         .ag-launcher-btn:hover {
             transform: scale(1.05) translateY(-2px);
-            background: #1d4ed8;
-            box-shadow: 0 14px 28px -4px rgba(37, 99, 235, 0.5);
+            background: #1e293b;
+            box-shadow: 0 14px 28px -4px rgba(15, 23, 42, 0.5);
         }
         .ag-launcher-btn svg {
             width: 24px;
@@ -85,9 +85,9 @@
             max-width: calc(100vw - 32px);
             height: 600px;
             max-height: calc(100vh - 120px);
-            background: #0f172a;
+            background: #ffffff;
             border-radius: 20px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.08);
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -103,13 +103,13 @@
             pointer-events: auto;
         }
         .ag-chat-header {
-            background: #1e293b;
+            background: #0f172a;
             color: #ffffff;
             padding: 16px 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
         .ag-chat-header-info h3 {
             margin: 0;
@@ -147,20 +147,20 @@
         }
         .ag-header-close:hover {
             color: #ffffff;
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.1);
         }
         .ag-auth-bar {
-            background: #090d16;
+            background: #f8fafc;
             padding: 10px 16px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            border-bottom: 1px solid #e2e8f0;
             display: flex;
             gap: 8px;
         }
         .ag-auth-input {
             flex: 1;
-            background: #1e293b;
-            border: 1px solid #334155;
-            color: #f1f5f9;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            color: #0f172a;
             font-size: 11px;
             padding: 6px 10px;
             border-radius: 8px;
@@ -168,10 +168,10 @@
             transition: border-color 0.15s ease;
         }
         .ag-auth-input:focus {
-            border-color: #3b82f6;
+            border-color: #0f172a;
         }
         .ag-auth-input::placeholder {
-            color: #64748b;
+            color: #94a3b8;
         }
         .ag-messages {
             flex: 1;
@@ -180,7 +180,7 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
-            background: #0b0f17;
+            background: #f8fafc;
         }
         .ag-msg {
             max-width: 85%;
@@ -190,20 +190,20 @@
         }
         .ag-msg-user {
             align-self: flex-end;
-            background: #2563eb;
+            background: #0f172a;
             color: #ffffff;
             padding: 10px 14px;
             border-radius: 14px 14px 2px 14px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
         .ag-msg-agent {
             align-self: flex-start;
-            background: #1e293b;
-            color: #f1f5f9;
+            background: #ffffff;
+            color: #0f172a;
             padding: 12px 15px;
             border-radius: 14px 14px 14px 2px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
         .ag-badge {
             display: inline-flex;
@@ -216,26 +216,26 @@
             margin-top: 8px;
         }
         .ag-badge-verified {
-            background: rgba(16, 185, 129, 0.1);
-            color: #34d399;
-            border: 1px solid rgba(16, 185, 129, 0.25);
+            background: #ecfdf5;
+            color: #047857;
+            border: 1px solid #a7f3d0;
         }
         .ag-badge-hitl {
-            background: rgba(245, 158, 11, 0.1);
-            color: #fbbf24;
-            border: 1px solid rgba(245, 158, 11, 0.25);
+            background: #fffbeb;
+            color: #b45309;
+            border: 1px solid #fde68a;
         }
         .ag-msg-thinking {
             align-self: flex-start;
-            background: #1e293b;
-            color: #94a3b8;
+            background: #ffffff;
+            color: #64748b;
             font-size: 11px;
             padding: 8px 12px;
             border-radius: 10px;
             display: flex;
             align-items: center;
             gap: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid #e2e8f0;
         }
         .ag-spin {
             animation: ag-spin-anim 1s linear infinite;
@@ -246,33 +246,33 @@
         }
         .ag-quick-replies {
             padding: 8px 16px;
-            background: #0f172a;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            background: #ffffff;
+            border-top: 1px solid #e2e8f0;
             display: flex;
             gap: 6px;
             overflow-x: auto;
             white-space: nowrap;
         }
         .ag-quick-pill {
-            background: #1e293b;
-            color: #cbd5e1;
+            background: #f1f5f9;
+            color: #334155;
             font-size: 11px;
             font-weight: 500;
             padding: 5px 10px;
             border-radius: 20px;
-            border: 1px solid #334155;
+            border: 1px solid #e2e8f0;
             cursor: pointer;
             transition: all 0.15s ease;
         }
         .ag-quick-pill:hover {
-            background: #334155;
-            color: #ffffff;
-            border-color: #475569;
+            background: #e2e8f0;
+            color: #0f172a;
+            border-color: #cbd5e1;
         }
         .ag-input-container {
             padding: 12px 16px;
-            background: #0f172a;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            background: #ffffff;
+            border-top: 1px solid #e2e8f0;
             display: flex;
             gap: 8px;
             align-items: center;
@@ -280,22 +280,23 @@
         .ag-input-box {
             flex: 1;
             padding: 9px 13px;
-            background: #1e293b;
-            color: #ffffff;
-            border: 1px solid #334155;
+            background: #f8fafc;
+            color: #0f172a;
+            border: 1px solid #cbd5e1;
             border-radius: 10px;
             font-size: 12.5px;
             outline: none;
-            transition: border-color 0.15s ease;
+            transition: border-color 0.15s ease, background 0.15s ease;
         }
         .ag-input-box:focus {
-            border-color: #3b82f6;
+            border-color: #0f172a;
+            background: #ffffff;
         }
         .ag-input-box::placeholder {
-            color: #64748b;
+            color: #94a3b8;
         }
         .ag-send-btn {
-            background: #2563eb;
+            background: #0f172a;
             color: white;
             border: none;
             width: 36px;
@@ -308,24 +309,24 @@
             transition: all 0.15s ease;
         }
         .ag-send-btn:hover {
-            background: #1d4ed8;
+            background: #1e293b;
         }
         .ag-send-btn:disabled {
-            background: #334155;
-            color: #64748b;
+            background: #cbd5e1;
+            color: #94a3b8;
             cursor: not-allowed;
         }
         .ag-footer-brand {
             padding: 5px 0 8px 0;
             text-align: center;
             font-size: 10px;
-            color: #64748b;
-            background: #0f172a;
+            color: #94a3b8;
+            background: #ffffff;
         }
         .ag-footer-brand a {
-            color: #3b82f6;
+            color: #0f172a;
             text-decoration: none;
-            font-weight: 500;
+            font-weight: 600;
         }
     `;
     document.head.appendChild(styleEl);
