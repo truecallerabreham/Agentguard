@@ -72,6 +72,13 @@
             background: #1e293b;
             box-shadow: 0 14px 28px -4px rgba(15, 23, 42, 0.5);
         }
+        .ag-launcher-btn:active {
+            transform: scale(0.96);
+        }
+        .ag-launcher-btn:focus-visible, .ag-header-close:focus-visible, .ag-quick-pill:focus-visible, .ag-send-btn:focus-visible, .ag-input-box:focus-visible, .ag-auth-input:focus-visible {
+            outline: 2px solid #0f172a;
+            outline-offset: 2px;
+        }
         .ag-launcher-btn svg {
             width: 24px;
             height: 24px;
@@ -422,6 +429,7 @@
         } else {
             isOpen = !isOpen;
         }
+        launcherBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
         if (isOpen) {
             chatWindow.classList.add("ag-open");
             iconChat.style.display = "none";
@@ -433,6 +441,14 @@
             iconClose.style.display = "none";
         }
     }
+
+    // Accessible Escape Key to close chat window (WCAG 2.2 AA)
+    window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && isOpen) {
+            toggleChat(false);
+            launcherBtn.focus();
+        }
+    });
 
     // Expose Global Trigger for Storefront Action Buttons
     window.__AGENTGUARD_TRIGGER_CHAT = () => toggleChat(true);
@@ -517,14 +533,14 @@
                 if (data.critique && data.critique.passed) {
                     const badge = document.createElement("div");
                     badge.className = "ag-badge ag-badge-verified";
-                    badge.innerHTML = `✓ Policy Grounded (${((data.critique.score || 1) * 100).toFixed(0)}% accuracy)`;
+                    badge.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span>Policy Grounded (${((data.critique.score || 1) * 100).toFixed(0)}% accuracy)</span>`;
                     agentMsg.appendChild(badge);
                 }
 
                 if (inquiry.toLowerCase().includes("refund") && data.response.toLowerCase().includes("approval")) {
                     const hitlBadge = document.createElement("div");
                     hitlBadge.className = "ag-badge ag-badge-hitl";
-                    hitlBadge.innerHTML = `🛡️ Approval Queued in Merchant Inbox`;
+                    hitlBadge.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg><span>Approval Queued in Merchant Inbox</span>`;
                     agentMsg.appendChild(hitlBadge);
                 }
 

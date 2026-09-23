@@ -74,20 +74,20 @@
         <span class="text-slate-500">Click a sample order to test autonomous tracking & return evaluation:</span>
       </div>
       <div class="flex flex-wrap items-center gap-2 font-mono text-[11px]">
-        <button onclick="testOrderLookup('1001', 'sarah.connor@example.com', 'Where is my order #1001?')" class="bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200 px-3 py-1.5 rounded-lg shadow-xs transition flex items-center space-x-1.5 font-sans font-medium">
-          <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+        <button onclick="testOrderLookup('1001', 'sarah.connor@example.com', 'Where is my order #1001?')" class="bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200 px-3 py-1.5 rounded-lg shadow-xs transition flex items-center space-x-1.5 font-sans font-medium cursor-pointer focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:outline-none active:scale-[0.98]">
+          <span class="w-2 h-2 rounded-full bg-emerald-500" aria-hidden="true"></span>
           <span>#1001 (Delivered • $129.00)</span>
         </button>
-        <button onclick="testOrderLookup('1002', 'john.doe@example.com', 'Can I track order #1002?')" class="bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200 px-3 py-1.5 rounded-lg shadow-xs transition flex items-center space-x-1.5 font-sans font-medium">
-          <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+        <button onclick="testOrderLookup('1002', 'john.doe@example.com', 'Can I track order #1002?')" class="bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200 px-3 py-1.5 rounded-lg shadow-xs transition flex items-center space-x-1.5 font-sans font-medium cursor-pointer focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:outline-none active:scale-[0.98]">
+          <span class="w-2 h-2 rounded-full bg-blue-500" aria-hidden="true"></span>
           <span>#1002 (In Transit • $49.00)</span>
         </button>
-        <button onclick="testOrderLookup('1003', 'alice.wonder@example.com', 'I want to return order #1003 for a full refund.')" class="bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200 px-3 py-1.5 rounded-lg shadow-xs transition flex items-center space-x-1.5 font-sans font-medium">
-          <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+        <button onclick="testOrderLookup('1003', 'alice.wonder@example.com', 'I want to return order #1003 for a full refund.')" class="bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200 px-3 py-1.5 rounded-lg shadow-xs transition flex items-center space-x-1.5 font-sans font-medium cursor-pointer focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:outline-none active:scale-[0.98]">
+          <span class="w-2 h-2 rounded-full bg-amber-500" aria-hidden="true"></span>
           <span>#1003 (Delivered 48d ago)</span>
         </button>
-        <button onclick="testSnoopingAttempt('1001', 'intruder@snoop.org')" class="bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 px-3 py-1.5 rounded-lg shadow-xs transition flex items-center space-x-1.5 font-sans font-medium" title="Test privacy protection against email mismatch">
-          <svg class="w-3.5 h-3.5 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+        <button onclick="testSnoopingAttempt('1001', 'intruder@snoop.org')" class="bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 px-3 py-1.5 rounded-lg shadow-xs transition flex items-center space-x-1.5 font-sans font-medium cursor-pointer focus-visible:ring-2 focus-visible:ring-rose-600 focus-visible:outline-none active:scale-[0.98]" title="Test privacy protection against email mismatch">
+          <svg class="w-3.5 h-3.5 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
           <span>Test Privacy Defense</span>
         </button>
       </div>
