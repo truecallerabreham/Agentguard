@@ -102,3 +102,4 @@ class ObservabilityMiddleware(BaseHTTPMiddleware):
             if "response" in locals() and isinstance(response, Response):
                 response.headers["traceparent"] = outgoing_traceparent
                 response.headers["X-Trace-Id"] = trace_id
+

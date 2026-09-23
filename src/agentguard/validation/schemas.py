@@ -83,3 +83,134 @@ class PostgresQueryInput(BaseModel):
     def validate_sql(cls, v: str) -> str:
         return validate_sql_ast(v)
 
+
+class OrderLookupInput(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    customer_id: str | None = Field(
+        default=None,
+        max_length=64,
+        description="Lookup orders for customer ID",
+    )
+    order_id: str | None = Field(
+        default=None,
+        max_length=64,
+        description="Lookup specific order by order ID",
+    )
+
+    @field_validator("customer_id", "order_id")
+    @classmethod
+    def validate_id(cls, v: str | None) -> str | None:
+        if v is not None:
+            clean = v.strip()
+            if not re.match(r"^[A-Za-z0-9_-]+$", clean):
+                raise ValueError("Identifier must contain only alphanumeric characters, hyphens, and underscores.")
+            return clean
+        return None
+
+    def model_post_init(self, __context) -> None:
+        if not self.customer_id and not self.order_id:
+            raise ValueError("At least one of 'customer_id' or 'order_id' must be specified.")
+
+
+class KBSearchInput(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    query: str = Field(
+        ...,
+        min_length=2,
+        max_length=200,
+        description="Search term or inquiry keywords",
+    )
+    category: str | None = Field(
+        default=None,
+        max_length=50,
+        description="Optional category filter (e.g. returns, warranty, billing)",
+    )
+
+
+class TicketCreateInput(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    customer_id: str = Field(
+        ...,
+        max_length=64,
+        description="Customer ID for whom the ticket is being created",
+    )
+    title: str = Field(
+        ...,
+        min_length=3,
+        max_length=150,
+        description="Brief subject/title of the support ticket",
+    )
+    description: str = Field(
+        ...,
+        min_length=5,
+        max_length=2000,
+        description="Detailed description of the customer problem or request",
+    )
+    priority: str = Field(
+        default="normal",
+        pattern=r"^(low|normal|high|urgent)$",
+        description="Priority level: low, normal, high, or urgent",
+    )
+
+
+class Customer360Input(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    customer_id: str = Field(
+        ...,
+        max_length=64,
+        description="Customer ID for the comprehensive 360 overview",
+    )
+
+
+class TroubleshootInquiryInput(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    customer_id: str = Field(
+        ...,
+        max_length=64,
+        description="Customer ID experiencing the issue",
+    )
+    issue_description: str = Field(
+        ...,
+        min_length=5,
+        max_length=2000,
+        description="Description of the customer issue to troubleshoot",
+    )
+
+
+class ReturnRemediationInput(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    order_id: str = Field(
+        ...,
+        max_length=64,
+        description="Order ID to remediate or return",
+    )
+    customer_id: str = Field(
+        ...,
+        max_length=64,
+        description="Customer ID requesting remediation",
+    )
+    reason: str = Field(
+        ...,
+        min_length=3,
+        max_length=500,
+        description="Reason for return or replacement request",
+    )
+
+
+class WorkflowStatusInput(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    workflow_id: str = Field(
+        ...,
+        min_length=8,
+        max_length=64,
+        description="Workflow instance ID to query status for",
+    )
+
+

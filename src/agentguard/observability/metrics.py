@@ -103,3 +103,4 @@ def record_circuit_breaker_state(service: str, state: str) -> None:
 def generate_metrics_response() -> tuple[bytes, str]:
     """Generate Prometheus exposition format payload and content type header."""
     return generate_latest(REGISTRY), CONTENT_TYPE_LATEST
+

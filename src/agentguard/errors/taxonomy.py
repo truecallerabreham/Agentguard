@@ -104,6 +104,28 @@ class ValidationError(ToolError):
         )
 
 
+class NotFoundError(ToolError):
+    """Requested resource (e.g. customer, order, workflow) was not found."""
+
+    def __init__(
+        self,
+        code: str = "NOT_FOUND",
+        hint: str | None = None,
+        retryable: bool = False,
+        suggested_actions: list[str] | None = None,
+        context: dict[str, Any] | None = None,
+    ) -> None:
+        super().__init__(
+            code=code,
+            category=ErrorCategory.VALIDATION,
+            retryable=retryable,
+            hint=hint or "The requested resource was not found.",
+            suggested_actions=suggested_actions or ["Verify resource identifier and retry", "List available resources"],
+            context=context,
+        )
+
+
+
 class RateLimitError(ToolError):
     """Tenant or agent exceeded burst capacity."""
 

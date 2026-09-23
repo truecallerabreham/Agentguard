@@ -19,8 +19,35 @@ MOCK_CUSTOMERS = [
 
 MOCK_ORDERS = [
     {"id": "o_9001", "tenant_id": "acme", "customer_id": "CUST-1001", "status": "delivered", "total_cents": 12900},
+    {"id": "o_9002", "tenant_id": "acme", "customer_id": "CUST-1001", "status": "processing", "total_cents": 4500},
     {"id": "o_9101", "tenant_id": "globex", "customer_id": "CUST-2001", "status": "refund_pending", "total_cents": 8900},
 ]
+
+MOCK_KB_ARTICLES = [
+    {
+        "id": "KB-101",
+        "tenant_id": "global",
+        "category": "returns",
+        "title": "Return Policy & Refunds",
+        "content": "Customers may request a return within 30 days of delivery. Gold tier members receive free return shipping and 100% refund with zero restocking fee. Standard tier has a 10% restocking fee. Items must be in original condition.",
+    },
+    {
+        "id": "KB-102",
+        "tenant_id": "global",
+        "category": "warranty",
+        "title": "Defective Merchandise & Replacement",
+        "content": "Defective merchandise reported within 90 days qualifies for immediate return or direct replacement. Replacement orders are shipped via priority delivery within 24 hours of ticket confirmation.",
+    },
+    {
+        "id": "KB-103",
+        "tenant_id": "global",
+        "category": "billing",
+        "title": "Billing Inquiries & Payment Disputes",
+        "content": "Invoices are generated upon shipment. Refunds take 3-5 business days to post to the original payment method after an RMA has been settled.",
+    },
+]
+
+MOCK_TICKETS: list[dict[str, Any]] = []
 
 
 class DatabaseManager:
@@ -110,6 +137,10 @@ class DatabaseManager:
             rows = [dict(r) for r in MOCK_CUSTOMERS if r["tenant_id"] == tenant_id]
         elif "orders" in normalized:
             rows = [dict(r) for r in MOCK_ORDERS if r["tenant_id"] == tenant_id]
+        elif "kb_articles" in normalized:
+            rows = [dict(r) for r in MOCK_KB_ARTICLES if r["tenant_id"] in (tenant_id, "global")]
+        elif "tickets" in normalized:
+            rows = [dict(r) for r in MOCK_TICKETS if r["tenant_id"] == tenant_id]
         else:
             rows = []
 
@@ -122,6 +153,14 @@ class DatabaseManager:
             ]
 
         return rows
+
+    def create_ticket(self, tenant_id: str, ticket: dict[str, Any]) -> dict[str, Any]:
+        """Store a support ticket scoped to tenant_id."""
+        record = dict(ticket)
+        record["tenant_id"] = tenant_id
+        MOCK_TICKETS.append(record)
+        return record
+
 
 
 _db_manager: DatabaseManager | None = None

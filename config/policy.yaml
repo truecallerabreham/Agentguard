@@ -33,10 +33,66 @@ tools:
       - "tool:read"
       - "tool:*"
 
+  customer_lookup:
+    description: "Lookup customer profile by customer ID"
+    required_scopes:
+      - "tool:customers:read"
+      - "tool:read"
+      - "tool:*"
+
+  order_lookup:
+    description: "Lookup order records by customer ID or order ID"
+    required_scopes:
+      - "tool:orders:read"
+      - "tool:read"
+      - "tool:*"
+
+  kb_search:
+    description: "Search enterprise knowledge base articles"
+    required_scopes:
+      - "tool:kb:read"
+      - "tool:read"
+      - "tool:*"
+
+  ticket_create:
+    description: "Create customer support tickets"
+    required_scopes:
+      - "tool:tickets:write"
+      - "tool:write"
+      - "tool:*"
+
   postgres_query:
     description: "Execute SQL queries within tenant-isolated session"
     required_scopes:
       - "tool:db:query"
+      - "tool:*"
+
+  customer_360:
+    description: "Synthesize customer profile, orders, and spending analytics"
+    required_scopes:
+      - "tool:c360:read"
+      - "tool:read"
+      - "tool:*"
+
+  troubleshoot_inquiry:
+    description: "Diagnose customer issue against order history and policies"
+    required_scopes:
+      - "tool:troubleshoot"
+      - "tool:read"
+      - "tool:*"
+
+  start_return_remediation:
+    description: "Initiate multi-phase stateful return and remediation workflow"
+    required_scopes:
+      - "tool:workflows:execute"
+      - "tool:write"
+      - "tool:*"
+
+  get_workflow_status:
+    description: "Query execution state and step progress for a workflow"
+    required_scopes:
+      - "tool:workflows:read"
+      - "tool:read"
       - "tool:*"
 
 # Standard Role definitions mapping high-level roles to granular tool scopes
@@ -47,18 +103,30 @@ roles:
       - "tool:greet"
 
   reader:
-    description: "Read-only agent (can view greeting, echo, and customer profile)"
+    description: "Read-only agent (can view customer profile, orders, kb, customer 360, troubleshoot)"
     scopes:
       - "tool:greet"
       - "tool:echo"
       - "tool:customers:read"
+      - "tool:orders:read"
+      - "tool:kb:read"
+      - "tool:c360:read"
+      - "tool:troubleshoot"
+      - "tool:workflows:read"
 
   analyst:
-    description: "Data analysis agent with database query capabilities"
+    description: "Operational agent with database query, ticketing, and workflow execution capabilities"
     scopes:
       - "tool:greet"
       - "tool:echo"
       - "tool:customers:read"
+      - "tool:orders:read"
+      - "tool:kb:read"
+      - "tool:c360:read"
+      - "tool:troubleshoot"
+      - "tool:workflows:read"
+      - "tool:workflows:execute"
+      - "tool:tickets:write"
       - "tool:db:query"
 
   admin:
@@ -66,4 +134,3 @@ roles:
     scopes:
       - "tool:*"
       - "tenant:*:impersonate"
-

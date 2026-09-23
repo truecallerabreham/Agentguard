@@ -224,3 +224,4 @@ def start_span(name: str, attributes: dict[str, Any] | None = None) -> SpanConte
             ...
     """
     return SpanContext(name, attributes)
+
