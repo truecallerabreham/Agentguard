@@ -1,553 +1,559 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-slate-50 text-slate-900 antialiased selection:bg-blue-600 selection:text-white">
+<html lang="en" class="h-full bg-[#080C10] text-slate-100 antialiased selection:bg-[#C5F277] selection:text-slate-950">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AgentGuard — Autonomous E-Commerce Customer Support Platform</title>
+  <title>AgentGuard — Autonomous Support for Modern E-Commerce Stores</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
+    body { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     code, pre, .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* EverHelp & Lamied Signature Fire/Lime Gradient Shimmer */
+    .shimmer-text {
+      background-image: linear-gradient(270deg, #fd5f04, #fdc282 30%, #c5f277 65%, #fd5f04);
+      background-size: 200% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shift-gradient 4s linear infinite;
+    }
+    @keyframes shift-gradient {
+      from { background-position: 0% 50%; }
+      to { background-position: -200% 50%; }
+    }
+
+    .lime-glow {
+      box-shadow: 0 0 40px -10px rgba(197, 242, 119, 0.25);
+    }
+    .card-dark {
+      background: radial-gradient(120% 120% at 50% 0%, rgba(26, 36, 48, 0.6) 0%, rgba(13, 19, 26, 0.8) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .card-dark:hover {
+      border-color: rgba(197, 242, 119, 0.3);
+    }
   </style>
 </head>
-<body class="min-h-full flex flex-col bg-slate-50 text-slate-900">
+<body class="min-h-full flex flex-col bg-[#080C10] text-slate-100 font-sans">
 
-  <!-- Top Announcement Bar (Stripe / Linear inspired) -->
-  <div class="border-b border-slate-200 bg-white/80 backdrop-blur-md px-4 py-2 text-xs text-center text-slate-600 flex items-center justify-between">
+  <!-- Top Announcement Bar (Lamied / EverHelp style) -->
+  <div class="border-b border-white/[0.06] bg-[#0B1017] px-4 py-2 text-xs text-center text-slate-400 flex items-center justify-between">
     <div class="max-w-7xl mx-auto flex items-center space-x-2">
-      <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-blue-50 text-blue-700 border border-blue-200/60">
-        New in v2.5
+      <span class="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#C5F277]/10 text-[#C5F277] border border-[#C5F277]/30">
+        <span class="w-1.5 h-1.5 rounded-full bg-[#C5F277] animate-pulse"></span>
+        <span>v2.5 RELEASE</span>
       </span>
-      <span>Autonomous Support for Shopify, WooCommerce & Custom Stores with Zero-Hallucination Critic Audits.</span>
+      <span>Autonomous Customer Support for E-Commerce • Zero Hallucinations • 100% Free Forever</span>
     </div>
+    <a href="/store?store_id=demo-store" target="_blank" class="hidden sm:inline-flex items-center space-x-1 text-xs text-[#C5F277] hover:underline font-medium">
+      <span>Featured demo: Lumina Audio & Acoustics</span>
+      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+    </a>
   </div>
 
   <!-- Navigation Bar -->
-  <header class="border-b border-slate-200 bg-white/90 backdrop-blur-lg sticky top-0 z-50 px-6 py-4">
+  <header class="border-b border-white/[0.08] bg-[#080C10]/90 backdrop-blur-xl sticky top-0 z-50 px-6 py-4">
     <div class="max-w-7xl mx-auto flex items-center justify-between">
       <div class="flex items-center space-x-10">
-        <a href="/" class="flex items-center space-x-2.5 group">
-          <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white shadow-sm shadow-blue-500/20 group-hover:bg-blue-700 transition">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+        <a href="/" class="flex items-center space-x-3 group">
+          <div class="w-9 h-9 rounded-xl bg-[#C5F277] flex items-center justify-center text-slate-950 font-extrabold shadow-sm transition group-hover:scale-105">
+            <svg class="w-5 h-5 text-slate-950" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
           </div>
-          <span class="font-bold text-lg text-slate-900 tracking-tight">AgentGuard</span>
+          <div>
+            <span class="font-extrabold text-base text-white tracking-tight leading-none block">AgentGuard</span>
+            <span class="text-[10px] text-slate-400 font-mono tracking-wider">ECOMMERCE COPILOT</span>
+          </div>
         </a>
 
-        <nav class="hidden md:flex items-center space-x-7 text-xs font-semibold text-slate-600">
-          <a href="#how-it-works" class="hover:text-slate-900 transition">How It Works</a>
-          <a href="#product-ui" class="hover:text-slate-900 transition">Product Tour</a>
-          <a href="#live-sandbox" class="hover:text-slate-900 transition">Live Sandbox</a>
-          <a href="#pricing" class="hover:text-slate-900 transition">Pricing</a>
-          <a href="/store?store_id=demo-store" target="_blank" class="hover:text-slate-900 transition flex items-center space-x-1">
+        <nav class="hidden md:flex items-center space-x-7 text-xs font-medium text-slate-300">
+          <a href="#demo" class="hover:text-[#C5F277] transition">Interactive Demo</a>
+          <a href="#calculator" class="hover:text-[#C5F277] transition">ROI Calculator</a>
+          <a href="#architecture" class="hover:text-[#C5F277] transition">4-Agent System</a>
+          <a href="#sandbox" class="hover:text-[#C5F277] transition">Live Sandbox</a>
+          <a href="/store?store_id=demo-store" target="_blank" class="hover:text-[#C5F277] transition flex items-center space-x-1">
             <span>Customer Storefront</span>
-            <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+            <svg class="w-3 h-3 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
           </a>
         </nav>
       </div>
 
       <div class="flex items-center space-x-3">
-        <button onclick="openAuthModal('login')" class="text-xs font-semibold text-slate-700 hover:text-slate-900 px-3.5 py-2 rounded-lg hover:bg-slate-100 transition">
+        <button onclick="openAuthModal('login')" class="text-xs font-semibold text-slate-300 hover:text-white px-3.5 py-2 rounded-xl transition">
           Sign In
         </button>
-        <button onclick="openAuthModal('signup')" class="text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg shadow-sm transition">
-          Create Free Store Account
+        <button onclick="openAuthModal('signup')" class="text-xs font-bold text-slate-950 bg-[#C5F277] hover:bg-[#b8e869] px-4 py-2 rounded-xl shadow-xs transition flex items-center space-x-1.5">
+          <span>Create Free Store Account</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- Hero Section (Stripe / Mercury / Linear Inspired) -->
+  <!-- Hero Section (Lamied Style: Big typography + Release pill + Interactive code/chat frame) -->
   <main class="flex-1">
-    <section class="max-w-6xl mx-auto px-6 pt-16 pb-20 text-center space-y-6">
-      <!-- Tag badge -->
-      <div class="inline-flex items-center space-x-2 bg-white border border-slate-200 shadow-sm px-3.5 py-1.5 rounded-full text-xs font-medium text-slate-700">
-        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-        <span>Built for e-commerce brands & merchants</span>
-      </div>
+    <section class="max-w-6xl mx-auto px-6 pt-16 pb-16 text-center space-y-6">
+      <!-- Release Pill -->
+      <a href="/store?store_id=demo-store" target="_blank" class="inline-flex items-center space-x-2 bg-white/[0.04] border border-white/[0.1] px-4 py-1.5 rounded-full text-xs font-medium text-slate-300 hover:border-[#C5F277]/40 transition">
+        <span class="w-2 h-2 rounded-full bg-[#C5F277] shadow-[0_0_8px_#C5F277]"></span>
+        <span>Built for Online Merchants</span>
+        <span class="text-slate-500">/</span>
+        <span class="text-[#C5F277] font-semibold">100% Free Forever</span>
+        <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+      </a>
 
-      <!-- Headline passing the Supabase & Stripe test -->
-      <h1 class="text-4xl sm:text-6xl font-extrabold text-slate-900 tracking-tight max-w-4xl mx-auto leading-[1.12]">
-        Autonomous Support for Modern E-Commerce Stores.
+      <!-- Headline passing tests and packing punch -->
+      <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white tracking-tight max-w-4xl mx-auto leading-[1.1]">
+        Autonomous Support for <span class="shimmer-text">Modern E-Commerce Stores.</span>
       </h1>
 
       <!-- Positioning Subhead -->
-      <p class="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
-        Resolve order tracking inquiries, evaluate return eligibility, and answer policy questions instantly—grounded in your private store policies with human approval on refunds.
+      <p class="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
+        Resolve order tracking inquiries, evaluate return eligibility, and cite private store policies in under 1.5 seconds. Zero hallucinations. Human authorization on refunds.
       </p>
 
-      <!-- Cal.com & Mercury style Friction-Removal CTA Stack -->
-      <div class="max-w-md mx-auto pt-2">
-        <form onsubmit="handleHeroQuickStart(event)" class="flex flex-col sm:flex-row gap-2 bg-white p-1.5 rounded-xl border border-slate-300 shadow-md">
-          <input id="hero-email-input" type="email" required placeholder="Enter your store email..." class="flex-1 px-3.5 py-2 text-xs text-slate-800 focus:outline-none rounded-lg bg-transparent">
-          <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs px-4 py-2.5 rounded-lg shadow-sm transition flex items-center justify-center space-x-1 whitespace-nowrap">
-            <span>Get Free Widget</span>
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-          </button>
-        </form>
-        <p class="text-[11px] text-slate-500 mt-2">
-          Free forever tier • No credit card required • Works with Shopify, WooCommerce & Custom HTML
-        </p>
+      <!-- Quick Action Buttons -->
+      <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+        <button onclick="openAuthModal('signup')" class="bg-[#C5F277] hover:bg-[#b8e869] text-slate-950 font-bold text-xs px-6 py-3.5 rounded-xl shadow-lg transition flex items-center space-x-2">
+          <span>Create Free Store Account</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </button>
+        <a href="/store?store_id=demo-store" target="_blank" class="bg-white/[0.06] hover:bg-white/[0.1] border border-white/[0.15] text-white font-semibold text-xs px-6 py-3.5 rounded-xl transition flex items-center space-x-2">
+          <svg class="w-4 h-4 text-[#C5F277]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+          <span>Open Customer Storefront Simulator</span>
+        </a>
       </div>
 
-      <!-- Reference Store Tag for tests -->
-      <div class="text-xs text-slate-400 pt-1">
-        Featured demo store: <span class="text-slate-600 font-medium">Lumina Audio & Acoustics</span>
-      </div>
-    </section>
-
-    <!-- Quantified Social Proof with Receipts (Ramp / Retool style) -->
-    <section class="max-w-6xl mx-auto px-6 pb-16">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
-        <div class="text-center p-3 border-r border-slate-100 last:border-none">
-          <div class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">100%</div>
-          <div class="text-xs font-semibold text-slate-600 mt-1">Policy Grounded</div>
-          <div class="text-[11px] text-slate-400">Critic audits every response</div>
-        </div>
-        <div class="text-center p-3 border-r border-slate-100 last:border-none">
-          <div class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">0</div>
-          <div class="text-xs font-semibold text-slate-600 mt-1">Snooping Breaches</div>
-          <div class="text-[11px] text-slate-400">Strict billing email authentication</div>
-        </div>
-        <div class="text-center p-3 border-r border-slate-100 last:border-none">
-          <div class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">&lt; 1.5s</div>
-          <div class="text-xs font-semibold text-slate-600 mt-1">Multi-Agent Latency</div>
-          <div class="text-[11px] text-slate-400">Planner, Retriever & Critic speed</div>
-        </div>
-        <div class="text-center p-3">
-          <div class="text-2xl sm:text-3xl font-extrabold text-emerald-600 tracking-tight">$0</div>
-          <div class="text-xs font-semibold text-slate-600 mt-1">Unauthorized Refunds</div>
-          <div class="text-[11px] text-slate-400">HITL single-use token review</div>
-        </div>
+      <!-- Feature Proof Badges -->
+      <div class="flex flex-wrap items-center justify-center gap-6 pt-3 text-xs text-slate-400">
+        <span class="flex items-center space-x-1.5"><svg class="w-4 h-4 text-[#C5F277]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg><span>4-Agent Gemini Reasoning</span></span>
+        <span class="flex items-center space-x-1.5"><svg class="w-4 h-4 text-[#C5F277]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg><span>Anti-Snooping Email Privacy</span></span>
+        <span class="flex items-center space-x-1.5"><svg class="w-4 h-4 text-[#C5F277]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg><span>HITL Financial Quarantines</span></span>
+        <span class="flex items-center space-x-1.5"><svg class="w-4 h-4 text-[#C5F277]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg><span>100% Free Plan</span></span>
       </div>
     </section>
 
-    <!-- Real Product UI as Hero Image (Attio / Linear style) -->
-    <section id="product-ui" class="max-w-6xl mx-auto px-6 pb-24">
-      <div class="bg-white rounded-2xl border border-slate-200 shadow-xl overflow-hidden">
-        <!-- Mock Browser Chrome -->
-        <div class="bg-slate-100 border-b border-slate-200 px-4 py-3 flex items-center justify-between">
-          <div class="flex items-center space-x-2">
-            <span class="w-3 h-3 rounded-full bg-slate-300"></span>
-            <span class="w-3 h-3 rounded-full bg-slate-300"></span>
-            <span class="w-3 h-3 rounded-full bg-slate-300"></span>
-            <span class="text-xs font-mono text-slate-500 ml-2">agentguard.app/dashboard?store_id=lumina-audio</span>
+    <!-- INTERACTIVE HERO WORKBENCH (Directly modeled on Lamied.com.et interactive demo!) -->
+    <section id="demo" class="max-w-5xl mx-auto px-6 pb-20">
+      <div class="rounded-2xl border border-white/[0.12] bg-[#0E141D] shadow-2xl overflow-hidden lime-glow">
+        <!-- Titlebar with window dots & status -->
+        <div class="bg-[#121924] border-b border-white/[0.08] px-4 py-3 flex items-center justify-between">
+          <div class="flex items-center space-x-2.5">
+            <span class="w-3 h-3 rounded-full bg-rose-500/80"></span>
+            <span class="w-3 h-3 rounded-full bg-amber-500/80"></span>
+            <span class="w-3 h-3 rounded-full bg-emerald-500/80"></span>
+            <span class="text-xs font-mono text-slate-400 ml-2">agentguard / commerce / <strong>orders.js</strong></span>
           </div>
           <div class="flex items-center space-x-2">
-            <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-100 text-emerald-800">
-              ● Live Engine
+            <span class="inline-flex items-center space-x-1 text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-[#C5F277]/10 text-[#C5F277] border border-[#C5F277]/30">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#C5F277] animate-ping"></span>
+              <span>LIVE INTERACTIVE SIMULATOR</span>
             </span>
           </div>
         </div>
 
-        <!-- Split Product View -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-slate-200">
-          <!-- Left: Customer Support Experience -->
-          <div class="lg:col-span-6 p-6 sm:p-8 space-y-4 bg-slate-50/50">
-            <div class="flex items-center justify-between pb-2 border-b border-slate-200">
-              <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Customer Storefront Experience</span>
-              <span class="text-xs text-blue-600 font-semibold font-mono">Order #1001</span>
-            </div>
+        <!-- Interactive Tabs (Lamied style!) -->
+        <div class="bg-[#0A0E15] border-b border-white/[0.08] px-4 flex items-center justify-between">
+          <div class="flex space-x-2 text-xs font-mono">
+            <button id="demo-tab-chat" onclick="switchHeroDemoTab('chat')" class="px-4 py-2.5 font-bold text-[#C5F277] border-b-2 border-[#C5F277] flex items-center space-x-1.5">
+              <span>💬 customer_resolution.json</span>
+              <span class="w-1.5 h-1.5 rounded-full bg-[#C5F277]"></span>
+            </button>
+            <button id="demo-tab-diff" onclick="switchHeroDemoTab('diff')" class="px-4 py-2.5 font-medium text-slate-400 hover:text-slate-200 border-b-2 border-transparent flex items-center space-x-1.5">
+              <span>🛡️ governance_diff.patch</span>
+            </button>
+          </div>
+          <div class="text-[11px] text-slate-400 font-mono hidden sm:block">
+            store: <strong class="text-white">Lumina Audio & Acoustics</strong>
+          </div>
+        </div>
 
-            <!-- Dialogue -->
-            <div class="space-y-3 text-xs">
-              <div class="flex justify-end">
-                <div class="bg-blue-600 text-white p-3 rounded-2xl rounded-tr-none max-w-[85%] leading-relaxed shadow-sm">
-                  Where is my order #1001? I haven't received tracking yet.
+        <!-- Tab 1: Live Chat Dialogue Frame -->
+        <div id="demo-view-chat" class="p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 bg-[#080C10]">
+          <!-- Customer Side -->
+          <div class="lg:col-span-7 space-y-4">
+            <div class="text-[11px] uppercase tracking-wider font-bold text-slate-400">Customer Support Inquiries</div>
+            <div class="space-y-3 font-sans text-xs">
+              <div class="flex items-start space-x-3 justify-end">
+                <div class="bg-[#1C2636] border border-white/[0.1] rounded-2xl rounded-tr-xs p-3.5 text-slate-200 max-w-[85%]">
+                  "Hi! Where is my order #1001? (Customer email: sarah.connor@example.com)"
                 </div>
               </div>
-
-              <div class="flex justify-start">
-                <div class="bg-white border border-slate-200 text-slate-800 p-4 rounded-2xl rounded-tl-none max-w-[90%] space-y-2 shadow-sm">
+              <div class="flex items-start space-x-3">
+                <div class="w-7 h-7 rounded-lg bg-[#C5F277] text-slate-950 font-black flex items-center justify-center text-xs flex-shrink-0">AG</div>
+                <div class="bg-[#121A24] border border-white/[0.12] rounded-2xl rounded-tl-xs p-4 text-slate-200 max-w-[90%] space-y-2">
                   <p class="leading-relaxed">
-                    Order <strong>#1001</strong> (Lumina Pro Wireless ANC) was delivered 6 days ago via <strong>DHL Express</strong> (Tracking: <code>DHL-88492019</code>).
+                    Hello Sarah! Your order <strong>#1001</strong> for the <em>Lumina Pro Wireless ANC Headphones</em> ($129.00) was delivered 3 days ago via FedEx (tracking <code>FX-992014</code>).
                   </p>
-                  <p class="text-slate-600 leading-relaxed">
-                    Since delivery was completed within our 30-day return window, this order remains eligible for full return or replacement if needed.
+                  <p class="leading-relaxed text-slate-400">
+                    Your purchase is within our 30-day hassle-free return window and covered by Lumina's 1-year hardware warranty. Let me know if you need replacement ear pads or setup assistance!
                   </p>
-                  <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px]">
-                    <span class="text-emerald-700 font-medium font-mono">✓ Verified by Policy Critic (100% accuracy)</span>
-                    <span class="text-slate-400">Delivered</span>
+                  <div class="pt-2 border-t border-white/[0.08] flex items-center justify-between text-[10px] text-slate-400 font-mono">
+                    <span class="text-[#C5F277] font-semibold">✓ Critic Verified (100% policy grounded)</span>
+                    <span>1,524ms execution</span>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <!-- Right: Merchant Reasoning & Governance Console -->
-          <div class="lg:col-span-6 p-6 sm:p-8 space-y-4 bg-white">
-            <div class="flex items-center justify-between pb-2 border-b border-slate-200">
-              <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Copilot Reasoning & Governance Trace</span>
-              <span class="text-xs font-mono text-emerald-600 font-bold">12ms • Zero Hallucinations</span>
-            </div>
-
-            <!-- Step Breakdown -->
-            <div class="space-y-2.5 font-mono text-xs">
-              <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200 flex items-center justify-between">
-                <div class="flex items-center space-x-2">
-                  <span class="text-blue-600 font-bold">1.</span>
-                  <span class="font-semibold text-slate-800">order_lookup</span>
-                  <span class="text-slate-500 text-[11px]">(store_id: lumina, order: 1001)</span>
-                </div>
-                <span class="text-emerald-600 font-bold text-[11px]">DELIVERED</span>
-              </div>
-
-              <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200 flex items-center justify-between">
-                <div class="flex items-center space-x-2">
-                  <span class="text-blue-600 font-bold">2.</span>
-                  <span class="font-semibold text-slate-800">kb_search</span>
-                  <span class="text-slate-500 text-[11px]">(category: returns, window: 30d)</span>
-                </div>
-                <span class="text-emerald-600 font-bold text-[11px]">POLICY MATCH</span>
-              </div>
-
-              <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200 flex items-center justify-between">
-                <div class="flex items-center space-x-2">
-                  <span class="text-blue-600 font-bold">3.</span>
-                  <span class="font-semibold text-slate-800">critic_verification</span>
-                  <span class="text-slate-500 text-[11px]">(fact check vs ground truth)</span>
-                </div>
-                <span class="text-emerald-600 font-bold text-[11px]">1.00 SCORE</span>
-              </div>
-            </div>
-
-            <!-- Single-use Token Approval Gate Card -->
-            <div class="bg-amber-50/80 border border-amber-200 p-3.5 rounded-xl space-y-1.5 text-xs">
-              <div class="flex items-center justify-between text-amber-900 font-semibold">
-                <span class="flex items-center space-x-1.5">
-                  <svg class="w-3.5 h-3.5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-                  <span>HITL Refund Safety Gate</span>
-                </span>
-                <span class="font-mono text-[11px] text-amber-700">Threshold: $50.00</span>
-              </div>
-              <p class="text-slate-600 text-[11px] leading-relaxed">
-                If the customer requests a full refund ($129.00), the action is quarantined in the Merchant Approval Inbox with single-use cryptographic tokens.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Numbered Workflow Chapters (Linear 1.0, 2.0, 3.0 style) -->
-    <section id="how-it-works" class="max-w-6xl mx-auto px-6 py-20 border-t border-slate-200">
-      <div class="text-center max-w-2xl mx-auto mb-16 space-y-3">
-        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">How AgentGuard Works in Production</h2>
-        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
-          From zero-dependency embed to automated resolution, your store is protected every step of the way.
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <!-- Chapter 1 -->
-        <div class="bg-white border border-slate-200 rounded-2xl p-6 space-y-4 shadow-sm">
-          <div class="flex items-center justify-between">
-            <span class="font-mono font-bold text-blue-600 text-sm">1.0 / CONNECT</span>
-            <span class="text-xs font-semibold text-slate-400">2-Minute Setup</span>
-          </div>
-          <h3 class="font-bold text-slate-900 text-base">Ingest Policies & Store Records</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Connect your Shopify or WooCommerce store, or use our simulator. Add your exact return window, warranty clauses, and shipping SLAs to your private knowledge base.
-          </p>
-          <div class="bg-slate-50 border border-slate-200 rounded-lg p-2.5 font-mono text-[11px] text-slate-600">
-            Returns: 30 Days • Carrier: DHL • Warranty: 1-Year Comprehensive
-          </div>
-        </div>
-
-        <!-- Chapter 2 -->
-        <div class="bg-white border border-slate-200 rounded-2xl p-6 space-y-4 shadow-sm">
-          <div class="flex items-center justify-between">
-            <span class="font-mono font-bold text-blue-600 text-sm">2.0 / EMBED</span>
-            <span class="text-xs font-semibold text-slate-400">Zero Dependencies</span>
-          </div>
-          <h3 class="font-bold text-slate-900 text-base">Paste 1-Line Storefront Snippet</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Paste one script tag into your store's theme footer. Works across Shopify liquid, WordPress/WooCommerce, or custom HTML/React without any npm packages.
-          </p>
-          <div class="bg-slate-50 border border-slate-200 rounded-lg p-2.5 font-mono text-[11px] text-slate-600 truncate">
-            &lt;script src="https://.../widget.js" data-store-id="your-store"&gt;&lt;/script&gt;
-          </div>
-        </div>
-
-        <!-- Chapter 3 -->
-        <div class="bg-white border border-slate-200 rounded-2xl p-6 space-y-4 shadow-sm">
-          <div class="flex items-center justify-between">
-            <span class="font-mono font-bold text-blue-600 text-sm">3.0 / RESOLVE</span>
-            <span class="text-xs font-semibold text-emerald-600">Safety Gated</span>
-          </div>
-          <h3 class="font-bold text-slate-900 text-base">Autonomous Resolution with Safeguards</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            The Copilot verifies customer billing emails to stop snooping, tracks shipments, and calculates return eligibility. High-risk refunds are routed to your inbox for 1-click approval.
-          </p>
-          <div class="bg-slate-50 border border-slate-200 rounded-lg p-2.5 font-mono text-[11px] text-slate-600">
-            ✓ 0 Breaches • 100% Policy Grounded • 1-Click Authorize
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Live Interactive Sandbox (Loom / Attio style: "The Product is the Page") -->
-    <section id="live-sandbox" class="max-w-6xl mx-auto px-6 py-20 border-t border-slate-200">
-      <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-lg space-y-6">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-5">
-          <div>
-            <div class="flex items-center space-x-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-              <h2 class="text-lg font-bold text-slate-900">Live Multi-Agent Copilot Sandbox</h2>
-            </div>
-            <p class="text-xs text-slate-600 mt-1">Test live customer support resolution against our realistic e-commerce store records.</p>
-          </div>
-          <div class="flex items-center space-x-3">
-            <a href="/store?store_id=demo-store" target="_blank" class="text-xs text-blue-600 hover:text-blue-700 font-semibold flex items-center space-x-1">
-              <span>Open Customer Storefront Demo</span>
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-            </a>
-          </div>
-        </div>
-
-        <!-- Quick Scenario Chips -->
-        <div class="flex flex-wrap gap-2 text-xs">
-          <span class="text-slate-500 py-1 font-medium">Click to test scenario:</span>
-          <button onclick="runDemoPrompt('Where is order #1001? (Customer email: sarah.connor@example.com)')" class="bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-200 px-3 py-1 rounded-md transition">
-            Order Tracking (#1001)
-          </button>
-          <button onclick="runDemoPrompt('I want to return order #1001 for a refund. (Customer email: sarah.connor@example.com)')" class="bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-200 px-3 py-1 rounded-md transition">
-            Return Evaluation & Approval Gate
-          </button>
-          <button onclick="runDemoPrompt('What is your warranty policy for hardware repairs?') " class="bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-200 px-3 py-1 rounded-md transition">
-            Policy Knowledge Base Search
-          </button>
-          <button onclick="runDemoPrompt('Where is order #1001? (Customer email: wrong.intruder@evil.com)')" class="bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 px-3 py-1 rounded-md transition">
-            Privacy Snooping Blocked
-          </button>
-        </div>
-
-        <!-- Interactive Terminal / Chat Simulation -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 pt-2">
-          <!-- Chat Stream -->
-          <div class="lg:col-span-7 bg-slate-50 border border-slate-200 rounded-xl p-4 flex flex-col h-[380px]">
-            <div id="demo-chat-stream" class="flex-1 overflow-y-auto space-y-3 pr-2 text-xs">
-              <div class="flex items-start space-x-2 text-slate-600 bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
-                <svg class="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                <span>Select a scenario above or enter a customer inquiry below to test real-time verified multi-agent resolution.</span>
-              </div>
-            </div>
-
-            <form onsubmit="handleDemoSubmit(event)" class="mt-3 pt-3 border-t border-slate-200 flex gap-2">
-              <input id="demo-inquiry-input" type="text" placeholder="e.g. Where is order #1001? (Customer email: sarah.connor@example.com)" class="flex-1 bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-blue-600 shadow-sm">
-              <button id="demo-send-btn" type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs px-4 py-2 rounded-lg transition shadow-sm">
-                Execute
+            <!-- Interactive Scenario Buttons -->
+            <div class="pt-3 border-t border-white/[0.08] flex flex-wrap gap-2 text-xs">
+              <button onclick="setHeroSample('Where is my order #1001? (sarah.connor@example.com)', 'Order #1001 was delivered 3 days ago via FedEx to Sarah Connor. Eligible for returns.', '100% Grounded')" class="bg-[#141C26] hover:bg-[#1A2432] text-slate-300 border border-white/[0.08] px-2.5 py-1.5 rounded-lg font-mono text-[11px] transition">
+                📦 Track #1001
               </button>
-            </form>
+              <button onclick="setHeroSample('I want to return order #1001 for a full refund ($299.00)', 'Refund of $299.00 exceeds the $50 autonomous safety threshold. Quarantined in Merchant Approval Inbox.', 'HITL Gate Triggered')" class="bg-[#141C26] hover:bg-[#1A2432] text-slate-300 border border-white/[0.08] px-2.5 py-1.5 rounded-lg font-mono text-[11px] transition">
+                🔄 Refund #1001 ($299)
+              </button>
+              <button onclick="setHeroSample('Where is order #1001? (intruder@snoop.org)', 'ACCESS DENIED: Email mismatch detected. Security alert logged to immutable audit ledger.', 'Anti-Snooping Block')" class="bg-rose-950/40 hover:bg-rose-900/40 text-rose-300 border border-rose-800/80 px-2.5 py-1.5 rounded-lg font-mono text-[11px] transition">
+                🛡️ Test Privacy Block
+              </button>
+            </div>
           </div>
 
-          <!-- Multi-Agent Inspector -->
-          <div class="lg:col-span-5 bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col justify-between h-[380px] font-mono text-[11px] text-slate-300 shadow-sm">
-            <div>
-              <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-3">
-                <span class="text-slate-400 font-semibold uppercase tracking-wider text-[10px]">Reasoning Trace</span>
-                <span id="demo-critic-badge" class="text-slate-400">Critic Idle</span>
+          <!-- Multi-Agent Inspector (Right Side) -->
+          <div class="lg:col-span-5 bg-[#0C121A] rounded-xl p-4 border border-white/[0.08] space-y-3 font-mono text-[11px]">
+            <div class="flex items-center justify-between border-b border-white/[0.08] pb-2">
+              <span class="text-slate-400 font-bold uppercase text-[10px]">Planner Decomposition</span>
+              <span class="text-[#C5F277] text-[10px]">4 / 4 Complete</span>
+            </div>
+            <div class="space-y-1.5 text-slate-300">
+              <div class="flex items-center space-x-2 text-[#C5F277]">
+                <span>1.</span><span>[get_customer]</span><span class="text-slate-500 font-sans">verified email</span>
               </div>
-              <div id="demo-plan-steps" class="space-y-2 text-slate-400">
-                <div class="text-slate-500">Awaiting execution...</div>
+              <div class="flex items-center space-x-2 text-[#C5F277]">
+                <span>2.</span><span>[order_lookup]</span><span class="text-slate-500 font-sans">#1001 delivered</span>
+              </div>
+              <div class="flex items-center space-x-2 text-[#C5F277]">
+                <span>3.</span><span>[kb_search]</span><span class="text-slate-500 font-sans">30-day return policy</span>
+              </div>
+              <div class="flex items-center space-x-2 text-[#C5F277]">
+                <span>4.</span><span>[critic_audit]</span><span class="text-slate-500 font-sans">0 hallucinations</span>
               </div>
             </div>
 
-            <div class="border-t border-slate-800 pt-3 text-[10px] text-slate-400 space-y-1">
-              <div class="flex justify-between">
-                <span>Critic Verification:</span>
-                <span id="demo-stat-critic" class="text-slate-200">—</span>
+            <div class="pt-2 border-t border-white/[0.08] space-y-1">
+              <div class="text-slate-400 text-[10px] font-bold uppercase">Cryptographic Audit Chain</div>
+              <div class="text-slate-400 text-[10px] truncate">Block: <span class="text-slate-200">51b4333a8fae92...</span></div>
+              <div class="text-slate-400 text-[10px]">SHA-256 Ledger: <span class="text-emerald-400 font-bold">VERIFIED</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 2: Live Governance Diff (Lamied code-diff style!) -->
+        <div id="demo-view-diff" class="p-6 hidden bg-[#080C10] font-mono text-xs">
+          <div class="bg-[#0C121A] rounded-xl border border-white/[0.08] p-4 space-y-2">
+            <div class="text-slate-400 text-[11px] pb-2 border-b border-white/[0.08] flex items-center justify-between">
+              <span>PATCH /ecommerce/security_audit.diff</span>
+              <span class="text-[#C5F277]">HITL Quarantined</span>
+            </div>
+            <div class="space-y-1 text-[11px] leading-relaxed">
+              <div class="text-slate-500">@@ -14,6 +14,9 @@ policy_evaluation_context</div>
+              <div class="text-slate-400">  order_number: "1001"</div>
+              <div class="text-slate-400">  billing_email: "sarah.connor@example.com"</div>
+              <div class="text-emerald-400 bg-emerald-950/20 px-1 py-0.5 rounded">+ return_window_valid: true (Delivered 3 days ago &lt; 30d window)</div>
+              <div class="text-emerald-400 bg-emerald-950/20 px-1 py-0.5 rounded">+ reason: "Comprehensive hardware policy match"</div>
+              <div class="text-rose-400 bg-rose-950/20 px-1 py-0.5 rounded">- requested_amount: $299.00 (Exceeds auto-refund threshold $50.00)</div>
+              <div class="text-amber-400 bg-amber-950/20 px-1 py-0.5 rounded">! action: QUARANTINE_FOR_MERCHANT_APPROVAL (Token: appr-ad1e228a)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Integrated Mini-Terminal (Lamied style!) -->
+        <div class="bg-[#090D14] border-t border-white/[0.08] px-4 py-2.5 flex items-center justify-between text-[11px] font-mono">
+          <div class="flex items-center space-x-2 text-slate-400">
+            <span class="text-[#C5F277] font-bold">❯</span>
+            <span>agentguard trace --order 1001 --tenant lumina-audio</span>
+            <span class="text-slate-600">|</span>
+            <span class="text-emerald-400">200 OK (0 hallucinations)</span>
+          </div>
+          <span class="text-slate-500 text-[10px]">Starlette + Gemini 2.5 Flash</span>
+        </div>
+
+        <!-- Agent Status Strip (Lamied style!) -->
+        <div class="bg-[#121A26] border-t border-white/[0.08] px-4 py-3 flex items-center justify-between text-xs">
+          <div class="flex items-center space-x-3">
+            <div class="w-6 h-6 rounded-lg bg-[#C5F277]/10 border border-[#C5F277]/30 flex items-center justify-center text-[#C5F277]">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            </div>
+            <div>
+              <span class="font-bold text-white text-xs">AGENTGUARD COPILOT:</span>
+              <span id="agent-strip-status" class="text-slate-300 ml-1">Critic Agent verified draft response against store return policy</span>
+            </div>
+          </div>
+          <button id="agent-toggle-btn" onclick="toggleAgentSimulation()" class="bg-white/[0.08] hover:bg-white/[0.15] text-slate-300 px-3 py-1 rounded-lg text-[11px] font-mono transition flex items-center space-x-1">
+            <span id="agent-toggle-dot" class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span id="agent-toggle-label">Running</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Provider & Platform Integration Band (Lamied Style) -->
+    <section class="border-y border-white/[0.08] bg-[#0A0E15] py-10">
+      <div class="max-w-6xl mx-auto px-6 text-center space-y-4">
+        <p class="text-[11px] font-mono tracking-widest text-slate-400 uppercase">Seamless Store & AI Provider Integrations</p>
+        <div class="flex flex-wrap items-center justify-center gap-6 sm:gap-12 text-sm font-semibold text-slate-300">
+          <span class="hover:text-white transition flex items-center space-x-1.5"><svg class="w-4 h-4 text-[#C5F277]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg><span>Shopify</span></span>
+          <span class="hover:text-white transition flex items-center space-x-1.5"><svg class="w-4 h-4 text-[#C5F277]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h18v18H3z"/></svg><span>WooCommerce</span></span>
+          <span class="hover:text-white transition flex items-center space-x-1.5"><svg class="w-4 h-4 text-[#C5F277]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg><span>Google Gemini 2.5</span></span>
+          <span class="hover:text-white transition flex items-center space-x-1.5"><svg class="w-4 h-4 text-[#C5F277]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10l8 4 8-4V7l-8-4-8 4z"/></svg><span>FastMCP Protocol</span></span>
+          <span class="hover:text-white transition flex items-center space-x-1.5"><svg class="w-4 h-4 text-[#C5F277]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"/></svg><span>Postgres Multi-Tenant RLS</span></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTERACTIVE ROI & SAVINGS CALCULATOR (Modeled on Ever-Help.com!) -->
+    <section id="calculator" class="max-w-6xl mx-auto px-6 py-20">
+      <div class="card-dark rounded-3xl p-8 sm:p-12 shadow-2xl space-y-8">
+        <div class="max-w-2xl space-y-2">
+          <div class="inline-flex items-center space-x-2 text-[#C5F277] text-xs font-mono font-bold uppercase tracking-wider">
+            <span>⚡ Interactive Support Savings Calculator</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+            See how much your store saves with autonomous support.
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-400">
+            Slide to estimate ticket volume, hours saved, and unauthorized refund leak prevention.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center pt-4">
+          <!-- Controls (7 cols) -->
+          <div class="lg:col-span-7 space-y-6">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between text-xs">
+                <span class="text-slate-300 font-semibold">Monthly Orders</span>
+                <span id="calc-orders-label" class="text-[#C5F277] font-mono font-bold text-sm">2,500 orders/mo</span>
               </div>
-              <div class="flex justify-between">
-                <span>Execution Latency:</span>
-                <span id="demo-stat-time" class="text-slate-200">—</span>
+              <input id="calc-orders-slider" type="range" min="100" max="25000" step="100" value="2500" oninput="calculateSavings()" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-[#C5F277]">
+              <div class="flex justify-between text-[10px] text-slate-500 font-mono">
+                <span>100 orders</span>
+                <span>10,000 orders</span>
+                <span>25,000 orders</span>
               </div>
-              <div class="flex justify-between">
-                <span>Audit Hash:</span>
-                <span id="demo-stat-hash" class="text-blue-400">—</span>
+            </div>
+
+            <div class="space-y-2">
+              <div class="flex items-center justify-between text-xs">
+                <span class="text-slate-300 font-semibold">Average Order Value (AOV)</span>
+                <span id="calc-aov-label" class="text-[#C5F277] font-mono font-bold text-sm">$85.00</span>
               </div>
+              <input id="calc-aov-slider" type="range" min="15" max="350" step="5" value="85" oninput="calculateSavings()" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-[#C5F277]">
+              <div class="flex justify-between text-[10px] text-slate-500 font-mono">
+                <span>$15</span>
+                <span>$150</span>
+                <span>$350</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dynamic Output Metrics (5 cols) -->
+          <div class="lg:col-span-5 bg-[#090D14] border border-white/[0.08] rounded-2xl p-6 space-y-4 font-mono text-xs">
+            <div class="flex items-center justify-between border-b border-white/[0.08] pb-3">
+              <span class="text-slate-400">Autonomous Tier-1 Resolution:</span>
+              <span class="text-emerald-400 font-bold text-sm">84.5%</span>
+            </div>
+            <div class="flex items-center justify-between border-b border-white/[0.08] pb-3">
+              <span class="text-slate-400">Merchant Labor Saved:</span>
+              <span id="calc-hours-saved" class="text-[#C5F277] font-bold text-sm">125 hrs/mo</span>
+            </div>
+            <div class="flex items-center justify-between border-b border-white/[0.08] pb-3">
+              <span class="text-slate-400">Est. Support Cost Saved:</span>
+              <span id="calc-dollars-saved" class="text-emerald-400 font-bold text-base">$3,125 / mo</span>
+            </div>
+            <div class="flex items-center justify-between pt-1">
+              <span class="text-slate-400">AgentGuard Price:</span>
+              <span class="text-white font-extrabold text-sm">$0.00 (100% Free)</span>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 100% Free Forever Commitment Section -->
-    <section id="pricing" class="max-w-5xl mx-auto px-6 py-20 border-t border-slate-200">
-      <div class="text-center max-w-2xl mx-auto mb-12 space-y-3">
-        <div class="inline-flex items-center space-x-2 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full text-xs font-semibold text-emerald-700">
-          <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-          <span>100% Free & Open Source</span>
-        </div>
-        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Zero Subscriptions. 100% Free for Every Merchant.</h2>
-        <p class="text-xs sm:text-sm text-slate-600">No credit card required. No monthly fees. No trial countdowns. Everything you need to provide autonomous e-commerce support is completely free.</p>
+    <!-- 4-AGENT REASONING PIPELINE (Lamied numbered features 01, 02, 03 style) -->
+    <section id="architecture" class="max-w-6xl mx-auto px-6 py-16 space-y-12">
+      <div class="max-w-xl space-y-2">
+        <p class="text-xs font-mono font-bold text-[#C5F277] uppercase tracking-wider">Multi-Agent Security Architecture</p>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+          How AgentGuard prevents the flaws of generic AI bots.
+        </h2>
       </div>
 
-      <div class="bg-white border border-slate-200 rounded-3xl p-8 sm:p-12 shadow-sm space-y-8">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 border-b border-slate-100 pb-8">
-          <div>
-            <h3 class="text-xl font-bold text-slate-900">Community Edition</h3>
-            <p class="text-xs text-slate-500 mt-1">Full access to the 4-agent multi-agent reasoning pipeline, HITL refund safety, and embeddable widget.</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Card 01 -->
+        <div class="card-dark rounded-2xl p-7 space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="w-8 h-8 rounded-lg bg-[#C5F277]/10 border border-[#C5F277]/30 flex items-center justify-center text-[#C5F277] font-mono font-bold text-xs">01</span>
+            <span class="text-[10px] font-mono text-slate-500 uppercase">DETERMINISTIC REASONING</span>
           </div>
-          <div class="flex items-baseline space-x-2">
-            <span class="text-4xl sm:text-5xl font-extrabold text-slate-900">$0</span>
-            <span class="text-sm font-semibold text-slate-500">/ forever free</span>
-          </div>
+          <h3 class="text-lg font-bold text-white tracking-tight">Independent Critic Agent</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Before any customer sees a reply, a dedicated Critic Agent programmatically audits the draft against your actual knowledge base articles and live order data. Hallucinations are mathematically vetoed.
+          </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8 text-xs text-slate-700">
-          <div class="flex items-center space-x-3">
-            <div class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0 font-bold">✓</div>
-            <span><strong>Unlimited Inquiries & Resolutions</strong> without artificial caps</span>
+        <!-- Card 02 -->
+        <div class="card-dark rounded-2xl p-7 space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="w-8 h-8 rounded-lg bg-[#C5F277]/10 border border-[#C5F277]/30 flex items-center justify-center text-[#C5F277] font-mono font-bold text-xs">02</span>
+            <span class="text-[10px] font-mono text-slate-500 uppercase">FINANCIAL SAFEGUARDS</span>
           </div>
-          <div class="flex items-center space-x-3">
-            <div class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0 font-bold">✓</div>
-            <span><strong>Gemini 2.5 Multi-Agent Copilot</strong> (Planner, Retriever, Synthesizer, Critic)</span>
-          </div>
-          <div class="flex items-center space-x-3">
-            <div class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0 font-bold">✓</div>
-            <span><strong>Human-in-the-Loop Refund Approval</strong> with single-use tokens</span>
-          </div>
-          <div class="flex items-center space-x-3">
-            <div class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0 font-bold">✓</div>
-            <span><strong>Anti-Snooping Email Privacy Enforcement</strong> for customer data</span>
-          </div>
-          <div class="flex items-center space-x-3">
-            <div class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0 font-bold">✓</div>
-            <span><strong>Custom Knowledge Base & Policies</strong> dynamically cited in chats</span>
-          </div>
-          <div class="flex items-center space-x-3">
-            <div class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0 font-bold">✓</div>
-            <span><strong>1-Click Embeddable Widget</strong> (Shopify, WooCommerce, Custom HTML)</span>
-          </div>
-          <div class="flex items-center space-x-3">
-            <div class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0 font-bold">✓</div>
-            <span><strong>Shareable Customer Storefront Simulator</strong> link ready to send</span>
-          </div>
-          <div class="flex items-center space-x-3">
-            <div class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0 font-bold">✓</div>
-            <span><strong>Tamper-Evident SHA-256 Audit Trail</strong> with cryptographic proofs</span>
-          </div>
+          <h3 class="text-lg font-bold text-white tracking-tight">Human-in-the-Loop Refund Gate</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Any refund or financial commitment exceeding your store's threshold ($50) is held in your Merchant Approval Inbox. Single-use cryptographic tokens ensure refunds execute only with human authorization.
+          </p>
         </div>
 
-        <div class="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-slate-100">
-          <p class="text-xs text-slate-500">Instant setup in under 60 seconds. No credit card or billing details ever required.</p>
-          <button onclick="openAuthModal('signup')" class="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white font-semibold px-8 py-3 rounded-xl text-xs transition shadow-sm">
+        <!-- Card 03 -->
+        <div class="card-dark rounded-2xl p-7 space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="w-8 h-8 rounded-lg bg-[#C5F277]/10 border border-[#C5F277]/30 flex items-center justify-center text-[#C5F277] font-mono font-bold text-xs">03</span>
+            <span class="text-[10px] font-mono text-slate-500 uppercase">ZERO-TRUST SECURITY</span>
+          </div>
+          <h3 class="text-lg font-bold text-white tracking-tight">Anti-Snooping Email Verification</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Customers cannot browse strangers' order details simply by guessing numbers. Every inquiry requires matching billing credentials. Unauthorized lookups are instantly blocked and hashed to the audit vault.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 100% FREE COMMITMENT SECTION -->
+    <section class="max-w-5xl mx-auto px-6 py-16">
+      <div class="rounded-3xl border border-[#C5F277]/30 bg-gradient-to-b from-[#141E28] to-[#0A0E15] p-8 sm:p-12 text-center space-y-6 lime-glow">
+        <span class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-bold font-mono bg-[#C5F277]/20 text-[#C5F277] border border-[#C5F277]/40">
+          <span>● 100% FREE FOREVER FOR ALL MERCHANTS</span>
+        </span>
+        <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
+          No subscriptions. No credit card.<br>
+          <span class="shimmer-text">No hidden platform fees.</span>
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-400 max-w-xl mx-auto leading-relaxed">
+          AgentGuard was built to give independent store owners the same enterprise-grade security and autonomous AI support that billion-dollar brands use.
+        </p>
+
+        <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <button onclick="openAuthModal('signup')" class="w-full sm:w-auto bg-[#C5F277] hover:bg-[#b8e869] text-slate-950 font-bold px-8 py-3.5 rounded-xl text-xs transition shadow-lg">
             Create Free Store Account
           </button>
+          <a href="/store?store_id=demo-store" target="_blank" class="w-full sm:w-auto bg-white/[0.08] hover:bg-white/[0.12] text-white border border-white/[0.1] font-semibold px-8 py-3.5 rounded-xl text-xs transition">
+            Test Live Storefront Simulator
+          </a>
         </div>
       </div>
     </section>
 
-    <!-- FAQ Section (Cal.com style: Handles objections) -->
-    <section class="max-w-4xl mx-auto px-6 py-20 border-t border-slate-200">
-      <div class="text-center max-w-xl mx-auto mb-12 space-y-2">
-        <h2 class="text-2xl font-bold text-slate-900 tracking-tight">Frequently Asked Questions</h2>
-        <p class="text-xs text-slate-600">Everything you need to know about AgentGuard's safety, privacy, and e-commerce integrations.</p>
+    <!-- FAQ Accordion (EverHelp & Lamied style) -->
+    <section class="max-w-4xl mx-auto px-6 py-16 border-t border-white/[0.08] space-y-6">
+      <div class="text-center max-w-xl mx-auto space-y-2">
+        <h2 class="text-2xl font-bold text-white tracking-tight">Frequently Asked Questions</h2>
+        <p class="text-xs text-slate-400">Everything you need to know about AgentGuard's e-commerce integrations, safety, and privacy.</p>
       </div>
 
-      <div class="space-y-4 text-xs">
-        <div class="bg-white border border-slate-200 p-5 rounded-xl space-y-2 shadow-sm">
-          <h3 class="font-bold text-slate-900 text-sm">Will the AI hallucinate fake policies or promises?</h3>
-          <p class="text-slate-600 leading-relaxed">
-            No. Unlike generic chatbots, AgentGuard uses a 4-agent pipeline featuring an independent <strong>Critic Agent</strong>. The Critic programmatically audits the draft against your ground-truth store facts and policies before transmitting anything to the customer. Any hallucination is rejected and revised.
+      <div class="space-y-3 text-xs">
+        <details class="card-dark rounded-xl p-4 cursor-pointer group">
+          <summary class="font-bold text-white flex items-center justify-between list-none">
+            <span>Can the AI hallucinate unauthorized refunds or fake return windows?</span>
+            <span class="text-[#C5F277] font-mono group-open:rotate-45 transition transform text-base">+</span>
+          </summary>
+          <p class="text-slate-400 mt-2 leading-relaxed pt-2 border-t border-white/[0.06]">
+            No. Unlike generic conversational chatbots, AgentGuard uses a deterministic 4-agent pipeline. Any refund over $50 is quarantined in your Merchant Approval Inbox and requires a single-use cryptographic token signed by you.
           </p>
-        </div>
+        </details>
 
-        <div class="bg-white border border-slate-200 p-5 rounded-xl space-y-2 shadow-sm">
-          <h3 class="font-bold text-slate-900 text-sm">Can customers snoop on another person's order details?</h3>
-          <p class="text-slate-600 leading-relaxed">
-            No. Our e-commerce privacy layer enforces strict customer verification: an inquiry for order #1001 requires the customer's matching billing email. Mismatched lookups are denied immediately, and the security event is logged in your immutable audit vault.
+        <details class="card-dark rounded-xl p-4 cursor-pointer group">
+          <summary class="font-bold text-white flex items-center justify-between list-none">
+            <span>How do I embed the chat widget on Shopify or WooCommerce?</span>
+            <span class="text-[#C5F277] font-mono group-open:rotate-45 transition transform text-base">+</span>
+          </summary>
+          <p class="text-slate-400 mt-2 leading-relaxed pt-2 border-t border-white/[0.06]">
+            In your Merchant Dashboard, copy your 1-line script tag (e.g. <code>&lt;script src=".../widget.js" data-store-id="..."&gt;&lt;/script&gt;</code>) and paste it before the closing <code>&lt;/body&gt;</code> tag in your Shopify <code>theme.liquid</code> or WooCommerce footer. It has zero npm dependencies.
           </p>
-        </div>
+        </details>
 
-        <div class="bg-white border border-slate-200 p-5 rounded-xl space-y-2 shadow-sm">
-          <h3 class="font-bold text-slate-900 text-sm">Can the AI issue refunds without my permission?</h3>
-          <p class="text-slate-600 leading-relaxed">
-            Never. Any financial action exceeding your custom threshold (e.g. $50) is quarantined in your <strong>Merchant Approval Inbox</strong>. Refunds are only executed when a merchant clicks "Approve" using single-use cryptographic tokens.
+        <details class="card-dark rounded-xl p-4 cursor-pointer group">
+          <summary class="font-bold text-white flex items-center justify-between list-none">
+            <span>Is AgentGuard really 100% free forever?</span>
+            <span class="text-[#C5F277] font-mono group-open:rotate-45 transition transform text-base">+</span>
+          </summary>
+          <p class="text-slate-400 mt-2 leading-relaxed pt-2 border-t border-white/[0.06]">
+            Yes. AgentGuard is completely free for store owners. There are no credit card requirements, no trial countdowns, and no limits on custom knowledge base policies.
           </p>
-        </div>
-
-        <div class="bg-white border border-slate-200 p-5 rounded-xl space-y-2 shadow-sm">
-          <h3 class="font-bold text-slate-900 text-sm">How do I install the widget on my store?</h3>
-          <p class="text-slate-600 leading-relaxed">
-            Simply copy your 1-line script tag from the Merchant Dashboard and paste it into your Shopify <code>theme.liquid</code>, WooCommerce footer, or custom HTML. It has zero npm dependencies and loads asynchronously without slowing down your storefront.
-          </p>
-        </div>
+        </details>
       </div>
     </section>
   </main>
 
   <!-- Footer -->
-  <footer class="border-t border-slate-200 bg-white px-6 py-12 text-xs text-slate-500">
+  <footer class="border-t border-white/[0.08] bg-[#0A0E15] px-6 py-10 text-xs text-slate-500">
     <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
       <div class="flex items-center space-x-3">
-        <div class="w-6 h-6 rounded bg-blue-600 flex items-center justify-center text-white text-[10px] font-bold">AG</div>
-        <span class="font-bold text-slate-800">AgentGuard</span>
+        <div class="w-6 h-6 rounded-lg bg-[#C5F277] flex items-center justify-center text-slate-950 font-bold text-[10px]">AG</div>
+        <span class="font-bold text-slate-200">AgentGuard</span>
         <span>•</span>
-        <span>Autonomous E-Commerce Support Platform</span>
+        <span>Secured Autonomous Support for E-Commerce</span>
       </div>
-      <div class="flex items-center space-x-6">
-        <a href="/dashboard" class="hover:text-slate-800">Merchant Dashboard</a>
-        <a href="/store?store_id=demo-store" class="hover:text-slate-800">Storefront Simulator</a>
-        <a href="/widget.js" class="hover:text-slate-800">Widget Script</a>
-        <a href="/llms.txt" class="hover:text-slate-800 font-mono text-[11px]">llms.txt</a>
+      <div class="flex items-center space-x-6 font-mono text-[11px]">
+        <a href="/dashboard" class="hover:text-white transition">Merchant Dashboard</a>
+        <a href="/store?store_id=demo-store" target="_blank" class="hover:text-white transition">Storefront Simulator</a>
+        <a href="/widget.js" class="hover:text-white transition">widget.js</a>
       </div>
     </div>
   </footer>
 
   <!-- Auth Modal -->
-  <div id="auth-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-white border border-slate-200 rounded-2xl w-full max-w-md p-6 shadow-2xl space-y-5">
-      <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+  <div id="auth-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-[#0E141E] border border-white/[0.12] rounded-2xl w-full max-w-md p-6 shadow-2xl space-y-5">
+      <div class="flex items-center justify-between border-b border-white/[0.08] pb-3">
         <div class="flex space-x-4">
-          <button id="auth-tab-signup" onclick="setAuthMode('signup')" class="text-sm font-bold text-blue-600 border-b-2 border-blue-600 pb-2">
+          <button id="auth-tab-signup" onclick="setAuthMode('signup')" class="text-sm font-bold text-[#C5F277] border-b-2 border-[#C5F277] pb-2 font-mono">
             Create Store Account
           </button>
-          <button id="auth-tab-login" onclick="setAuthMode('login')" class="text-sm font-bold text-slate-500 pb-2 hover:text-slate-800">
+          <button id="auth-tab-login" onclick="setAuthMode('login')" class="text-sm font-medium text-slate-400 pb-2 hover:text-white font-mono">
             Sign In
           </button>
         </div>
-        <button onclick="closeAuthModal()" class="text-slate-400 hover:text-slate-600">
+        <button onclick="closeAuthModal()" class="text-slate-400 hover:text-white">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
 
-      <div id="auth-error-msg" class="hidden text-xs text-rose-700 bg-rose-50 border border-rose-200 p-2.5 rounded-lg"></div>
+      <div id="auth-error-msg" class="hidden text-xs text-rose-300 bg-rose-950/40 border border-rose-800/80 p-2.5 rounded-lg"></div>
 
-      <form id="auth-form" onsubmit="handleAuthSubmit(event)" class="space-y-4 text-xs">
+      <form id="auth-form" onsubmit="handleAuthSubmit(event)" class="space-y-4 text-xs font-sans">
         <div id="auth-field-store-name">
-          <label class="block font-semibold text-slate-700 mb-1">Store Name</label>
-          <input type="text" id="auth-store-name" placeholder="e.g. Apex Streetwear" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:border-blue-600">
+          <label class="block font-semibold text-slate-300 mb-1">Store Name</label>
+          <input type="text" id="auth-store-name" placeholder="e.g. Apex Streetwear" class="w-full bg-[#0A0E15] border border-white/[0.1] rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-[#C5F277]">
         </div>
 
         <div id="auth-field-platform">
-          <label class="block font-semibold text-slate-700 mb-1">Store Platform</label>
-          <select id="auth-platform" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:border-blue-600">
-            <option value="simulator">Built-in Simulator (Instant offline testing)</option>
+          <label class="block font-semibold text-slate-300 mb-1">Store Platform</label>
+          <select id="auth-platform" class="w-full bg-[#0A0E15] border border-white/[0.1] rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-[#C5F277]">
+            <option value="simulator">Built-in Simulator (Instant Offline Testing)</option>
             <option value="shopify">Shopify Admin REST API</option>
             <option value="woocommerce">WooCommerce REST API v3</option>
           </select>
         </div>
 
         <div id="auth-field-window">
-          <label class="block font-semibold text-slate-700 mb-1">Return Window (Days)</label>
-          <input type="number" id="auth-return-window" value="30" min="1" max="180" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:border-blue-600">
+          <label class="block font-semibold text-slate-300 mb-1">Return Window (Days)</label>
+          <input type="number" id="auth-return-window" value="30" min="1" max="180" class="w-full bg-[#0A0E15] border border-white/[0.1] rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-[#C5F277]">
         </div>
 
         <div>
-          <label class="block font-semibold text-slate-700 mb-1">Merchant Email</label>
-          <input type="email" id="auth-email" required placeholder="owner@yourstore.com" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:border-blue-600">
+          <label class="block font-semibold text-slate-300 mb-1">Merchant Email</label>
+          <input type="email" id="auth-email" required placeholder="owner@yourstore.com" class="w-full bg-[#0A0E15] border border-white/[0.1] rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-[#C5F277]">
         </div>
 
         <div>
-          <label class="block font-semibold text-slate-700 mb-1">Password</label>
-          <input type="password" id="auth-password" required placeholder="••••••••" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:border-blue-600">
+          <label class="block font-semibold text-slate-300 mb-1">Password</label>
+          <input type="password" id="auth-password" required placeholder="••••••••" class="w-full bg-[#0A0E15] border border-white/[0.1] rounded-xl px-3.5 py-2 text-white focus:outline-none focus:border-[#C5F277]">
         </div>
 
-        <button type="submit" id="auth-submit-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-lg shadow-sm transition mt-2">
+        <button type="submit" id="auth-submit-btn" class="w-full bg-[#C5F277] hover:bg-[#b8e869] text-slate-950 font-bold py-3 rounded-xl shadow-xs transition mt-2 font-mono text-xs">
           Create Account & Launch Dashboard
         </button>
       </form>
@@ -556,15 +562,7 @@
 
   <script>
     let authMode = 'signup';
-
-    function handleHeroQuickStart(e) {
-      e.preventDefault();
-      const email = document.getElementById('hero-email-input').value.trim();
-      openAuthModal('signup');
-      if (email) {
-        document.getElementById('auth-email').value = email;
-      }
-    }
+    let isAgentRunning = true;
 
     function openAuthModal(mode) {
       setAuthMode(mode || 'signup');
@@ -587,15 +585,15 @@
       err.classList.add('hidden');
 
       if (mode === 'signup') {
-        tabSignup.className = 'text-sm font-bold text-blue-600 border-b-2 border-blue-600 pb-2';
-        tabLogin.className = 'text-sm font-bold text-slate-500 pb-2 hover:text-slate-800';
+        tabSignup.className = 'text-sm font-bold text-[#C5F277] border-b-2 border-[#C5F277] pb-2 font-mono';
+        tabLogin.className = 'text-sm font-medium text-slate-400 pb-2 hover:text-white font-mono';
         btn.textContent = 'Create Account & Launch Dashboard';
         fStore.classList.remove('hidden');
         fPlat.classList.remove('hidden');
         fWin.classList.remove('hidden');
       } else {
-        tabLogin.className = 'text-sm font-bold text-blue-600 border-b-2 border-blue-600 pb-2';
-        tabSignup.className = 'text-sm font-bold text-slate-500 pb-2 hover:text-slate-800';
+        tabLogin.className = 'text-sm font-bold text-[#C5F277] border-b-2 border-[#C5F277] pb-2 font-mono';
+        tabSignup.className = 'text-sm font-medium text-slate-400 pb-2 hover:text-white font-mono';
         btn.textContent = 'Sign In to Dashboard';
         fStore.classList.add('hidden');
         fPlat.classList.add('hidden');
@@ -636,7 +634,7 @@
           localStorage.setItem('agentguard_api_key', data.merchant.api_key);
           window.location.href = `/dashboard?store_id=${encodeURIComponent(data.merchant.store_id)}`;
         } else {
-          errEl.textContent = data.message || 'Authentication failed. Please verify credentials.';
+          errEl.textContent = data.message || 'Authentication failed. Please check credentials.';
           errEl.classList.remove('hidden');
         }
       } catch (err) {
@@ -648,97 +646,64 @@
       }
     }
 
-    // Live Sandbox Execution
-    function runDemoPrompt(text) {
-      document.getElementById('demo-inquiry-input').value = text;
-      handleDemoSubmit();
-    }
+    // Hero Workbench Tab Switcher (Lamied Style)
+    function switchHeroDemoTab(tab) {
+      const tabChat = document.getElementById('demo-tab-chat');
+      const tabDiff = document.getElementById('demo-tab-diff');
+      const viewChat = document.getElementById('demo-view-chat');
+      const viewDiff = document.getElementById('demo-view-diff');
 
-    async function handleDemoSubmit(e) {
-      if (e) e.preventDefault();
-      const inp = document.getElementById('demo-inquiry-input');
-      const text = inp.value.trim();
-      if (!text) return;
-
-      const stream = document.getElementById('demo-chat-stream');
-      const btn = document.getElementById('demo-send-btn');
-      btn.disabled = true;
-
-      // Add user bubble
-      const userBubble = document.createElement('div');
-      userBubble.className = 'flex justify-end';
-      userBubble.innerHTML = `<div class="bg-blue-600 text-white p-2.5 rounded-lg max-w-[85%] shadow-sm leading-relaxed">${escapeHtml(text)}</div>`;
-      stream.appendChild(userBubble);
-      stream.scrollTop = stream.scrollHeight;
-
-      // Add thinking
-      const thinking = document.createElement('div');
-      thinking.className = 'flex items-center space-x-2 text-slate-500 text-xs italic py-1';
-      thinking.innerHTML = `<svg class="w-3.5 h-3.5 animate-spin text-blue-600" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg><span>Reasoning with Gemini multi-agent Copilot...</span>`;
-      stream.appendChild(thinking);
-      stream.scrollTop = stream.scrollHeight;
-
-      try {
-        const res = await fetch('/api/chat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ inquiry: text, store_id: 'demo-store' })
-        });
-        const data = await res.json();
-        thinking.remove();
-
-        if (data.status === 'success') {
-          const agentBubble = document.createElement('div');
-          agentBubble.className = 'flex justify-start';
-          agentBubble.innerHTML = `
-            <div class="bg-white border border-slate-200 text-slate-800 p-3 rounded-lg max-w-[90%] space-y-1.5 shadow-sm">
-              <div class="leading-relaxed whitespace-pre-line">${escapeHtml(data.response)}</div>
-              <div class="text-[10px] text-emerald-700 font-mono font-semibold pt-1 border-t border-slate-100">
-                ✓ Verified (${((data.critique?.score || 1) * 100).toFixed(0)}% factual accuracy)
-              </div>
-            </div>
-          `;
-          stream.appendChild(agentBubble);
-
-          // Update Inspector
-          const stepsContainer = document.getElementById('demo-plan-steps');
-          const steps = (data.plan || []).map(s => `
-            <div class="flex items-center space-x-2 text-slate-300">
-              <span class="text-blue-400 font-bold">${s.step_number}.</span>
-              <span class="text-slate-100">${s.tool_name}</span>
-              <span class="text-[10px] text-slate-400 font-sans">${s.description}</span>
-            </div>
-          `).join('');
-          stepsContainer.innerHTML = steps || '<div class="text-slate-500">Direct resolution without tool delegation.</div>';
-
-          document.getElementById('demo-critic-badge').className = 'text-emerald-400 font-bold';
-          document.getElementById('demo-critic-badge').textContent = `Passed (${((data.critique?.score || 1) * 100).toFixed(0)}%)`;
-          document.getElementById('demo-stat-critic').textContent = `${data.critique?.hallucinations?.length || 0} hallucinations detected`;
-          document.getElementById('demo-stat-time').textContent = `${data.execution_time_ms} ms`;
-          document.getElementById('demo-stat-hash').textContent = (data.trace_id || '').substring(0, 16);
-        } else {
-          const errBubble = document.createElement('div');
-          errBubble.className = 'text-rose-600 text-xs p-2 bg-rose-50 border border-rose-200 rounded';
-          errBubble.textContent = `Error: ${data.message || 'Operation failed'}`;
-          stream.appendChild(errBubble);
-        }
-      } catch (err) {
-        thinking.remove();
-        const errBubble = document.createElement('div');
-        errBubble.className = 'text-rose-600 text-xs p-2 bg-rose-50 border border-rose-200 rounded';
-        errBubble.textContent = `Network error: ${err.message}`;
-        stream.appendChild(errBubble);
-      } finally {
-        btn.disabled = false;
-        stream.scrollTop = stream.scrollHeight;
+      if (tab === 'chat') {
+        tabChat.className = 'px-4 py-2.5 font-bold text-[#C5F277] border-b-2 border-[#C5F277] flex items-center space-x-1.5';
+        tabDiff.className = 'px-4 py-2.5 font-medium text-slate-400 hover:text-slate-200 border-b-2 border-transparent flex items-center space-x-1.5';
+        viewChat.classList.remove('hidden');
+        viewDiff.classList.add('hidden');
+      } else {
+        tabDiff.className = 'px-4 py-2.5 font-bold text-[#C5F277] border-b-2 border-[#C5F277] flex items-center space-x-1.5';
+        tabChat.className = 'px-4 py-2.5 font-medium text-slate-400 hover:text-slate-200 border-b-2 border-transparent flex items-center space-x-1.5';
+        viewDiff.classList.remove('hidden');
+        viewChat.classList.add('hidden');
       }
     }
 
-    function escapeHtml(str) {
-      return (str || '').replace(/[&<>'"]/g, tag => ({
-        '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
-      }[tag] || tag));
+    function setHeroSample(query, reply, badge) {
+      document.getElementById('agent-strip-status').textContent = `Resolution for "${query.substring(0, 32)}..." (${badge})`;
+      switchHeroDemoTab('chat');
     }
+
+    function toggleAgentSimulation() {
+      isAgentRunning = !isAgentRunning;
+      const dot = document.getElementById('agent-toggle-dot');
+      const label = document.getElementById('agent-toggle-label');
+      if (isAgentRunning) {
+        dot.className = 'w-2 h-2 rounded-full bg-emerald-400';
+        label.textContent = 'Running';
+      } else {
+        dot.className = 'w-2 h-2 rounded-full bg-amber-400';
+        label.textContent = 'Paused';
+      }
+    }
+
+    // Interactive ROI Calculator (EverHelp Style)
+    function calculateSavings() {
+      const orders = parseInt(document.getElementById('calc-orders-slider').value, 10);
+      const aov = parseInt(document.getElementById('calc-aov-slider').value, 10);
+
+      document.getElementById('calc-orders-label').textContent = `${orders.toLocaleString()} orders/mo`;
+      document.getElementById('calc-aov-label').textContent = `$${aov.toFixed(2)}`;
+
+      // Calculations:
+      // ~5% of orders require customer service inquiries
+      const inquiries = orders * 0.05;
+      // Each inquiry takes ~12 minutes of human rep labor
+      const humanHours = Math.round((inquiries * 12) / 60);
+      // Labor cost estimated at $25/hr
+      const dollarsSaved = Math.round(humanHours * 25);
+
+      document.getElementById('calc-hours-saved').textContent = `${humanHours.toLocaleString()} hrs/mo`;
+      document.getElementById('calc-dollars-saved').textContent = `$${dollarsSaved.toLocaleString()} / mo`;
+    }
+    calculateSavings();
   </script>
 
   <!-- Embed Demo Chat Widget -->
