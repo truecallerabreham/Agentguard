@@ -127,25 +127,27 @@ class PlannerAgent:
             step_counter += 1
 
         # 3. Detect Knowledge Base Policy requirements
+        target_store = tenant_id if tenant_id and tenant_id not in ("default", "system") else "demo-store"
+
         if any(w in inquiry_lower for w in ("return", "refund", "exchange", "money back")):
             steps.append(
                 PlanStep(
                     step_number=step_counter,
                     action="Search Return and Refund policy articles in knowledge base",
                     tool_name="kb_search",
-                    arguments={"query": "return policy refund timeframe restocking fee", "category": "returns"},
+                    arguments={"query": f"{inquiry} return policy refund", "category": "returns", "store_id": target_store},
                     reason="Retrieve official policy terms, return window deadlines, and restocking fee rules.",
                 )
             )
             step_counter += 1
 
-        if any(w in inquiry_lower for w in ("defective", "broken", "damaged", "warranty", "replacement", "repair")):
+        if any(w in inquiry_lower for w in ("defective", "broken", "damaged", "warranty", "replacement", "repair", "battery", "service")):
             steps.append(
                 PlanStep(
                     step_number=step_counter,
                     action="Search Warranty and Defective Merchandise policies",
                     tool_name="kb_search",
-                    arguments={"query": "defective merchandise warranty direct replacement", "category": "warranty"},
+                    arguments={"query": f"{inquiry} warranty replacement defect", "category": "warranty", "store_id": target_store},
                     reason="Determine coverage guidelines and SLA for damaged or defective equipment.",
                 )
             )
@@ -157,7 +159,7 @@ class PlannerAgent:
                     step_number=step_counter,
                     action="Search Billing and Invoicing policies",
                     tool_name="kb_search",
-                    arguments={"query": "billing payment dispute posting time", "category": "billing"},
+                    arguments={"query": f"{inquiry} billing payment dispute", "category": "billing", "store_id": target_store},
                     reason="Retrieve billing guidelines and payment disbursement schedules.",
                 )
             )

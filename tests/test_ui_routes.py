@@ -32,15 +32,18 @@ def client():
 
 
 def test_dashboard_routes(client):
-    """Verify that / and /dashboard serve the Merchant Control Panel HTML."""
+    """Verify that / serves public landing page and /dashboard serves Merchant Control Panel."""
+    # Root / serves public SaaS landing page
     res_root = client.get("/")
     assert res_root.status_code == 200
     assert "AgentGuard" in res_root.text
-    assert "Live Support Console" in res_root.text
+    assert "Autonomous Support for" in res_root.text
 
+    # /dashboard serves merchant control panel
     res_dash = client.get("/dashboard")
     assert res_dash.status_code == 200
     assert "AgentGuard" in res_dash.text
+    assert "Live Support Console" in res_dash.text
 
 
 def test_widget_script_route(client):

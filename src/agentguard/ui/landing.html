@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-950 text-slate-100 antialiased selection:bg-indigo-500 selection:text-white">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgentGuard — Autonomous E-Commerce Customer Support Platform</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
+    code, pre { font-family: 'JetBrains Mono', monospace; }
+    .gradient-glow {
+      background: radial-gradient(circle 800px at 50% -100px, rgba(99, 102, 241, 0.25), transparent);
+    }
+  </style>
+</head>
+<body class="min-h-full flex flex-col bg-slate-950 text-slate-100">
+  <!-- Glow Effect -->
+  <div class="fixed inset-0 gradient-glow pointer-events-none z-0"></div>
+
+  <!-- Top Navigation -->
+  <header class="sticky top-0 z-50 backdrop-blur-md bg-slate-950/80 border-b border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      <a href="/" class="flex items-center space-x-3 group">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center font-black text-xl shadow-lg shadow-indigo-500/25 group-hover:scale-105 transition transform">
+          🛡️
+        </div>
+        <div>
+          <span class="font-extrabold text-xl text-white tracking-tight">AgentGuard</span>
+          <span class="hidden sm:inline-block ml-2 text-xs uppercase tracking-widest font-bold px-2 py-0.5 rounded bg-indigo-950/80 border border-indigo-700/60 text-indigo-300">SaaS Copilot</span>
+        </div>
+      </a>
+
+      <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-300">
+        <a href="#features" class="hover:text-white transition">Features</a>
+        <a href="#demo" class="hover:text-white transition">Live Store Demo</a>
+        <a href="#security" class="hover:text-white transition">Zero-Trust Security</a>
+        <a href="#embed" class="hover:text-white transition">1-Click Embed</a>
+      </nav>
+
+      <div class="flex items-center space-x-4">
+        <button onclick="openAuthModal('login')" class="text-sm font-semibold text-slate-300 hover:text-white px-3 py-2 transition">
+          Sign In
+        </button>
+        <button onclick="openAuthModal('signup')" class="text-sm font-semibold px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white shadow-lg shadow-indigo-600/30 hover:shadow-indigo-600/50 transition transform hover:-translate-y-0.5">
+          Start Free Store
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main class="flex-1 relative z-10">
+    <section class="max-w-6xl mx-auto px-6 pt-20 pb-16 text-center">
+      <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-indigo-950/80 border border-indigo-700/60 text-xs font-semibold text-indigo-300 mb-8 animate-pulse-slow">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+        <span>Powered by Google Gemini 2.5 Multi-Agent Reasoning & HITL Safety</span>
+      </div>
+
+      <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white max-w-4xl mx-auto leading-[1.12]">
+        Autonomous Support for <span class="bg-gradient-to-r from-indigo-400 via-violet-300 to-sky-400 bg-clip-text text-transparent">Shopify & WooCommerce</span>
+      </h1>
+
+      <p class="mt-6 text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
+        Resolve order tracking inquiries, evaluate policy-compliant returns, and protect store finances with Human-in-the-Loop refund gates. Embeddable on any storefront in 60 seconds.
+      </p>
+
+      <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <button onclick="openAuthModal('signup')" class="w-full sm:w-auto px-8 py-4 rounded-xl text-base font-bold bg-indigo-600 hover:bg-indigo-500 text-white shadow-xl shadow-indigo-500/25 transition transform hover:-translate-y-0.5 flex items-center justify-center space-x-2">
+          <span>Create Free Store Account</span>
+          <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </button>
+        <a href="#demo" class="w-full sm:w-auto px-7 py-4 rounded-xl text-base font-semibold bg-slate-900 border border-slate-800 hover:bg-slate-800/80 text-slate-200 transition">
+          Test Live Demo
+        </a>
+      </div>
+
+      <!-- Trust Stats Bar -->
+      <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto pt-10 border-t border-slate-800/80 text-left">
+        <div class="bg-slate-900/40 border border-slate-800/60 p-4 rounded-xl">
+          <div class="text-2xl font-black text-indigo-400">100%</div>
+          <div class="text-xs text-slate-400 mt-1 font-medium">Factually Audited Tracking Details</div>
+        </div>
+        <div class="bg-slate-900/40 border border-slate-800/60 p-4 rounded-xl">
+          <div class="text-2xl font-black text-emerald-400">&lt; 1.5s</div>
+          <div class="text-xs text-slate-400 mt-1 font-medium">Average Copilot Resolution Time</div>
+        </div>
+        <div class="bg-slate-900/40 border border-slate-800/60 p-4 rounded-xl">
+          <div class="text-2xl font-black text-amber-400">0 Replay</div>
+          <div class="text-xs text-slate-400 mt-1 font-medium">Single-Use Cryptographic HITL Tokens</div>
+        </div>
+        <div class="bg-slate-900/40 border border-slate-800/60 p-4 rounded-xl">
+          <div class="text-2xl font-black text-sky-400">SHA-256</div>
+          <div class="text-xs text-slate-400 mt-1 font-medium">Tamper-Evident Audit Logging Chain</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Live Store Demo Section -->
+    <section id="demo" class="max-w-6xl mx-auto px-6 py-16 scroll-mt-24">
+      <div class="text-center mb-10">
+        <h2 class="text-3xl font-extrabold text-white">Experience the Live Storefront Widget</h2>
+        <p class="text-slate-400 mt-2 text-sm max-w-xl mx-auto">
+          This simulated storefront demonstrates how your customers interact with AgentGuard. Click the support bubble at the bottom right to begin!
+        </p>
+      </div>
+
+      <div class="relative bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
+        <!-- Browser Chrome Bar -->
+        <div class="bg-slate-950 px-4 py-3 border-b border-slate-800 flex items-center justify-between">
+          <div class="flex items-center space-x-2">
+            <span class="w-3 h-3 rounded-full bg-rose-500/80 inline-block"></span>
+            <span class="w-3 h-3 rounded-full bg-amber-500/80 inline-block"></span>
+            <span class="w-3 h-3 rounded-full bg-emerald-500/80 inline-block"></span>
+          </div>
+          <div class="bg-slate-900 px-6 py-1 rounded-md text-xs text-slate-400 font-mono flex items-center space-x-2 border border-slate-800">
+            <span class="text-slate-500">🔒 https://</span>
+            <span class="text-slate-200">store.lumina-audio.com</span>
+          </div>
+          <div class="text-xs text-indigo-400 font-medium">Widget Active</div>
+        </div>
+
+        <!-- Storefront Mock Content -->
+        <div class="p-8 sm:p-12 bg-slate-900/50">
+          <div class="flex items-center justify-between pb-8 border-b border-slate-800">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-indigo-400">Featured Store</span>
+              <h3 class="text-2xl font-bold text-white mt-1">Lumina Audio & Acoustics</h3>
+            </div>
+            <span class="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-950 border border-emerald-800 text-emerald-300">
+              Demo Store Online
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+            <div class="bg-slate-950/60 p-5 rounded-xl border border-slate-800">
+              <div class="text-3xl mb-3">🎧</div>
+              <h4 class="font-semibold text-white">Wireless NC9 Headphones</h4>
+              <p class="text-xs text-slate-400 mt-1">Active noise canceling with studio reference fidelity.</p>
+              <div class="mt-4 flex items-center justify-between">
+                <span class="text-sm font-bold text-white">$99.00</span>
+                <span class="text-xs text-emerald-400 font-medium">Order #1001 (Delivered)</span>
+              </div>
+            </div>
+
+            <div class="bg-slate-950/60 p-5 rounded-xl border border-slate-800">
+              <div class="text-3xl mb-3">🔊</div>
+              <h4 class="font-semibold text-white">Acoustic Studio Isolation Pads</h4>
+              <p class="text-xs text-slate-400 mt-1">High-density acoustic decoupling foam.</p>
+              <div class="mt-4 flex items-center justify-between">
+                <span class="text-sm font-bold text-white">$45.00</span>
+                <span class="text-xs text-amber-400 font-medium">Order #1002 (In Transit)</span>
+              </div>
+            </div>
+
+            <div class="bg-slate-950/60 p-5 rounded-xl border border-slate-800">
+              <div class="text-3xl mb-3">⌨️</div>
+              <h4 class="font-semibold text-white">RGB Mechanical Audio Deck</h4>
+              <p class="text-xs text-slate-400 mt-1">Custom tactile switches with sound dampening.</p>
+              <div class="mt-4 flex items-center justify-between">
+                <span class="text-sm font-bold text-white">$135.00</span>
+                <span class="text-xs text-rose-400 font-medium">Order #1003 (&gt;45d Delivered)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-8 bg-indigo-950/40 border border-indigo-800/60 rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-3 text-sm">
+              <span class="text-xl">👉</span>
+              <span class="text-slate-300">Click the purple floating chat icon at the bottom right to talk to the AgentGuard Copilot!</span>
+            </div>
+            <button onclick="window.__AGENTGUARD_TRIGGER_CHAT && window.__AGENTGUARD_TRIGGER_CHAT()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-bold transition">
+              Open Support Widget
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Value Pillars / Features -->
+    <section id="features" class="max-w-6xl mx-auto px-6 py-16 scroll-mt-24">
+      <div class="text-center mb-14">
+        <h2 class="text-3xl font-extrabold text-white">Engineered for Real E-Commerce Operations</h2>
+        <p class="text-slate-400 mt-2 text-sm max-w-xl mx-auto">
+          Generic LLM chatbots hallucinate tracking links and promise unapproved refunds. AgentGuard replaces them with an audited, multi-agent control architecture.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-slate-900 border border-slate-800 p-8 rounded-2xl">
+          <div class="w-12 h-12 rounded-xl bg-indigo-600/20 border border-indigo-500/40 text-indigo-400 flex items-center justify-center text-2xl font-bold mb-6">
+            🔍
+          </div>
+          <h3 class="text-xl font-bold text-white">Strict Privacy & Order Snooping Defense</h3>
+          <p class="text-slate-400 text-sm mt-3 leading-relaxed">
+            Requires matching Order # + Billing Email at checkout. Attackers attempting to guess order numbers receive security denials with zero leaked customer addresses or tracking numbers.
+          </p>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 p-8 rounded-2xl">
+          <div class="w-12 h-12 rounded-xl bg-amber-600/20 border border-amber-500/40 text-amber-400 flex items-center justify-center text-2xl font-bold mb-6">
+            🛡️
+          </div>
+          <h3 class="text-xl font-bold text-white">Human-in-the-Loop Refund Gates</h3>
+          <p class="text-slate-400 text-sm mt-3 leading-relaxed">
+            The AI agent never disburses merchant money autonomously. High-risk refunds trigger cryptographic authorization tokens queued in your Merchant Inbox for 1-click human sign-off.
+          </p>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 p-8 rounded-2xl">
+          <div class="w-12 h-12 rounded-xl bg-emerald-600/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center text-2xl font-bold mb-6">
+            📚
+          </div>
+          <h3 class="text-xl font-bold text-white">Custom Knowledge Base Ingestion</h3>
+          <p class="text-slate-400 text-sm mt-3 leading-relaxed">
+            Upload your store's exact return window, restocking fee guidelines, warranty terms, and FAQs. The agent answers customer inquiries grounded strictly in your merchant policies.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1-Click Embed Section -->
+    <section id="embed" class="max-w-6xl mx-auto px-6 py-16 scroll-mt-24 border-t border-slate-800">
+      <div class="bg-gradient-to-br from-indigo-950/60 to-slate-900 border border-indigo-800/40 rounded-3xl p-8 sm:p-12 flex flex-col lg:flex-row items-center justify-between gap-10">
+        <div class="max-w-xl">
+          <span class="text-xs font-bold uppercase tracking-wider text-indigo-400">Zero-Code Storefront Setup</span>
+          <h2 class="text-3xl font-extrabold text-white mt-2">Add to Shopify or WooCommerce in 1 Line</h2>
+          <p class="text-slate-300 text-sm mt-4 leading-relaxed">
+            Simply paste our lightweight, zero-dependency script tag into your Shopify <code class="text-indigo-300">theme.liquid</code> or WordPress footer. Your AI customer support agent is instantly live.
+          </p>
+          <div class="mt-6 flex items-center space-x-6 text-xs text-slate-400 font-semibold">
+            <span class="flex items-center space-x-1.5"><span class="text-emerald-400">✓</span> <span>Zero npm build required</span></span>
+            <span class="flex items-center space-x-1.5"><span class="text-emerald-400">✓</span> <span>Isolated CSS styles</span></span>
+            <span class="flex items-center space-x-1.5"><span class="text-emerald-400">✓</span> <span>Mobile responsive</span></span>
+          </div>
+        </div>
+
+        <div class="w-full lg:w-auto bg-slate-950 border border-slate-800 rounded-2xl p-6 shadow-xl max-w-lg">
+          <div class="text-xs font-mono text-slate-400 flex items-center justify-between pb-3 border-b border-slate-800">
+            <span>Shopify / WooCommerce Embed Code</span>
+            <button onclick="navigator.clipboard.writeText('<script src=\'' + window.location.origin + '/widget.js\' data-store-id=\'demo-store\'></script>'); alert('Copied embed snippet!');" class="text-indigo-400 hover:text-indigo-300 font-bold">Copy</button>
+          </div>
+          <pre class="mt-4 text-xs font-mono text-indigo-200 overflow-x-auto whitespace-pre-wrap leading-relaxed">&lt;!-- AgentGuard Autonomous Customer Support --&gt;
+&lt;script src="https://agentguard.io/widget.js" 
+        data-store-id="YOUR_STORE_ID"&gt;&lt;/script&gt;</pre>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-slate-950 border-t border-slate-900 py-10 relative z-10 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div>© 2026 AgentGuard Autonomous Systems. Open Architecture for E-Commerce AI.</div>
+      <div class="flex items-center space-x-6">
+        <a href="/dashboard" class="hover:text-slate-300 transition">Merchant Dashboard</a>
+        <a href="#demo" class="hover:text-slate-300 transition">Live Demo</a>
+        <a href="https://github.com" target="_blank" class="hover:text-slate-300 transition">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Merchant Auth Modal (Signup / Login) -->
+  <div id="auth-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-8 max-w-md w-full shadow-2xl relative">
+      <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-1">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+
+      <div class="text-center mb-6">
+        <div class="w-12 h-12 rounded-xl bg-indigo-600/20 border border-indigo-500/40 text-indigo-400 flex items-center justify-center text-2xl font-bold mx-auto mb-3">
+          🛡️
+        </div>
+        <h3 id="modal-title" class="text-2xl font-bold text-white">Create Your Merchant Account</h3>
+        <p id="modal-subtitle" class="text-xs text-slate-400 mt-1">Start connecting your store in less than 60 seconds.</p>
+      </div>
+
+      <div id="auth-error" class="hidden mb-4 p-3 rounded-lg bg-rose-950/80 border border-rose-800 text-rose-300 text-xs font-medium"></div>
+
+      <form id="auth-form" onsubmit="handleAuthSubmit(event)" class="space-y-4 text-left">
+        <div id="store-name-group">
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Store / Business Name</label>
+          <input type="text" id="auth-store-name" required placeholder="e.g. Apex Streetwear" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500">
+        </div>
+
+        <div id="platform-group">
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Store Platform</label>
+          <select id="auth-platform" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
+            <option value="simulator">Lumina Simulator (Instant Offline Demo)</option>
+            <option value="shopify">Shopify Store (REST Admin API)</option>
+            <option value="woocommerce">WooCommerce Store (REST API v3)</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Work Email</label>
+          <input type="email" id="auth-email" required placeholder="merchant@mystore.com" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Password</label>
+          <input type="password" id="auth-password" required minlength="6" placeholder="••••••••" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500">
+        </div>
+
+        <button type="submit" id="auth-btn-submit" class="w-full mt-2 py-3 rounded-xl text-sm font-bold bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-600/30 transition">
+          Create Account & Launch Dashboard
+        </button>
+      </form>
+
+      <div class="mt-6 text-center text-xs text-slate-400">
+        <span id="auth-toggle-prompt">Already have an account?</span>
+        <button onclick="toggleAuthMode()" id="auth-toggle-btn" class="ml-1 text-indigo-400 hover:text-indigo-300 font-semibold underline">
+          Sign In
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let authMode = 'signup';
+
+    function openAuthModal(mode) {
+      authMode = mode || 'signup';
+      const modal = document.getElementById('auth-modal');
+      const title = document.getElementById('modal-title');
+      const subtitle = document.getElementById('modal-subtitle');
+      const storeGroup = document.getElementById('store-name-group');
+      const platGroup = document.getElementById('platform-group');
+      const btn = document.getElementById('auth-btn-submit');
+      const togglePrompt = document.getElementById('auth-toggle-prompt');
+      const toggleBtn = document.getElementById('auth-toggle-btn');
+      const errEl = document.getElementById('auth-error');
+
+      errEl.classList.add('hidden');
+
+      if (authMode === 'signup') {
+        title.textContent = 'Create Your Merchant Account';
+        subtitle.textContent = 'Start connecting your store in less than 60 seconds.';
+        storeGroup.classList.remove('hidden');
+        platGroup.classList.remove('hidden');
+        btn.textContent = 'Create Account & Launch Dashboard';
+        togglePrompt.textContent = 'Already have an account?';
+        toggleBtn.textContent = 'Sign In';
+      } else {
+        title.textContent = 'Sign In to Your Store';
+        subtitle.textContent = 'Enter your merchant credentials to manage your store.';
+        storeGroup.classList.add('hidden');
+        platGroup.classList.add('hidden');
+        btn.textContent = 'Sign In to Dashboard';
+        togglePrompt.textContent = "Don't have an account yet?";
+        toggleBtn.textContent = 'Sign Up';
+      }
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeAuthModal() {
+      const modal = document.getElementById('auth-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function toggleAuthMode() {
+      openAuthModal(authMode === 'signup' ? 'login' : 'signup');
+    }
+
+    async function handleAuthSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('auth-email').value.trim();
+      const password = document.getElementById('auth-password').value.trim();
+      const storeName = document.getElementById('auth-store-name').value.trim();
+      const platform = document.getElementById('auth-platform').value;
+      const errEl = document.getElementById('auth-error');
+      const btn = document.getElementById('auth-btn-submit');
+
+      errEl.classList.add('hidden');
+      btn.disabled = true;
+      btn.textContent = 'Authenticating...';
+
+      try {
+        const endpoint = authMode === 'signup' ? '/api/auth/signup' : '/api/auth/login';
+        const payload = authMode === 'signup'
+          ? { email, password, store_name: storeName, platform }
+          : { email, password };
+
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+
+        const data = await res.json();
+        if (data.status === 'success') {
+          // Store session credentials in localStorage
+          localStorage.setItem('agentguard_merchant', JSON.stringify(data.merchant));
+          localStorage.setItem('agentguard_store_id', data.merchant.store_id);
+          localStorage.setItem('agentguard_api_key', data.merchant.api_key);
+          window.location.href = `/dashboard?store_id=${encodeURIComponent(data.merchant.store_id)}`;
+        } else {
+          errEl.textContent = data.message || 'Authentication failed. Please verify credentials.';
+          errEl.classList.remove('hidden');
+        }
+      } catch (err) {
+        errEl.textContent = 'Network error contacting AgentGuard server.';
+        errEl.classList.remove('hidden');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = authMode === 'signup' ? 'Create Account & Launch Dashboard' : 'Sign In to Dashboard';
+      }
+    }
+  </script>
+
+  <!-- Embed Demo Chat Widget -->
+  <script src="/widget.js" data-store-id="demo-store"></script>
+</body>
+</html>

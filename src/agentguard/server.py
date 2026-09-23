@@ -24,12 +24,17 @@ from agentguard.db.pool import get_db_manager
 from agentguard.tools.registry import get_tool_registry
 from agentguard.ui import (
     dashboard_endpoint,
+    landing_endpoint,
     widget_script_endpoint,
     api_chat_endpoint,
     api_list_approvals_endpoint,
     api_decide_approval_endpoint,
     api_store_config_endpoint,
     api_audit_log_endpoint,
+    api_auth_signup_endpoint,
+    api_auth_login_endpoint,
+    api_kb_endpoint,
+    api_kb_delete_endpoint,
 )
 
 # Initialize the Model Context Protocol server
@@ -76,10 +81,19 @@ def build_http_app(settings: ServerSettings | None = None) -> Starlette:
 
         app.add_route("/metrics", metrics_endpoint, methods=["GET"])
 
-    # Merchant Control Panel SPA and Embeddable Widget
-    app.add_route("/", dashboard_endpoint, methods=["GET"])
+    # Public SaaS Landing Page, Merchant Control Panel, and Embeddable Widget
+    app.add_route("/", landing_endpoint, methods=["GET"])
+    app.add_route("/landing", landing_endpoint, methods=["GET"])
     app.add_route("/dashboard", dashboard_endpoint, methods=["GET"])
     app.add_route("/widget.js", widget_script_endpoint, methods=["GET"])
+
+    # Merchant SaaS Authentication APIs
+    app.add_route("/api/auth/signup", api_auth_signup_endpoint, methods=["POST"])
+    app.add_route("/api/auth/login", api_auth_login_endpoint, methods=["POST"])
+
+    # Multi-Tenant Knowledge Base APIs
+    app.add_route("/api/kb", api_kb_endpoint, methods=["GET", "POST"])
+    app.add_route("/api/kb/delete", api_kb_delete_endpoint, methods=["POST"])
 
     # Merchant Control Panel & Widget APIs
     app.add_route("/api/chat", api_chat_endpoint, methods=["POST"])

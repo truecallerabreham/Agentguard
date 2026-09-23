@@ -1,46 +1,64 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-slate-950 text-slate-100">
+<html lang="en" class="h-full bg-slate-950 text-slate-100 antialiased selection:bg-indigo-500 selection:text-white">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AgentGuard — Autonomous E-Commerce Support & Governance Control Panel</title>
+  <title>AgentGuard — Autonomous E-Commerce Merchant Control Panel</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    @keyframes pulse-slow {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
-    }
-    .animate-pulse-slow { animation: pulse-slow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+    body { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
+    code, pre { font-family: 'JetBrains Mono', monospace; }
   </style>
 </head>
-<body class="h-full flex flex-col font-sans antialiased">
+<body class="h-full flex flex-col font-sans antialiased bg-slate-950 text-slate-100">
   <!-- Top Navigation Bar -->
   <header class="bg-slate-900 border-b border-slate-800 px-6 py-4 flex items-center justify-between sticky top-0 z-50">
-    <div class="flex items-center space-x-3">
-      <div class="w-9 h-9 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/20">
-        🛡️
-      </div>
-      <div>
-        <h1 class="font-bold text-lg text-white leading-tight">AgentGuard</h1>
-        <p class="text-xs text-slate-400">Autonomous E-Commerce Support & Operational Governance</p>
+    <div class="flex items-center space-x-4">
+      <a href="/" class="flex items-center space-x-3 group">
+        <div class="w-9 h-9 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/20 group-hover:scale-105 transition transform">
+          🛡️
+        </div>
+        <div>
+          <h1 class="font-bold text-lg text-white leading-tight">AgentGuard</h1>
+          <p class="text-xs text-slate-400">Autonomous E-Commerce Merchant Control Panel</p>
+        </div>
+      </a>
+
+      <!-- Active Store Tenant Badge -->
+      <div class="hidden sm:flex items-center space-x-2 bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800 text-xs">
+        <span class="text-slate-400">Store:</span>
+        <span id="header-store-name" class="font-bold text-white">Lumina Audio</span>
+        <span id="header-store-id-pill" class="font-mono text-indigo-400 bg-indigo-950/60 px-2 py-0.5 rounded text-[11px] border border-indigo-800/60">demo-store</span>
+        <button onclick="copyStoreId()" title="Copy Store ID" class="text-slate-400 hover:text-white">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+        </button>
       </div>
     </div>
 
-    <!-- System Status Badges -->
+    <!-- System Status Badges & Merchant Account -->
     <div class="flex items-center space-x-3 text-xs">
-      <div class="flex items-center space-x-1.5 bg-emerald-950/60 border border-emerald-800/80 px-2.5 py-1 rounded-full text-emerald-400">
+      <div class="hidden md:flex items-center space-x-1.5 bg-emerald-950/60 border border-emerald-800/80 px-2.5 py-1 rounded-full text-emerald-400">
         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
         <span class="font-medium">Engine Active</span>
       </div>
-      <div class="flex items-center space-x-1.5 bg-indigo-950/60 border border-indigo-800/80 px-2.5 py-1 rounded-full text-indigo-300">
+
+      <div class="hidden lg:flex items-center space-x-1.5 bg-indigo-950/60 border border-indigo-800/80 px-2.5 py-1 rounded-full text-indigo-300">
         <span>🔐 SHA-256 Audit:</span>
         <span id="header-chain-status" class="font-semibold text-emerald-400">VERIFIED</span>
       </div>
-      <div id="approvals-badge" class="hidden items-center space-x-1 bg-amber-950/80 border border-amber-600 px-2.5 py-1 rounded-full text-amber-300 font-semibold cursor-pointer" onclick="switchTab('approvals')">
+
+      <div id="approvals-badge" class="hidden items-center space-x-1 bg-amber-950/80 border border-amber-600 px-2.5 py-1 rounded-full text-amber-300 font-semibold cursor-pointer animate-pulse" onclick="switchTab('approvals')">
         <span>⚠️</span>
         <span id="pending-count">0</span>
         <span>Pending Approval</span>
       </div>
+
+      <a href="/" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white px-3 py-1.5 rounded-lg border border-slate-700 transition">
+        Storefront Home
+      </a>
     </div>
   </header>
 
@@ -53,6 +71,7 @@
           <span>💬</span>
           <span>Live Support Console</span>
         </button>
+
         <button onclick="switchTab('approvals')" id="nav-approvals" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition">
           <div class="flex items-center space-x-3">
             <span>🛡️</span>
@@ -60,10 +79,22 @@
           </div>
           <span id="nav-approvals-pill" class="hidden text-xs bg-amber-500 text-slate-950 font-bold px-1.5 py-0.5 rounded-full">0</span>
         </button>
+
+        <button onclick="switchTab('kb')" id="nav-kb" class="w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition">
+          <span>📚</span>
+          <span>Knowledge Base & FAQs</span>
+        </button>
+
+        <button onclick="switchTab('embed')" id="nav-embed" class="w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition">
+          <span>🚀</span>
+          <span>1-Click Embed Widget</span>
+        </button>
+
         <button onclick="switchTab('store')" id="nav-store" class="w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition">
           <span>⚙️</span>
-          <span>Store & Widget Setup</span>
+          <span>Store Settings</span>
         </button>
+
         <button onclick="switchTab('audit')" id="nav-audit" class="w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition">
           <span>📜</span>
           <span>Cryptographic Audit Vault</span>
@@ -99,130 +130,225 @@
             <button onclick="fillPrompt('Where is my order #1001? My email is sarah.connor@example.com.')" class="bg-slate-800 hover:bg-indigo-600 hover:text-white text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-700/80 transition">
               📦 Order #1001 Tracking (Delivered)
             </button>
-            <button onclick="fillPrompt('Where is my order #1002? My email is alex.chen@example.com.')" class="bg-slate-800 hover:bg-indigo-600 hover:text-white text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-700/80 transition">
-              🚚 Order #1002 In Transit (UPS Tracking)
+            <button onclick="fillPrompt('What is the status of order #1002 for john.smith@example.com?')" class="bg-slate-800 hover:bg-indigo-600 hover:text-white text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-700/80 transition">
+              🚚 Order #1002 (In Transit)
             </button>
-            <button onclick="fillPrompt('I want a refund for order #1001, email sarah.connor@example.com. Ear pads hurt.')" class="bg-slate-800 hover:bg-amber-600 hover:text-white text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-700/80 transition">
-              💸 Request Refund #1001 (Triggers HITL Gate)
+            <button onclick="fillPrompt('I want to return order #1001. My email is sarah.connor@example.com. The product is defective.')" class="bg-slate-800 hover:bg-indigo-600 hover:text-white text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-700/80 transition">
+              🔄 Return #1001 (Queues HITL Approval)
             </button>
-            <button onclick="fillPrompt('Can I return order #1003? Email: elena.rostova@example.com.')" class="bg-slate-800 hover:bg-red-600 hover:text-white text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-700/80 transition">
-              ⛔ Expired Return #1003 (Delivered 48d ago)
+            <button onclick="fillPrompt('Can I return order #1003? Email: elena.rostova@example.com.')" class="bg-slate-800 hover:bg-indigo-600 hover:text-white text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-700/80 transition">
+              ⏳ Order #1003 (Outside 30-Day Window)
             </button>
-            <button onclick="fillPrompt('Where is order #1001? Email: hacker@evil.com.')" class="bg-slate-800 hover:bg-rose-600 hover:text-white text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-700/80 transition">
-              🔒 Privacy Snooping Test (Blocked)
+            <button onclick="fillPrompt('Where is order #1001? My email is attacker@evil.com')" class="bg-slate-800 hover:bg-rose-600 hover:text-white text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-700/80 transition">
+              🛡️ Privacy Defense (Email Mismatch)
             </button>
           </div>
         </div>
 
         <!-- Chat Container -->
-        <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden flex flex-col h-[520px]">
-          <!-- Messages Scroll Area -->
-          <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl flex flex-col h-[520px] overflow-hidden shadow-xl">
+          <div id="chat-messages" class="flex-1 p-5 overflow-y-auto space-y-4">
             <div class="flex items-start space-x-3">
-              <div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-sm">🤖</div>
-              <div class="bg-slate-800/80 border border-slate-700/60 rounded-2xl rounded-tl-none p-3.5 text-sm text-slate-200 max-w-xl">
-                Hello! I am your store's autonomous customer support agent. Enter an Order Number (e.g. <code>#1001</code>) and your checkout email to track orders, check returns, or request assistance.
+              <div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-sm font-bold shadow-md">🤖</div>
+              <div class="bg-slate-800/90 border border-slate-700/60 rounded-2xl rounded-tl-none p-3.5 text-sm text-slate-100 max-w-xl shadow leading-relaxed">
+                Hello! I am your <strong>AgentGuard Autonomous Support Copilot</strong>. I am integrated directly into your store's live database. How can I help you today?
               </div>
             </div>
           </div>
 
-          <!-- Inspector Drawer (Shows Planner & Critic details) -->
-          <div id="inspector" class="hidden bg-slate-950/90 border-t border-slate-800 p-3 text-xs text-slate-400 space-y-1 max-h-36 overflow-y-auto">
-            <div class="flex items-center justify-between font-semibold text-slate-300">
-              <span>🧠 Multi-Agent Diagnostic Inspector</span>
-              <span id="inspector-critic-score" class="text-emerald-400 font-mono">Score: 1.00 (0 Hallucinations)</span>
-            </div>
-            <div id="inspector-plan" class="text-slate-400 font-mono"></div>
-          </div>
-
           <!-- Input Bar -->
-          <form onsubmit="handleChatSubmit(event)" class="p-3 bg-slate-900 border-t border-slate-800 flex items-center space-x-2">
-            <input type="text" id="chat-input" placeholder="Type customer message (e.g. 'Where is my order #1001? Email: sarah.connor@example.com')..." class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-white placeholder-slate-400 focus:outline-none focus:border-indigo-500">
-            <button type="submit" id="chat-send-btn" class="bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition flex items-center space-x-1">
-              <span>Send</span>
-              <span>→</span>
+          <form onsubmit="handleChatSubmit(event)" class="p-3 bg-slate-950 border-t border-slate-800 flex items-center space-x-2">
+            <input type="text" id="chat-input" placeholder="Type a customer inquiry (e.g. 'Where is order #1001 for sarah.connor@example.com?')..." class="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-400 focus:outline-none focus:border-indigo-500">
+            <button type="submit" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm px-5 py-2.5 rounded-xl shadow-lg shadow-indigo-600/30 transition">
+              Send
             </button>
           </form>
         </div>
+
+        <!-- Real-Time Diagnostic Inspector -->
+        <div id="inspector" class="hidden bg-slate-900/60 border border-slate-800 p-4 rounded-xl text-xs space-y-2 font-mono">
+          <div class="flex items-center justify-between text-slate-400">
+            <span class="font-bold text-slate-200">🔍 Copilot Ground Truth Inspector</span>
+            <span id="inspector-critic-score" class="text-emerald-400 font-bold">Critic Score: 100%</span>
+          </div>
+          <p id="inspector-plan" class="text-slate-300 truncate"></p>
+        </div>
       </section>
 
-      <!-- TAB 2: APPROVAL INBOX -->
+      <!-- TAB 2: APPROVAL INBOX (HITL) -->
       <section id="tab-approvals" class="hidden space-y-6 max-w-5xl mx-auto">
         <div class="flex items-center justify-between">
           <div>
             <h2 class="text-xl font-bold text-white">Human-in-the-Loop Approval Inbox</h2>
-            <p class="text-sm text-slate-400">High-risk actions (financial refunds, order cancellations) intercepted before execution.</p>
+            <p class="text-sm text-slate-400">High-risk financial refunds and destructive actions requiring store manager authorization.</p>
           </div>
           <button onclick="loadApprovals()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-md border border-slate-700 transition">
-            Refresh Approvals
+            Refresh Inbox
           </button>
         </div>
 
-        <div id="approvals-container" class="space-y-3">
-          <!-- Populated dynamically -->
-          <div class="bg-slate-900/60 border border-slate-800 p-8 rounded-xl text-center text-slate-400 text-sm">
-            Loading pending approvals...
+        <div id="approvals-list" class="space-y-4">
+          <div class="p-8 text-center text-slate-500 bg-slate-900 border border-slate-800 rounded-xl">
+            No pending approval requests. Orders requiring refund sign-off will appear here.
           </div>
         </div>
       </section>
 
-      <!-- TAB 3: STORE & WIDGET SETUP -->
-      <section id="tab-store" class="hidden space-y-6 max-w-5xl mx-auto">
-        <div>
-          <h2 class="text-xl font-bold text-white">Store Connection & Embeddable Widget</h2>
-          <p class="text-sm text-slate-400">Connect your Shopify or WooCommerce store and embed the customer chat widget.</p>
+      <!-- TAB 3: KNOWLEDGE BASE & STORE POLICIES -->
+      <section id="tab-kb" class="hidden space-y-6 max-w-5xl mx-auto">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-xl font-bold text-white">Store Knowledge Base & Policies</h2>
+            <p class="text-sm text-slate-400">Add custom store return rules, warranty policies, and FAQs. The AI agent searches these before answering customers.</p>
+          </div>
+          <button onclick="loadKnowledgeBase()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-md border border-slate-700 transition">
+            Refresh Articles
+          </button>
         </div>
 
-        <!-- Store Config Form -->
-        <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl space-y-4">
-          <h3 class="font-semibold text-white text-base">Store Connection Settings</h3>
-          <div class="grid grid-cols-2 gap-4">
+        <!-- Add Policy Form -->
+        <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4 shadow-xl">
+          <h3 class="font-bold text-white text-base">Add New Policy or FAQ Article</h3>
+          <form onsubmit="handleSaveKbArticle(event)" class="space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div class="sm:col-span-2">
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Article Title</label>
+                <input type="text" id="kb-title" required placeholder="e.g. 60-Day VIP Hardware Replacement Policy" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Category</label>
+                <select id="kb-category" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
+                  <option value="returns">Returns & Refunds</option>
+                  <option value="warranty">Warranty & Repairs</option>
+                  <option value="shipping">Shipping & Delivery</option>
+                  <option value="faq">General FAQ</option>
+                </select>
+              </div>
+            </div>
+
             <div>
-              <label class="block text-xs font-medium text-slate-400 mb-1">Store Name</label>
-              <input type="text" id="cfg-store-name" value="Lumina Audio & Tech" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white">
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Policy Content / Answer Text</label>
+              <textarea id="kb-content" required rows="3" placeholder="Explain the exact rules, eligibility deadlines, and requirements..." class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"></textarea>
+            </div>
+
+            <div class="flex justify-end">
+              <button type="submit" id="kb-save-btn" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs px-5 py-2.5 rounded-lg shadow-lg shadow-indigo-600/30 transition">
+                + Save Policy to Store Agent
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Articles List -->
+        <div class="space-y-3">
+          <h3 class="font-bold text-white text-base">Active Store Policies</h3>
+          <div id="kb-articles-list" class="grid grid-cols-1 gap-3">
+            <div class="p-6 text-center text-slate-500 bg-slate-900 border border-slate-800 rounded-xl">
+              Loading store knowledge base...
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 4: 1-CLICK EMBED WIDGET -->
+      <section id="tab-embed" class="hidden space-y-6 max-w-5xl mx-auto">
+        <div>
+          <h2 class="text-xl font-bold text-white">1-Click Storefront Widget Integration</h2>
+          <p class="text-sm text-slate-400">Deploy your autonomous customer support agent on any online store with zero build configuration.</p>
+        </div>
+
+        <!-- Snippet Card -->
+        <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4 shadow-xl">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase tracking-wider text-indigo-400">Your Storefront Embed Script</span>
+            <button onclick="copyWidgetSnippet()" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-bold shadow transition flex items-center space-x-1">
+              <span>📋 Copy Code</span>
+            </button>
+          </div>
+
+          <pre id="widget-code" class="bg-slate-950 border border-slate-800 rounded-xl p-4 text-xs text-indigo-300 font-mono overflow-x-auto whitespace-pre-wrap leading-relaxed">&lt;!-- AgentGuard Storefront Widget --&gt;
+&lt;script src="https://agentguard.local/widget.js" data-store-id="demo-store"&gt;&lt;/script&gt;</pre>
+        </div>
+
+        <!-- Installation Instructions -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl">
+            <div class="text-2xl mb-2">🛍️</div>
+            <h4 class="font-bold text-white text-sm">Shopify Integration</h4>
+            <ol class="mt-2 text-xs text-slate-400 space-y-1 list-decimal list-inside leading-relaxed">
+              <li>Open Online Store &gt; Themes &gt; Edit Code</li>
+              <li>Open <code class="text-indigo-300">theme.liquid</code></li>
+              <li>Paste script before <code class="text-indigo-300">&lt;/body&gt;</code></li>
+            </ol>
+          </div>
+
+          <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl">
+            <div class="text-2xl mb-2">📦</div>
+            <h4 class="font-bold text-white text-sm">WooCommerce (WordPress)</h4>
+            <ol class="mt-2 text-xs text-slate-400 space-y-1 list-decimal list-inside leading-relaxed">
+              <li>Go to Appearance &gt; Theme File Editor</li>
+              <li>Open <code class="text-indigo-300">footer.php</code> (or use Insert Headers/Footers)</li>
+              <li>Paste snippet and click Save</li>
+            </ol>
+          </div>
+
+          <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl">
+            <div class="text-2xl mb-2">⚡</div>
+            <h4 class="font-bold text-white text-sm">Custom HTML / React / Next.js</h4>
+            <ol class="mt-2 text-xs text-slate-400 space-y-1 list-decimal list-inside leading-relaxed">
+              <li>Add script tag to your HTML <code class="text-indigo-300">&lt;head&gt;</code> or layout</li>
+              <li>Set <code class="text-indigo-300">data-store-id</code> to your ID</li>
+              <li>Works with zero npm dependencies</li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 5: STORE SETTINGS -->
+      <section id="tab-store" class="hidden space-y-6 max-w-5xl mx-auto">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-xl font-bold text-white">Store Connection & Policy Settings</h2>
+            <p class="text-sm text-slate-400">Configure your store platform, API credentials, and default return policies.</p>
+          </div>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-6 shadow-xl">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Store Name</label>
+              <input type="text" id="cfg-store-name" value="Lumina Audio & Tech" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-white">
             </div>
             <div>
-              <label class="block text-xs font-medium text-slate-400 mb-1">Platform</label>
-              <select id="cfg-platform" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white">
-                <option value="simulator">In-Memory Simulator (Built-in Testing)</option>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">E-Commerce Platform</label>
+              <select id="cfg-platform" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-white">
+                <option value="simulator">Lumina In-Memory Simulator (Recommended for Demos)</option>
                 <option value="shopify">Shopify Admin REST API</option>
                 <option value="woocommerce">WooCommerce REST API v3</option>
               </select>
             </div>
             <div>
-              <label class="block text-xs font-medium text-slate-400 mb-1">Store API URL / Shopify Domain</label>
-              <input type="text" id="cfg-api-url" value="https://demo.lumina-audio.com" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white">
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Store API URL / Domain</label>
+              <input type="text" id="cfg-api-url" value="https://demo.lumina-audio.com" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-white">
             </div>
             <div>
-              <label class="block text-xs font-medium text-slate-400 mb-1">Return Policy Window (Days)</label>
-              <input type="number" id="cfg-window" value="30" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white">
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Return Window (Days)</label>
+              <input type="number" id="cfg-window" value="30" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-white">
             </div>
-            <div class="col-span-2">
-              <label class="block text-xs font-medium text-slate-400 mb-1">API Token / Consumer Key</label>
-              <input type="password" id="cfg-token" placeholder="shpat_xxxxxxxxxxxxxxx" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white">
+            <div class="col-span-1 md:col-span-2">
+              <label class="block text-xs font-semibold text-slate-300 mb-1">API Token / Secret Key</label>
+              <input type="password" id="cfg-token" placeholder="shpat_xxxxxxxxxxxxxxx" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-white">
             </div>
           </div>
           <div class="flex justify-end">
-            <button onclick="saveStoreConfig()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm px-4 py-2 rounded-lg transition">
-              Save Store Configuration
-            </button>
-          </div>
-        </div>
-
-        <!-- Widget Embed Snippet -->
-        <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl space-y-3">
-          <h3 class="font-semibold text-white text-base">Storefront Chat Widget Embed Code</h3>
-          <p class="text-xs text-slate-400">Paste this script snippet before the closing <code>&lt;/body&gt;</code> tag of your store's theme template:</p>
-          <div class="relative">
-            <pre id="widget-code" class="bg-slate-950 border border-slate-800 rounded-lg p-3.5 text-xs text-indigo-300 font-mono overflow-x-auto">&lt;script src="https://agentguard.local/widget.js" data-store-id="demo-store"&gt;&lt;/script&gt;</pre>
-            <button onclick="copyWidgetSnippet()" class="absolute top-2 right-2 text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-2.5 py-1 rounded border border-slate-700 transition">
-              Copy Code
+            <button onclick="saveStoreConfig()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs px-5 py-2.5 rounded-lg shadow-lg shadow-indigo-600/30 transition">
+              Save Store Settings
             </button>
           </div>
         </div>
       </section>
 
-      <!-- TAB 4: AUDIT VAULT -->
+      <!-- TAB 6: CRYPTOGRAPHIC AUDIT VAULT -->
       <section id="tab-audit" class="hidden space-y-6 max-w-5xl mx-auto">
         <div class="flex items-center justify-between">
           <div>
@@ -234,7 +360,6 @@
           </button>
         </div>
 
-        <!-- Verification Banner -->
         <div id="audit-banner" class="bg-emerald-950/40 border border-emerald-800/80 p-4 rounded-xl flex items-center justify-between text-xs">
           <div class="flex items-center space-x-2 text-emerald-300">
             <span class="text-base">🛡️</span>
@@ -243,8 +368,7 @@
           <span id="audit-block-count" class="font-mono text-emerald-400">Total Entries: 0</span>
         </div>
 
-        <!-- Audit Table -->
-        <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-xl">
           <table class="w-full text-left text-xs">
             <thead class="bg-slate-950/70 border-b border-slate-800 text-slate-400 uppercase font-semibold">
               <tr>
@@ -267,24 +391,43 @@
   </div>
 
   <script>
+    // Discover Active Store ID from URL or localStorage
+    const urlParams = new URLSearchParams(window.location.search);
+    let currentStoreId = urlParams.get('store_id') || localStorage.getItem('agentguard_store_id') || 'demo-store';
     let activeTab = 'chat';
 
-    function switchTab(tabId) {
-      activeTab = tabId;
-      ['chat', 'approvals', 'store', 'audit'].forEach(t => {
-        document.getElementById(`tab-${t}`).classList.add('hidden');
-        const btn = document.getElementById(`nav-${t}`);
-        btn.classList.remove('bg-indigo-600', 'text-white');
-        btn.classList.add('text-slate-400');
+    function switchTab(tab) {
+      activeTab = tab;
+      const tabs = ['chat', 'approvals', 'kb', 'embed', 'store', 'audit'];
+      tabs.forEach(t => {
+        const sec = document.getElementById(`tab-${t}`);
+        const nav = document.getElementById(`nav-${t}`);
+        if (sec && nav) {
+          if (t === tab) {
+            sec.classList.remove('hidden');
+            nav.className = 'w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium transition bg-indigo-600 text-white shadow-sm';
+          } else {
+            sec.classList.add('hidden');
+            nav.className = 'w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition';
+          }
+        }
       });
-      document.getElementById(`tab-${tabId}`).classList.remove('hidden');
-      const activeBtn = document.getElementById(`nav-${tabId}`);
-      activeBtn.classList.add('bg-indigo-600', 'text-white');
-      activeBtn.classList.remove('text-slate-400');
 
-      if (tabId === 'approvals') loadApprovals();
-      if (tabId === 'audit') loadAuditVault();
-      if (tabId === 'store') loadStoreConfig();
+      if (tab === 'approvals') loadApprovals();
+      if (tab === 'kb') loadKnowledgeBase();
+      if (tab === 'audit') loadAuditVault();
+      if (tab === 'store' || tab === 'embed') loadStoreConfig();
+    }
+
+    function copyStoreId() {
+      navigator.clipboard.writeText(currentStoreId);
+      alert(`Copied Store ID: ${currentStoreId}`);
+    }
+
+    function copyWidgetSnippet() {
+      const code = document.getElementById('widget-code').textContent;
+      navigator.clipboard.writeText(code);
+      alert('Widget embed snippet copied to clipboard!');
     }
 
     function fillPrompt(text) {
@@ -295,8 +438,8 @@
     function resetConsole() {
       document.getElementById('chat-messages').innerHTML = `
         <div class="flex items-start space-x-3">
-          <div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-sm">🤖</div>
-          <div class="bg-slate-800/80 border border-slate-700/60 rounded-2xl rounded-tl-none p-3.5 text-sm text-slate-200 max-w-xl">
+          <div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-sm font-bold shadow-md">🤖</div>
+          <div class="bg-slate-800/90 border border-slate-700/60 rounded-2xl rounded-tl-none p-3.5 text-sm text-slate-100 max-w-xl shadow leading-relaxed">
             Console cleared. Enter an Order Number (e.g. <code>#1001</code>) and email to begin a new resolution turn.
           </div>
         </div>
@@ -313,7 +456,6 @@
       input.value = '';
       appendChatMessage('user', text);
 
-      // Loading bubble
       const loadingId = 'loading-' + Date.now();
       appendChatMessage('agent', '<span class="animate-pulse">Thinking with Multi-Agent Copilot...</span>', loadingId);
 
@@ -321,16 +463,14 @@
         const res = await fetch('/api/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ inquiry: text, store_id: 'demo-store' })
+          body: JSON.stringify({ inquiry: text, store_id: currentStoreId })
         });
         const data = await res.json();
         document.getElementById(loadingId)?.remove();
 
         if (data.status === 'success') {
           appendChatMessage('agent', data.response);
-          // Update diagnostic inspector
           showInspector(data);
-          // Check if an approval was generated
           loadApprovalsCount();
         } else {
           appendChatMessage('agent', `❌ Error: ${data.message || 'Operation failed'}`);
@@ -398,45 +538,45 @@
           navPill.classList.add('hidden');
         }
       } catch (e) {
-        console.error('Could not fetch approvals count', e);
+        console.error(e);
       }
     }
 
     async function loadApprovals() {
-      const container = document.getElementById('approvals-container');
+      const container = document.getElementById('approvals-list');
       try {
         const res = await fetch('/api/approvals');
         const data = await res.json();
-        const items = data.approvals || [];
-        loadApprovalsCount();
+        const approvals = data.approvals || [];
 
-        if (items.length === 0) {
+        if (approvals.length === 0) {
           container.innerHTML = `
-            <div class="bg-slate-900/60 border border-slate-800 p-8 rounded-xl text-center text-slate-400 text-sm">
-              ✨ No pending approvals. High-risk refund requests will appear here for merchant authorization.
+            <div class="p-8 text-center text-slate-500 bg-slate-900 border border-slate-800 rounded-xl">
+              ✓ All clear! Zero pending refund approvals requiring human review.
             </div>
           `;
           return;
         }
 
-        container.innerHTML = items.map(it => {
-          const params = it.parameters || {};
-          const amount = params.amount_cents ? `$${(params.amount_cents / 100).toFixed(2)}` : 'N/A';
+        container.innerHTML = approvals.map(it => {
+          const args = it.arguments || {};
+          const amountUsd = args.amount_cents ? `$${(args.amount_cents / 100).toFixed(2)}` : 'Amount Pending';
           return `
-            <div class="bg-slate-900 border border-amber-800/60 rounded-xl p-5 shadow-lg flex items-center justify-between">
+            <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl flex items-center justify-between shadow-lg">
               <div class="space-y-1">
                 <div class="flex items-center space-x-2">
-                  <span class="bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs px-2 py-0.5 rounded font-mono font-semibold">
-                    ${it.approval_id}
+                  <span class="bg-amber-950 border border-amber-800 text-amber-300 font-bold px-2 py-0.5 rounded text-xs">
+                    HIGH-RISK REFUND
                   </span>
-                  <span class="text-white font-semibold text-sm">Refund Request: ${amount}</span>
-                  <span class="text-xs text-slate-400 font-mono">Order #${params.order_number || 'N/A'}</span>
+                  <span class="text-xs text-slate-400">Order #${args.order_number || 'N/A'}</span>
+                  <span class="text-xs font-mono text-indigo-400">(${it.approval_id})</span>
                 </div>
-                <p class="text-xs text-slate-300"><strong>Customer:</strong> ${params.customer_email || 'Customer'}</p>
-                <p class="text-xs text-slate-400"><strong>Reason:</strong> ${params.reason || 'Requested return'}</p>
+                <p class="text-sm font-semibold text-white">Refund Request: <span class="text-emerald-400">${amountUsd}</span></p>
+                <p class="text-xs text-slate-400">Reason: "${args.reason || 'Customer inquiry request'}"</p>
+                <p class="text-[11px] text-slate-500">Customer Email: ${args.customer_email || 'Verified'}</p>
               </div>
               <div class="flex items-center space-x-2">
-                <button onclick="decideApproval('${it.approval_id}', 'approve')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs px-4 py-2 rounded-lg transition shadow">
+                <button onclick="decideApproval('${it.approval_id}', 'approve')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs px-4 py-2 rounded-lg shadow transition">
                   ✓ Approve & Refund
                 </button>
                 <button onclick="decideApproval('${it.approval_id}', 'reject')" class="bg-rose-950 hover:bg-rose-900 text-rose-300 border border-rose-800 font-semibold text-xs px-3 py-2 rounded-lg transition">
@@ -467,9 +607,100 @@
       }
     }
 
+    async function loadKnowledgeBase() {
+      const container = document.getElementById('kb-articles-list');
+      try {
+        const res = await fetch(`/api/kb?store_id=${encodeURIComponent(currentStoreId)}`);
+        const data = await res.json();
+        const articles = data.articles || [];
+
+        if (articles.length === 0) {
+          container.innerHTML = `
+            <div class="p-8 text-center text-slate-500 bg-slate-900 border border-slate-800 rounded-xl">
+              No custom policies added yet. Add a policy above to customize your store's AI responses.
+            </div>
+          `;
+          return;
+        }
+
+        container.innerHTML = articles.map(a => `
+          <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl flex items-start justify-between shadow">
+            <div class="space-y-1.5 max-w-2xl">
+              <div class="flex items-center space-x-2">
+                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-indigo-950 border border-indigo-800 text-indigo-300">
+                  ${a.category}
+                </span>
+                <span class="font-bold text-white text-sm">${escapeHtml(a.title)}</span>
+              </div>
+              <p class="text-xs text-slate-300 leading-relaxed">${escapeHtml(a.content)}</p>
+            </div>
+            <button onclick="deleteKnowledgeBaseArticle('${a.article_id}')" class="text-xs text-rose-400 hover:text-rose-300 p-2 rounded hover:bg-rose-950/40 transition">
+              Delete
+            </button>
+          </div>
+        `).join('');
+      } catch (err) {
+        container.innerHTML = `<div class="text-rose-400 text-sm p-4">Error loading knowledge base: ${err.message}</div>`;
+      }
+    }
+
+    async function handleSaveKbArticle(e) {
+      e.preventDefault();
+      const title = document.getElementById('kb-title').value.trim();
+      const category = document.getElementById('kb-category').value;
+      const content = document.getElementById('kb-content').value.trim();
+      const btn = document.getElementById('kb-save-btn');
+
+      btn.disabled = true;
+      try {
+        const res = await fetch('/api/kb', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            store_id: currentStoreId,
+            category: category,
+            title: title,
+            content: content,
+          }),
+        });
+        const data = await res.json();
+        if (data.status === 'success') {
+          document.getElementById('kb-title').value = '';
+          document.getElementById('kb-content').value = '';
+          alert('Knowledge base article saved successfully!');
+          loadKnowledgeBase();
+        } else {
+          alert(`Error saving policy: ${data.message}`);
+        }
+      } catch (err) {
+        alert(`Failed to save policy: ${err.message}`);
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    async function deleteKnowledgeBaseArticle(articleId) {
+      if (!confirm('Are you sure you want to delete this policy from your store?')) return;
+      try {
+        const res = await fetch('/api/kb/delete', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ store_id: currentStoreId, article_id: articleId }),
+        });
+        const data = await res.json();
+        if (data.status === 'success') {
+          loadKnowledgeBase();
+        } else {
+          alert(`Delete failed: ${data.message}`);
+        }
+      } catch (err) {
+        alert(`Delete failed: ${err.message}`);
+      }
+    }
+
     async function loadStoreConfig() {
       try {
-        const res = await fetch('/api/store?store_id=demo-store');
+        const res = await fetch(`/api/store?store_id=${encodeURIComponent(currentStoreId)}`);
         const data = await res.json();
         if (data.store) {
           const s = data.store;
@@ -477,10 +708,12 @@
           document.getElementById('cfg-platform').value = s.platform;
           document.getElementById('cfg-api-url').value = s.api_url;
           document.getElementById('cfg-window').value = s.return_window_days;
+          document.getElementById('header-store-name').textContent = s.store_name;
+          document.getElementById('header-store-id-pill').textContent = s.store_id;
           document.getElementById('sidebar-store-name').textContent = s.store_name;
           document.getElementById('sidebar-platform').textContent = s.platform.toUpperCase();
           document.getElementById('sidebar-window').textContent = `${s.return_window_days} Days`;
-          document.getElementById('widget-code').textContent = `<script src="${window.location.origin}/widget.js" data-store-id="${s.store_id}"><\/script>`;
+          document.getElementById('widget-code').textContent = `<!-- AgentGuard Storefront Widget -->\n<script src="${window.location.origin}/widget.js" data-store-id="${s.store_id}"><\/script>`;
         }
       } catch (e) {
         console.error(e);
@@ -489,7 +722,7 @@
 
     async function saveStoreConfig() {
       const payload = {
-        store_id: 'demo-store',
+        store_id: currentStoreId,
         store_name: document.getElementById('cfg-store-name').value,
         platform: document.getElementById('cfg-platform').value,
         api_url: document.getElementById('cfg-api-url').value,
@@ -509,12 +742,6 @@
       } catch (e) {
         alert('Failed to save store configuration');
       }
-    }
-
-    function copyWidgetSnippet() {
-      const code = document.getElementById('widget-code').textContent;
-      navigator.clipboard.writeText(code);
-      alert('Widget snippet copied to clipboard!');
     }
 
     async function loadAuditVault() {

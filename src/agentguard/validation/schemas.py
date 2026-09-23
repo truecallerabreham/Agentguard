@@ -127,6 +127,11 @@ class KBSearchInput(BaseModel):
         max_length=50,
         description="Optional category filter (e.g. returns, warranty, billing)",
     )
+    store_id: str | None = Field(
+        default=None,
+        max_length=64,
+        description="Optional store ID for store-specific custom policy search",
+    )
 
 
 class TicketCreateInput(BaseModel):

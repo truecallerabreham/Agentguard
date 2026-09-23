@@ -26,6 +26,21 @@ def get_dashboard_html() -> str:
     return "<html><body><h1>AgentGuard Dashboard</h1><p>dashboard.html not found.</p></body></html>"
 
 
+def get_landing_html() -> str:
+    """Load or return the SaaS product landing page HTML."""
+    html_path = os.path.join(os.path.dirname(__file__), "landing.html")
+    if os.path.exists(html_path):
+        with open(html_path, "r", encoding="utf-8") as f:
+            return f.read()
+    return get_dashboard_html()
+
+
+async def landing_endpoint(request: Request) -> Response:
+    """Serve the public SaaS Landing Page."""
+    html = get_landing_html()
+    return HTMLResponse(content=html)
+
+
 async def dashboard_endpoint(request: Request) -> Response:
     """Serve the Merchant Control Panel SPA."""
     html = get_dashboard_html()
@@ -218,3 +233,122 @@ async def api_audit_log_endpoint(request: Request) -> Response:
         "total_entries": count,
         "entries": entries,
     })
+
+
+async def api_auth_signup_endpoint(request: Request) -> Response:
+    """Create a new merchant account, provision store ID, and return session token."""
+    try:
+        body = await request.json()
+    except Exception:
+        return JSONResponse({"status": "error", "message": "Invalid JSON"}, status_code=400)
+
+    email = body.get("email", "").strip()
+    password = body.get("password", "").strip()
+    store_name = body.get("store_name", "").strip()
+    platform = body.get("platform", "simulator")
+    api_url = body.get("api_url", "")
+    api_token = body.get("api_token", "")
+    api_secret = body.get("api_secret", "")
+    return_window_days = body.get("return_window_days", 30)
+
+    svc = get_ecommerce_service()
+    try:
+        merchant = svc.register_merchant(
+            email=email,
+            password=password,
+            store_name=store_name,
+            platform=platform,
+            api_url=api_url,
+            api_token=api_token,
+            api_secret=api_secret,
+            return_window_days=return_window_days,
+        )
+        return JSONResponse({
+            "status": "success",
+            "message": "Merchant account created successfully.",
+            "merchant": merchant.to_dict(),
+        })
+    except Exception as exc:
+        return JSONResponse({"status": "error", "message": str(exc)}, status_code=400)
+
+
+async def api_auth_login_endpoint(request: Request) -> Response:
+    """Authenticate an existing merchant by email and password."""
+    try:
+        body = await request.json()
+    except Exception:
+        return JSONResponse({"status": "error", "message": "Invalid JSON"}, status_code=400)
+
+    email = body.get("email", "").strip()
+    password = body.get("password", "").strip()
+
+    svc = get_ecommerce_service()
+    merchant = svc.authenticate_merchant(email, password)
+    if not merchant:
+        return JSONResponse({"status": "error", "message": "Invalid email or password."}, status_code=401)
+
+    return JSONResponse({
+        "status": "success",
+        "message": "Authenticated successfully.",
+        "merchant": merchant.to_dict(),
+    })
+
+
+async def api_kb_endpoint(request: Request) -> Response:
+    """List or add custom knowledge base articles for a store."""
+    svc = get_ecommerce_service()
+
+    if request.method == "GET":
+        store_id = request.query_params.get("store_id", "demo-store")
+        articles = svc.list_kb_articles(store_id)
+        return JSONResponse({
+            "status": "success",
+            "store_id": store_id,
+            "articles": [a.to_dict() for a in articles],
+        })
+
+    # POST: Add new knowledge base article
+    try:
+        body = await request.json()
+    except Exception:
+        return JSONResponse({"status": "error", "message": "Invalid JSON"}, status_code=400)
+
+    store_id = body.get("store_id", "demo-store")
+    category = body.get("category", "general")
+    title = body.get("title", "").strip()
+    content = body.get("content", "").strip()
+
+    if not title or not content:
+        return JSONResponse({"status": "error", "message": "Title and content are required."}, status_code=400)
+
+    try:
+        article = svc.add_kb_article(store_id, category, title, content)
+        return JSONResponse({
+            "status": "success",
+            "message": "Knowledge base article saved.",
+            "article": article.to_dict(),
+        })
+    except Exception as exc:
+        return JSONResponse({"status": "error", "message": str(exc)}, status_code=400)
+
+
+async def api_kb_delete_endpoint(request: Request) -> Response:
+    """Delete a custom knowledge base article from a store."""
+    try:
+        body = await request.json()
+    except Exception:
+        return JSONResponse({"status": "error", "message": "Invalid JSON"}, status_code=400)
+
+    store_id = body.get("store_id", "demo-store")
+    article_id = body.get("article_id", "").strip()
+
+    if not article_id:
+        return JSONResponse({"status": "error", "message": "article_id is required."}, status_code=400)
+
+    svc = get_ecommerce_service()
+    deleted = svc.delete_kb_article(store_id, article_id)
+    if not deleted:
+        return JSONResponse({"status": "error", "message": f"Article '{article_id}' not found."}, status_code=404)
+
+    return JSONResponse({"status": "success", "message": f"Article '{article_id}' was deleted."})
+

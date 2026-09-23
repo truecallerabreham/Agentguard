@@ -378,6 +378,8 @@
         }
     }
 
+    window.__AGENTGUARD_TRIGGER_CHAT = () => toggleChat(true);
+
     launcher.addEventListener("click", () => toggleChat());
     closeBtn.addEventListener("click", () => toggleChat(false));
 

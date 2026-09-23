@@ -112,3 +112,35 @@ class StoreConfig:
         data["api_secret"] = "***" if self.api_secret else ""
         return data
 
+
+@dataclass
+class MerchantAccount:
+    """Merchant user account with provisioned store tenancy and credentials."""
+    merchant_id: str
+    email: str
+    password_hash: str
+    store_name: str
+    store_id: str
+    api_key: str
+    platform: str = "simulator"
+    created_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+
+    def to_dict(self) -> dict[str, Any]:
+        data = asdict(self)
+        data.pop("password_hash", None)
+        return data
+
+
+@dataclass
+class CustomKnowledgeArticle:
+    """Store-specific knowledge base policy or FAQ article."""
+    article_id: str
+    store_id: str
+    category: str
+    title: str
+    content: str
+    created_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+

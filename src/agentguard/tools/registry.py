@@ -185,8 +185,8 @@ def _populate_default_tools(reg: ToolRegistry) -> None:
         res = await order_lookup(customer_id=customer_id, order_id=order_id)
         return json.dumps(res, indent=2)
 
-    async def _kb_wrapper(query: str, category: str | None = None) -> str:
-        res = await kb_search(query=query, category=category)
+    async def _kb_wrapper(query: str, category: str | None = None, store_id: str | None = None) -> str:
+        res = await kb_search(query=query, category=category, store_id=store_id)
         return json.dumps(res, indent=2)
 
     async def _ticket_wrapper(customer_id: str, title: str, description: str, priority: str = "normal") -> str:

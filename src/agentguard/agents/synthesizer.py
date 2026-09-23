@@ -91,12 +91,16 @@ class SynthesizerAgent:
         warranty_policy = None
         for kb in kb_articles:
             cat = kb.get("category", "").lower()
-            if "return" in cat or "return" in kb.get("title", "").lower():
-                return_policy = kb
-                cited_evidence.append(f"KB-{kb.get('id')}: {kb.get('title')}")
-            elif "warranty" in cat or "warranty" in kb.get("title", "").lower():
-                warranty_policy = kb
-                cited_evidence.append(f"KB-{kb.get('id')}: {kb.get('title')}")
+            title = kb.get("title", "")
+            content = kb.get("content", "")
+            art_id = kb.get("id") or kb.get("article_id") or "KB"
+            cited_evidence.append(f"{art_id}: {title}")
+            if "return" in cat or "return" in title.lower():
+                if return_policy is None:
+                    return_policy = kb
+            elif any(w in cat or w in title.lower() for w in ("warranty", "defect", "repair", "replace", "battery")):
+                if warranty_policy is None:
+                    warranty_policy = kb
 
         # Assemble the grounded draft text
         paragraphs: list[str] = []
@@ -116,14 +120,20 @@ class SynthesizerAgent:
                 "I investigated your inquiry against your account history and recent transactions."
             )
 
-        # Policy entitlements based on tier
-        if warranty_policy and ("defective" in inquiry.lower() or "broken" in inquiry.lower() or "damage" in inquiry.lower()):
-            paragraphs.append(
-                "Regarding the damaged or defective item: According to our **Warranty & Defective Merchandise Policy** "
-                f"({warranty_policy.get('id', 'KB-102')}), items reported within 90 days of delivery qualify for an "
-                "immediate direct replacement or a full refund."
-            )
-            key_findings.append("Defective item qualifies for 90-day warranty replacement.")
+        # Policy entitlements based on custom knowledge base or tier
+        if warranty_policy and any(w in inquiry.lower() for w in ("warranty", "replacement", "defective", "broken", "damage", "battery", "repair")):
+            policy_title = warranty_policy.get("title", "Warranty Policy")
+            policy_content = warranty_policy.get("content")
+            if policy_content and len(policy_content) > 10:
+                paragraphs.append(
+                    f"Regarding your inquiry: According to our **{policy_title}**, {policy_content}"
+                )
+            else:
+                paragraphs.append(
+                    f"Regarding your inquiry: According to our **{policy_title}**, items reported within warranty qualify for an "
+                    "immediate direct replacement or a full refund."
+                )
+            key_findings.append(f"Referenced policy: {policy_title}.")
 
         if return_policy:
             if cust_tier.lower() == "gold":
