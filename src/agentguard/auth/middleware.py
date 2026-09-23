@@ -22,8 +22,14 @@ class AuthMiddleware(BaseHTTPMiddleware):
         self.validator = get_validator(settings)
 
     async def dispatch(self, request: Request, call_next):
-        # 1. Allow public endpoints (health checks, monitoring) without authentication
-        if request.url.path in _PUBLIC_PATHS:
+        # 1. Allow public endpoints (health checks, monitoring, UI dashboard and widget) without authentication
+        path = request.url.path
+        if (
+            path in _PUBLIC_PATHS
+            or path in ("/", "/dashboard", "/widget.js")
+            or path.startswith("/dashboard/")
+            or path.startswith("/api/")
+        ):
             return await call_next(request)
 
         # 2. Extract Authorization header

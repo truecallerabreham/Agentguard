@@ -59,7 +59,7 @@ class ShopifyConnector(BaseStoreConnector):
         validate_url_ssrf(self.base_url)
 
     async def fetch_order(self, order_number: str) -> OrderDetails | None:
-        """Query Shopify orders endpoint filtered by name."""
+        """Query Shopify orders endpoint filtered by name ."""
         clean_num = order_number.strip().lstrip("#")
         query_url = f"{self.base_url}/admin/api/2024-01/orders.json?name={clean_num}&status=any"
         
@@ -312,11 +312,9 @@ class SimulatorStoreConnector(BaseStoreConnector):
             return_window_days=30,
         )
         super().__init__(cfg)
-        self.reset()
-
-    def reset(self) -> None:
-        """Reset in-memory orders to initial state."""
         now = datetime.now(timezone.utc)
+
+        # Seed realistic orders covering all key customer support scenarios
         self._orders: dict[str, OrderDetails] = {
             "1001": OrderDetails(
                 order_id="ord_1001",
@@ -349,6 +347,92 @@ class SimulatorStoreConnector(BaseStoreConnector):
                 fulfillment_status=OrderFulfillmentStatus.IN_TRANSIT,
                 items=[
                     OrderItem(item_id="item_3", title="Smart Ergonomic Desk Chair", quantity=1, price_cents=24900, sku="LUM-CHR-01"),
+                ],
+                delivered_at=None,
+                tracking_company="UPS",
+                tracking_number="1Z9999999999999999",
+                tracking_url="https://www.ups.com/track?tracknum=1Z9999999999999999",
+                financial_status="paid",
+                store_id=self.config.store_id,
+            ),
+            "1003": OrderDetails(
+                order_id="ord_1003",
+                order_number="1003",
+                customer_email="elena.rostova@example.com",
+                customer_name="Elena Rostova",
+                created_at=(now - timedelta(days=55)).isoformat(),
+                total_cents=13500,
+                currency="USD",
+                fulfillment_status=OrderFulfillmentStatus.DELIVERED,
+                items=[
+                    OrderItem(item_id="item_4", title="Mechanical Gaming Keyboard RGB", quantity=1, price_cents=13500, sku="LUM-KB-RGB"),
+                ],
+                delivered_at=(now - timedelta(days=48)).isoformat(),
+                tracking_company="DHL Express",
+                tracking_number="4209021093612898",
+                tracking_url="https://www.dhl.com/en/express/tracking.html?AWB=4209021093612898",
+                financial_status="paid",
+                store_id=self.config.store_id,
+            ),
+            "1004": OrderDetails(
+                order_id="ord_1004",
+                order_number="1004",
+                customer_email="marcus.vance@example.com",
+                customer_name="Marcus Vance",
+                created_at=(now - timedelta(days=3)).isoformat(),
+                total_cents=8900,
+                currency="USD",
+                fulfillment_status=OrderFulfillmentStatus.OUT_FOR_DELIVERY,
+                items=[
+                    OrderItem(item_id="item_5", title="Compact Espresso Machine", quantity=1, price_cents=8900, sku="LUM-ESP-01"),
+                ],
+                delivered_at=None,
+                tracking_company="FedEx",
+                tracking_number="794829103948",
+                tracking_url="https://www.fedex.com/apps/fedextrack/?tracknumbers=794829103948",
+                financial_status="paid",
+                store_id=self.config.store_id,
+            ),
+        }
+
+    def reset(self) -> None:
+        """Reset in-memory orders back to their pristine initial states."""
+        self._init_orders()
+
+    def _init_orders(self) -> None:
+        now = datetime.now(timezone.utc)
+        self._orders = {
+            "1001": OrderDetails(
+                order_id="ord_1001",
+                order_number="1001",
+                customer_email="sarah.connor@example.com",
+                customer_name="Sarah Connor",
+                created_at=(now - timedelta(days=12)).isoformat(),
+                total_cents=11400,
+                currency="USD",
+                fulfillment_status=OrderFulfillmentStatus.DELIVERED,
+                items=[
+                    OrderItem(item_id="item_1", title="Wireless Noise-Canceling Headphones", quantity=1, price_cents=9900, sku="LUM-NC9"),
+                    OrderItem(item_id="item_2", title="Braided Audio Cable 3.5mm", quantity=1, price_cents=1500, sku="LUM-CBL"),
+                ],
+                delivered_at=(now - timedelta(days=6)).isoformat(),
+                tracking_company="USPS",
+                tracking_number="9400111899562537624128",
+                tracking_url="https://tools.usps.com/go/TrackConfirmAction?tLabels=9400111899562537624128",
+                financial_status="paid",
+                store_id=self.config.store_id,
+            ),
+            "1002": OrderDetails(
+                order_id="ord_1002",
+                order_number="1002",
+                customer_email="john.smith@example.com",
+                customer_name="John Smith",
+                created_at=(now - timedelta(days=2)).isoformat(),
+                total_cents=4500,
+                currency="USD",
+                fulfillment_status=OrderFulfillmentStatus.IN_TRANSIT,
+                items=[
+                    OrderItem(item_id="item_3", title="Studio Monitor Foam Isolation Pads", quantity=2, price_cents=2250, sku="LUM-PAD"),
                 ],
                 delivered_at=None,
                 tracking_company="UPS",

@@ -22,6 +22,15 @@ from agentguard.ratelimit import RateLimitMiddleware, get_rate_limiter
 from agentguard.cache import get_cache_manager
 from agentguard.db.pool import get_db_manager
 from agentguard.tools.registry import get_tool_registry
+from agentguard.ui import (
+    dashboard_endpoint,
+    widget_script_endpoint,
+    api_chat_endpoint,
+    api_list_approvals_endpoint,
+    api_decide_approval_endpoint,
+    api_store_config_endpoint,
+    api_audit_log_endpoint,
+)
 
 # Initialize the Model Context Protocol server
 mcp = FastMCP("agentguard")
@@ -66,6 +75,18 @@ def build_http_app(settings: ServerSettings | None = None) -> Starlette:
             return Response(content=content, media_type=media_type)
 
         app.add_route("/metrics", metrics_endpoint, methods=["GET"])
+
+    # Merchant Control Panel SPA and Embeddable Widget
+    app.add_route("/", dashboard_endpoint, methods=["GET"])
+    app.add_route("/dashboard", dashboard_endpoint, methods=["GET"])
+    app.add_route("/widget.js", widget_script_endpoint, methods=["GET"])
+
+    # Merchant Control Panel & Widget APIs
+    app.add_route("/api/chat", api_chat_endpoint, methods=["POST"])
+    app.add_route("/api/approvals", api_list_approvals_endpoint, methods=["GET"])
+    app.add_route("/api/approvals/decide", api_decide_approval_endpoint, methods=["POST"])
+    app.add_route("/api/store", api_store_config_endpoint, methods=["GET", "POST"])
+    app.add_route("/api/audit", api_audit_log_endpoint, methods=["GET"])
 
     # Starlette wraps middleware in reverse order (outermost to innermost):
     # Request enters: ObservabilityMiddleware -> AuthMiddleware -> TenantMiddleware -> RateLimitMiddleware -> App endpoint

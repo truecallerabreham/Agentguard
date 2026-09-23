@@ -127,11 +127,18 @@ class TokenValidator:
         )
 
 
-@lru_cache(maxsize=1)
+_validator_instance: TokenValidator | None = None
+
+
 def get_validator(settings: ServerSettings | None = None) -> TokenValidator:
+    global _validator_instance
     if settings is None:
+        if _validator_instance is not None:
+            return _validator_instance
         from agentguard.config import get_settings
 
         settings = get_settings()
-    return TokenValidator(settings)
+    validator = TokenValidator(settings)
+    _validator_instance = validator
+    return validator
 

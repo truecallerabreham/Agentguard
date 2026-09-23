@@ -1,0 +1,220 @@
+"""HTTP handlers and API routes for the AgentGuard Merchant Control Panel."""
+
+from __future__ import annotations
+import json
+import logging
+import os
+from typing import Any
+from starlette.requests import Request
+from starlette.responses import HTMLResponse, JSONResponse, Response
+
+from agentguard.agents.orchestrator import MultiAgentOrchestrator
+from agentguard.ecommerce.models import StoreConfig, StorePlatform
+from agentguard.ecommerce.service import get_ecommerce_service
+from agentguard.governance.approval import get_approval_manager
+from agentguard.observability.audit import get_audit_logger, verify_audit_log
+
+logger = logging.getLogger("agentguard.ui.routes")
+
+
+def get_dashboard_html() -> str:
+    """Load or return the pre-compiled Merchant Dashboard HTML."""
+    html_path = os.path.join(os.path.dirname(__file__), "dashboard.html")
+    if os.path.exists(html_path):
+        with open(html_path, "r", encoding="utf-8") as f:
+            return f.read()
+    return "<html><body><h1>AgentGuard Dashboard</h1><p>dashboard.html not found.</p></body></html>"
+
+
+async def dashboard_endpoint(request: Request) -> Response:
+    """Serve the Merchant Control Panel SPA."""
+    html = get_dashboard_html()
+    return HTMLResponse(content=html)
+
+
+async def widget_script_endpoint(request: Request) -> Response:
+    """Serve the embeddable customer chat widget JavaScript."""
+    widget_path = os.path.join(os.path.dirname(__file__), "widget.js")
+    if os.path.exists(widget_path):
+        with open(widget_path, "r", encoding="utf-8") as f:
+            code = f.read()
+    else:
+        code = "/* AgentGuard Store Widget */ console.log('AgentGuard widget loaded');"
+    return Response(content=code, media_type="application/javascript")
+
+
+async def api_chat_endpoint(request: Request) -> Response:
+    """Execute customer support inquiries through the Multi-Agent Copilot pipeline."""
+    try:
+        body = await request.json()
+    except Exception:
+        return JSONResponse({"status": "error", "message": "Invalid JSON payload"}, status_code=400)
+
+    inquiry = body.get("inquiry", "").strip()
+    store_id = body.get("store_id") or "demo-store"
+    customer_email = body.get("customer_email", "").strip()
+
+    if not inquiry:
+        return JSONResponse({"status": "error", "message": "Inquiry text is required"}, status_code=400)
+
+    # If email provided in separate field, augment inquiry for the Planner
+    full_inquiry = inquiry
+    if customer_email and customer_email not in inquiry:
+        full_inquiry = f"{inquiry} (Customer email: {customer_email})"
+
+    orchestrator = MultiAgentOrchestrator()
+    events = []
+
+    def handle_event(evt):
+        events.append(evt.to_dict())
+
+    try:
+        result = await orchestrator.run(
+            inquiry=full_inquiry,
+            tenant_id=store_id,
+            event_handler=handle_event,
+        )
+
+        return JSONResponse({
+            "status": "success",
+            "response": result.final_response,
+            "critique": {
+                "score": result.critique.factual_accuracy_score,
+                "passed": result.critique.passed,
+                "hallucinations": result.critique.hallucinations,
+                "unsupported_claims": result.critique.unsupported_claims,
+            },
+            "plan": [s.to_dict() for s in result.plan.steps],
+            "events": events,
+            "execution_time_ms": result.total_duration_ms,
+        })
+    except Exception as exc:
+        logger.error("Chat API error: %s", exc, exc_info=True)
+        return JSONResponse({"status": "error", "message": str(exc)}, status_code=500)
+
+
+async def api_list_approvals_endpoint(request: Request) -> Response:
+    """List pending high-risk Human-in-the-Loop approval requests."""
+    manager = get_approval_manager()
+    pending = manager.list_pending()
+    return JSONResponse({"status": "success", "approvals": pending})
+
+
+async def api_decide_approval_endpoint(request: Request) -> Response:
+    """Authorize or reject a pending refund request."""
+    try:
+        body = await request.json()
+    except Exception:
+        return JSONResponse({"status": "error", "message": "Invalid JSON"}, status_code=400)
+
+    approval_id = body.get("approval_id")
+    decision = body.get("decision", "").lower()
+    reason = body.get("reason", "Decision recorded via Merchant Dashboard")
+
+    if not approval_id or decision not in ("approve", "reject"):
+        return JSONResponse(
+            {"status": "error", "message": "approval_id and decision ('approve' | 'reject') are required."},
+            status_code=400,
+        )
+
+    manager = get_approval_manager()
+
+    if decision == "reject":
+        res = manager.reject(approval_id=approval_id, approver="merchant@dashboard", reason=reason)
+        return JSONResponse({
+            "status": "success",
+            "decision": "rejected",
+            "message": f"Approval request '{approval_id}' was rejected.",
+        })
+
+    # Retrieve approval item to get token and arguments
+    pending_item = manager.get_approval(approval_id)
+    if not pending_item:
+        return JSONResponse({"status": "error", "message": f"Approval request '{approval_id}' not found."}, status_code=404)
+
+    token = pending_item.approval_token
+    # Approve the item in manager
+    manager.approve(approval_id=approval_id, approver="merchant@dashboard", token=token)
+
+    # If it was an ecommerce refund, execute the settlement
+    if pending_item.tool_name == "ecommerce_request_refund":
+        params = pending_item.arguments
+        svc = get_ecommerce_service()
+        try:
+            settlement = await svc.execute_approved_refund(
+                store_id=params.get("store_id", "demo-store"),
+                order_number=params.get("order_number", ""),
+                approval_id=approval_id,
+                approval_token=token,
+                amount_cents=params.get("amount_cents", 0),
+                reason=reason,
+            )
+            return JSONResponse({
+                "status": "success",
+                "decision": "approved",
+                "settlement": settlement,
+                "message": f"Refund of ${params.get('amount_cents', 0) / 100:.2f} was approved and disbursed.",
+            })
+        except Exception as exc:
+            logger.error("Refund settlement error: %s", exc)
+            return JSONResponse({"status": "error", "message": f"Settlement failed: {exc}"}, status_code=500)
+
+    return JSONResponse({"status": "success", "decision": "approved", "message": "Action approved successfully."})
+
+
+async def api_store_config_endpoint(request: Request) -> Response:
+    """Retrieve or update store connection configuration."""
+    svc = get_ecommerce_service()
+
+    if request.method == "GET":
+        store_id = request.query_params.get("store_id", "demo-store")
+        cfg = svc.get_store_config(store_id)
+        return JSONResponse({"status": "success", "store": cfg.to_dict()})
+
+    # POST: Update store configuration
+    try:
+        body = await request.json()
+    except Exception:
+        return JSONResponse({"status": "error", "message": "Invalid JSON"}, status_code=400)
+
+    store_id = body.get("store_id", "demo-store")
+    platform_str = body.get("platform", "simulator").lower()
+    platform = StorePlatform(platform_str) if platform_str in ("shopify", "woocommerce", "simulator") else StorePlatform.SIMULATOR
+
+    new_cfg = StoreConfig(
+        store_id=store_id,
+        store_name=body.get("store_name", "My Online Store"),
+        platform=platform,
+        api_url=body.get("api_url", "https://demo.lumina-audio.com"),
+        api_token=body.get("api_token", ""),
+        api_secret=body.get("api_secret", ""),
+        return_window_days=int(body.get("return_window_days", 30)),
+    )
+    svc.register_store(new_cfg)
+    return JSONResponse({"status": "success", "store": new_cfg.to_dict()})
+
+
+async def api_audit_log_endpoint(request: Request) -> Response:
+    """Fetch recent cryptographic audit log entries and verify hash-chain integrity."""
+    audit = get_audit_logger()
+    valid, reason, count = verify_audit_log(audit.log_path)
+
+    entries = []
+    if os.path.exists(audit.log_path):
+        with open(audit.log_path, "r", encoding="utf-8") as f:
+            lines = f.readlines()
+            # Return last 30 entries reversed (newest first)
+            for line in reversed(lines[-30:]):
+                if line.strip():
+                    try:
+                        entries.append(json.loads(line))
+                    except Exception:
+                        pass
+
+    return JSONResponse({
+        "status": "success",
+        "chain_valid": valid,
+        "verification_reason": reason,
+        "total_entries": count,
+        "entries": entries,
+    })

@@ -63,6 +63,18 @@ class PlannerAgent:
                 )
                 step_counter += 1
 
+            if any(w in inquiry_lower for w in ("refund", "money back")):
+                steps.append(
+                    PlanStep(
+                        step_number=step_counter,
+                        action=f"Submit refund request for order #{ord_num} to merchant approval inbox",
+                        tool_name="ecommerce_request_refund",
+                        arguments={"store_id": store_id, "order_number": ord_num, "customer_email": cust_email, "amount_cents": 11400, "reason": inquiry[:80]},
+                        reason="Queue high-risk financial refund for Human-in-the-Loop merchant authorization.",
+                    )
+                )
+                step_counter += 1
+
             objective = f"E-Commerce Support Resolution for Order #{ord_num}"
             rationale = f"Executed {len(steps)} verified store lookup and policy evaluation steps."
             return ExecutionPlan(objective=objective, steps=steps, rationale=rationale)

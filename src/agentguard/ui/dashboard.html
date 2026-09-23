@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-950 text-slate-100">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgentGuard — Autonomous E-Commerce Support & Governance Control Panel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes pulse-slow {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    .animate-pulse-slow { animation: pulse-slow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+  </style>
+</head>
+<body class="h-full flex flex-col font-sans antialiased">
+  <!-- Top Navigation Bar -->
+  <header class="bg-slate-900 border-b border-slate-800 px-6 py-4 flex items-center justify-between sticky top-0 z-50">
+    <div class="flex items-center space-x-3">
+      <div class="w-9 h-9 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/20">
+        🛡️
+      </div>
+      <div>
+        <h1 class="font-bold text-lg text-white leading-tight">AgentGuard</h1>
+        <p class="text-xs text-slate-400">Autonomous E-Commerce Support & Operational Governance</p>
+      </div>
+    </div>
+
+    <!-- System Status Badges -->
+    <div class="flex items-center space-x-3 text-xs">
+      <div class="flex items-center space-x-1.5 bg-emerald-950/60 border border-emerald-800/80 px-2.5 py-1 rounded-full text-emerald-400">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span class="font-medium">Engine Active</span>
+      </div>
+      <div class="flex items-center space-x-1.5 bg-indigo-950/60 border border-indigo-800/80 px-2.5 py-1 rounded-full text-indigo-300">
+        <span>🔐 SHA-256 Audit:</span>
+        <span id="header-chain-status" class="font-semibold text-emerald-400">VERIFIED</span>
+      </div>
+      <div id="approvals-badge" class="hidden items-center space-x-1 bg-amber-950/80 border border-amber-600 px-2.5 py-1 rounded-full text-amber-300 font-semibold cursor-pointer" onclick="switchTab('approvals')">
+        <span>⚠️</span>
+        <span id="pending-count">0</span>
+        <span>Pending Approval</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Workspace -->
+  <div class="flex-1 flex overflow-hidden">
+    <!-- Sidebar Navigation -->
+    <aside class="w-64 bg-slate-900/60 border-r border-slate-800 flex flex-col justify-between p-4">
+      <nav class="space-y-1.5">
+        <button onclick="switchTab('chat')" id="nav-chat" class="w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium transition bg-indigo-600 text-white shadow-sm">
+          <span>💬</span>
+          <span>Live Support Console</span>
+        </button>
+        <button onclick="switchTab('approvals')" id="nav-approvals" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition">
+          <div class="flex items-center space-x-3">
+            <span>🛡️</span>
+            <span>Approval Inbox</span>
+          </div>
+          <span id="nav-approvals-pill" class="hidden text-xs bg-amber-500 text-slate-950 font-bold px-1.5 py-0.5 rounded-full">0</span>
+        </button>
+        <button onclick="switchTab('store')" id="nav-store" class="w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition">
+          <span>⚙️</span>
+          <span>Store & Widget Setup</span>
+        </button>
+        <button onclick="switchTab('audit')" id="nav-audit" class="w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition">
+          <span>📜</span>
+          <span>Cryptographic Audit Vault</span>
+        </button>
+      </nav>
+
+      <div class="border-t border-slate-800/80 pt-4 text-xs text-slate-400 space-y-1">
+        <p><span class="text-slate-400">Current Store:</span> <strong id="sidebar-store-name" class="text-slate-200">Lumina Audio</strong></p>
+        <p><span class="text-slate-400">Platform:</span> <span id="sidebar-platform" class="text-indigo-400">SIMULATOR</span></p>
+        <p><span class="text-slate-400">Return Window:</span> <span id="sidebar-window" class="text-slate-200">30 Days</span></p>
+      </div>
+    </aside>
+
+    <!-- Content View Area -->
+    <main class="flex-1 overflow-y-auto bg-slate-950 p-6">
+      
+      <!-- TAB 1: LIVE SUPPORT CONSOLE -->
+      <section id="tab-chat" class="space-y-6 max-w-5xl mx-auto">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-xl font-bold text-white">Live Customer Support Console</h2>
+            <p class="text-sm text-slate-400">Test the Multi-Agent Copilot against simulated or live store orders with zero hallucinations.</p>
+          </div>
+          <button onclick="resetConsole()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-md border border-slate-700 transition">
+            Clear Chat
+          </button>
+        </div>
+
+        <!-- Quick Demo Scenarios Chips -->
+        <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl space-y-2">
+          <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Quick Test Scenarios (1-Click Recruiter Demo):</p>
+          <div class="flex flex-wrap gap-2 text-xs">
+            <button onclick="fillPrompt('Where is my order #1001? My email is sarah.connor@example.com.')" class="bg-slate-800 hover:bg-indigo-600 hover:text-white text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-700/80 transition">
+              📦 Order #1001 Tracking (Delivered)
+            </button>
+            <button onclick="fillPrompt('Where is my order #1002? My email is alex.chen@example.com.')" class="bg-slate-800 hover:bg-indigo-600 hover:text-white text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-700/80 transition">
+              🚚 Order #1002 In Transit (UPS Tracking)
+            </button>
+            <button onclick="fillPrompt('I want a refund for order #1001, email sarah.connor@example.com. Ear pads hurt.')" class="bg-slate-800 hover:bg-amber-600 hover:text-white text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-700/80 transition">
+              💸 Request Refund #1001 (Triggers HITL Gate)
+            </button>
+            <button onclick="fillPrompt('Can I return order #1003? Email: elena.rostova@example.com.')" class="bg-slate-800 hover:bg-red-600 hover:text-white text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-700/80 transition">
+              ⛔ Expired Return #1003 (Delivered 48d ago)
+            </button>
+            <button onclick="fillPrompt('Where is order #1001? Email: hacker@evil.com.')" class="bg-slate-800 hover:bg-rose-600 hover:text-white text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-700/80 transition">
+              🔒 Privacy Snooping Test (Blocked)
+            </button>
+          </div>
+        </div>
+
+        <!-- Chat Container -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden flex flex-col h-[520px]">
+          <!-- Messages Scroll Area -->
+          <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-4">
+            <div class="flex items-start space-x-3">
+              <div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-sm">🤖</div>
+              <div class="bg-slate-800/80 border border-slate-700/60 rounded-2xl rounded-tl-none p-3.5 text-sm text-slate-200 max-w-xl">
+                Hello! I am your store's autonomous customer support agent. Enter an Order Number (e.g. <code>#1001</code>) and your checkout email to track orders, check returns, or request assistance.
+              </div>
+            </div>
+          </div>
+
+          <!-- Inspector Drawer (Shows Planner & Critic details) -->
+          <div id="inspector" class="hidden bg-slate-950/90 border-t border-slate-800 p-3 text-xs text-slate-400 space-y-1 max-h-36 overflow-y-auto">
+            <div class="flex items-center justify-between font-semibold text-slate-300">
+              <span>🧠 Multi-Agent Diagnostic Inspector</span>
+              <span id="inspector-critic-score" class="text-emerald-400 font-mono">Score: 1.00 (0 Hallucinations)</span>
+            </div>
+            <div id="inspector-plan" class="text-slate-400 font-mono"></div>
+          </div>
+
+          <!-- Input Bar -->
+          <form onsubmit="handleChatSubmit(event)" class="p-3 bg-slate-900 border-t border-slate-800 flex items-center space-x-2">
+            <input type="text" id="chat-input" placeholder="Type customer message (e.g. 'Where is my order #1001? Email: sarah.connor@example.com')..." class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-white placeholder-slate-400 focus:outline-none focus:border-indigo-500">
+            <button type="submit" id="chat-send-btn" class="bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition flex items-center space-x-1">
+              <span>Send</span>
+              <span>→</span>
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <!-- TAB 2: APPROVAL INBOX -->
+      <section id="tab-approvals" class="hidden space-y-6 max-w-5xl mx-auto">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-xl font-bold text-white">Human-in-the-Loop Approval Inbox</h2>
+            <p class="text-sm text-slate-400">High-risk actions (financial refunds, order cancellations) intercepted before execution.</p>
+          </div>
+          <button onclick="loadApprovals()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-md border border-slate-700 transition">
+            Refresh Approvals
+          </button>
+        </div>
+
+        <div id="approvals-container" class="space-y-3">
+          <!-- Populated dynamically -->
+          <div class="bg-slate-900/60 border border-slate-800 p-8 rounded-xl text-center text-slate-400 text-sm">
+            Loading pending approvals...
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: STORE & WIDGET SETUP -->
+      <section id="tab-store" class="hidden space-y-6 max-w-5xl mx-auto">
+        <div>
+          <h2 class="text-xl font-bold text-white">Store Connection & Embeddable Widget</h2>
+          <p class="text-sm text-slate-400">Connect your Shopify or WooCommerce store and embed the customer chat widget.</p>
+        </div>
+
+        <!-- Store Config Form -->
+        <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl space-y-4">
+          <h3 class="font-semibold text-white text-base">Store Connection Settings</h3>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-medium text-slate-400 mb-1">Store Name</label>
+              <input type="text" id="cfg-store-name" value="Lumina Audio & Tech" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-slate-400 mb-1">Platform</label>
+              <select id="cfg-platform" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white">
+                <option value="simulator">In-Memory Simulator (Built-in Testing)</option>
+                <option value="shopify">Shopify Admin REST API</option>
+                <option value="woocommerce">WooCommerce REST API v3</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-slate-400 mb-1">Store API URL / Shopify Domain</label>
+              <input type="text" id="cfg-api-url" value="https://demo.lumina-audio.com" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-slate-400 mb-1">Return Policy Window (Days)</label>
+              <input type="number" id="cfg-window" value="30" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white">
+            </div>
+            <div class="col-span-2">
+              <label class="block text-xs font-medium text-slate-400 mb-1">API Token / Consumer Key</label>
+              <input type="password" id="cfg-token" placeholder="shpat_xxxxxxxxxxxxxxx" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white">
+            </div>
+          </div>
+          <div class="flex justify-end">
+            <button onclick="saveStoreConfig()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm px-4 py-2 rounded-lg transition">
+              Save Store Configuration
+            </button>
+          </div>
+        </div>
+
+        <!-- Widget Embed Snippet -->
+        <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl space-y-3">
+          <h3 class="font-semibold text-white text-base">Storefront Chat Widget Embed Code</h3>
+          <p class="text-xs text-slate-400">Paste this script snippet before the closing <code>&lt;/body&gt;</code> tag of your store's theme template:</p>
+          <div class="relative">
+            <pre id="widget-code" class="bg-slate-950 border border-slate-800 rounded-lg p-3.5 text-xs text-indigo-300 font-mono overflow-x-auto">&lt;script src="https://agentguard.local/widget.js" data-store-id="demo-store"&gt;&lt;/script&gt;</pre>
+            <button onclick="copyWidgetSnippet()" class="absolute top-2 right-2 text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-2.5 py-1 rounded border border-slate-700 transition">
+              Copy Code
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 4: AUDIT VAULT -->
+      <section id="tab-audit" class="hidden space-y-6 max-w-5xl mx-auto">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-xl font-bold text-white">Cryptographic Audit Vault</h2>
+            <p class="text-sm text-slate-400">Tamper-evident SHA-256 hash-chained ledger logging all AI actions, lookups, and financial disbursements.</p>
+          </div>
+          <button onclick="loadAuditVault()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-md border border-slate-700 transition">
+            Refresh Ledger
+          </button>
+        </div>
+
+        <!-- Verification Banner -->
+        <div id="audit-banner" class="bg-emerald-950/40 border border-emerald-800/80 p-4 rounded-xl flex items-center justify-between text-xs">
+          <div class="flex items-center space-x-2 text-emerald-300">
+            <span class="text-base">🛡️</span>
+            <span>Cryptographic Chain Integrity: <strong class="text-emerald-400">VERIFIED</strong></span>
+          </div>
+          <span id="audit-block-count" class="font-mono text-emerald-400">Total Entries: 0</span>
+        </div>
+
+        <!-- Audit Table -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-950/70 border-b border-slate-800 text-slate-400 uppercase font-semibold">
+              <tr>
+                <th class="p-3">#</th>
+                <th class="p-3">Action</th>
+                <th class="p-3">Status</th>
+                <th class="p-3">Parameters</th>
+                <th class="p-3">SHA-256 Hash</th>
+                <th class="p-3">Timestamp</th>
+              </tr>
+            </thead>
+            <tbody id="audit-table-body" class="divide-y divide-slate-800/60 font-mono text-slate-300">
+              <tr><td colspan="6" class="p-4 text-center text-slate-500">Loading audit entries...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    let activeTab = 'chat';
+
+    function switchTab(tabId) {
+      activeTab = tabId;
+      ['chat', 'approvals', 'store', 'audit'].forEach(t => {
+        document.getElementById(`tab-${t}`).classList.add('hidden');
+        const btn = document.getElementById(`nav-${t}`);
+        btn.classList.remove('bg-indigo-600', 'text-white');
+        btn.classList.add('text-slate-400');
+      });
+      document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+      const activeBtn = document.getElementById(`nav-${tabId}`);
+      activeBtn.classList.add('bg-indigo-600', 'text-white');
+      activeBtn.classList.remove('text-slate-400');
+
+      if (tabId === 'approvals') loadApprovals();
+      if (tabId === 'audit') loadAuditVault();
+      if (tabId === 'store') loadStoreConfig();
+    }
+
+    function fillPrompt(text) {
+      document.getElementById('chat-input').value = text;
+      document.getElementById('chat-input').focus();
+    }
+
+    function resetConsole() {
+      document.getElementById('chat-messages').innerHTML = `
+        <div class="flex items-start space-x-3">
+          <div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-sm">🤖</div>
+          <div class="bg-slate-800/80 border border-slate-700/60 rounded-2xl rounded-tl-none p-3.5 text-sm text-slate-200 max-w-xl">
+            Console cleared. Enter an Order Number (e.g. <code>#1001</code>) and email to begin a new resolution turn.
+          </div>
+        </div>
+      `;
+      document.getElementById('inspector').classList.add('hidden');
+    }
+
+    async function handleChatSubmit(e) {
+      e.preventDefault();
+      const input = document.getElementById('chat-input');
+      const text = input.value.trim();
+      if (!text) return;
+
+      input.value = '';
+      appendChatMessage('user', text);
+
+      // Loading bubble
+      const loadingId = 'loading-' + Date.now();
+      appendChatMessage('agent', '<span class="animate-pulse">Thinking with Multi-Agent Copilot...</span>', loadingId);
+
+      try {
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ inquiry: text, store_id: 'demo-store' })
+        });
+        const data = await res.json();
+        document.getElementById(loadingId)?.remove();
+
+        if (data.status === 'success') {
+          appendChatMessage('agent', data.response);
+          // Update diagnostic inspector
+          showInspector(data);
+          // Check if an approval was generated
+          loadApprovalsCount();
+        } else {
+          appendChatMessage('agent', `❌ Error: ${data.message || 'Operation failed'}`);
+        }
+      } catch (err) {
+        document.getElementById(loadingId)?.remove();
+        appendChatMessage('agent', `❌ Network error: ${err.message}`);
+      }
+    }
+
+    function appendChatMessage(sender, content, elemId) {
+      const container = document.getElementById('chat-messages');
+      const msgDiv = document.createElement('div');
+      if (elemId) msgDiv.id = elemId;
+      msgDiv.className = 'flex items-start space-x-3';
+
+      if (sender === 'user') {
+        msgDiv.className += ' justify-end';
+        msgDiv.innerHTML = `
+          <div class="bg-indigo-600 text-white rounded-2xl rounded-tr-none p-3.5 text-sm max-w-xl shadow">
+            ${escapeHtml(content)}
+          </div>
+          <div class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-sm font-semibold">👤</div>
+        `;
+      } else {
+        msgDiv.innerHTML = `
+          <div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-sm">🤖</div>
+          <div class="bg-slate-800/90 border border-slate-700/60 rounded-2xl rounded-tl-none p-3.5 text-sm text-slate-100 max-w-xl shadow leading-relaxed whitespace-pre-line">
+            ${content}
+          </div>
+        `;
+      }
+      container.appendChild(msgDiv);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function showInspector(data) {
+      const drawer = document.getElementById('inspector');
+      drawer.classList.remove('hidden');
+      const score = data.critique?.score ?? 1.0;
+      const scoreElem = document.getElementById('inspector-critic-score');
+      scoreElem.textContent = `Critic Score: ${(score * 100).toFixed(0)}% (Hallucinations: ${data.critique?.hallucinations?.length || 0})`;
+
+      const planSteps = (data.plan || []).map(s => `[Step ${s.step_number}: ${s.tool_name}]`).join(' → ');
+      document.getElementById('inspector-plan').textContent = `Execution Plan (${data.execution_time_ms}ms): ${planSteps}`;
+    }
+
+    async function loadApprovalsCount() {
+      try {
+        const res = await fetch('/api/approvals');
+        const data = await res.json();
+        const count = data.approvals?.length || 0;
+        const badge = document.getElementById('approvals-badge');
+        const navPill = document.getElementById('nav-approvals-pill');
+        document.getElementById('pending-count').textContent = count;
+
+        if (count > 0) {
+          badge.classList.remove('hidden');
+          badge.classList.add('flex');
+          navPill.classList.remove('hidden');
+          navPill.textContent = count;
+        } else {
+          badge.classList.add('hidden');
+          badge.classList.remove('flex');
+          navPill.classList.add('hidden');
+        }
+      } catch (e) {
+        console.error('Could not fetch approvals count', e);
+      }
+    }
+
+    async function loadApprovals() {
+      const container = document.getElementById('approvals-container');
+      try {
+        const res = await fetch('/api/approvals');
+        const data = await res.json();
+        const items = data.approvals || [];
+        loadApprovalsCount();
+
+        if (items.length === 0) {
+          container.innerHTML = `
+            <div class="bg-slate-900/60 border border-slate-800 p-8 rounded-xl text-center text-slate-400 text-sm">
+              ✨ No pending approvals. High-risk refund requests will appear here for merchant authorization.
+            </div>
+          `;
+          return;
+        }
+
+        container.innerHTML = items.map(it => {
+          const params = it.parameters || {};
+          const amount = params.amount_cents ? `$${(params.amount_cents / 100).toFixed(2)}` : 'N/A';
+          return `
+            <div class="bg-slate-900 border border-amber-800/60 rounded-xl p-5 shadow-lg flex items-center justify-between">
+              <div class="space-y-1">
+                <div class="flex items-center space-x-2">
+                  <span class="bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs px-2 py-0.5 rounded font-mono font-semibold">
+                    ${it.approval_id}
+                  </span>
+                  <span class="text-white font-semibold text-sm">Refund Request: ${amount}</span>
+                  <span class="text-xs text-slate-400 font-mono">Order #${params.order_number || 'N/A'}</span>
+                </div>
+                <p class="text-xs text-slate-300"><strong>Customer:</strong> ${params.customer_email || 'Customer'}</p>
+                <p class="text-xs text-slate-400"><strong>Reason:</strong> ${params.reason || 'Requested return'}</p>
+              </div>
+              <div class="flex items-center space-x-2">
+                <button onclick="decideApproval('${it.approval_id}', 'approve')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs px-4 py-2 rounded-lg transition shadow">
+                  ✓ Approve & Refund
+                </button>
+                <button onclick="decideApproval('${it.approval_id}', 'reject')" class="bg-rose-950 hover:bg-rose-900 text-rose-300 border border-rose-800 font-semibold text-xs px-3 py-2 rounded-lg transition">
+                  ✕ Reject
+                </button>
+              </div>
+            </div>
+          `;
+        }).join('');
+      } catch (err) {
+        container.innerHTML = `<div class="text-rose-400 text-sm p-4">Error loading approvals: ${err.message}</div>`;
+      }
+    }
+
+    async function decideApproval(approvalId, decision) {
+      try {
+        const res = await fetch('/api/approvals/decide', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ approval_id: approvalId, decision: decision })
+        });
+        const data = await res.json();
+        alert(data.message || `Decision recorded: ${decision}`);
+        loadApprovals();
+        loadAuditVault();
+      } catch (err) {
+        alert(`Failed to record decision: ${err.message}`);
+      }
+    }
+
+    async function loadStoreConfig() {
+      try {
+        const res = await fetch('/api/store?store_id=demo-store');
+        const data = await res.json();
+        if (data.store) {
+          const s = data.store;
+          document.getElementById('cfg-store-name').value = s.store_name;
+          document.getElementById('cfg-platform').value = s.platform;
+          document.getElementById('cfg-api-url').value = s.api_url;
+          document.getElementById('cfg-window').value = s.return_window_days;
+          document.getElementById('sidebar-store-name').textContent = s.store_name;
+          document.getElementById('sidebar-platform').textContent = s.platform.toUpperCase();
+          document.getElementById('sidebar-window').textContent = `${s.return_window_days} Days`;
+          document.getElementById('widget-code').textContent = `<script src="${window.location.origin}/widget.js" data-store-id="${s.store_id}"><\/script>`;
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    async function saveStoreConfig() {
+      const payload = {
+        store_id: 'demo-store',
+        store_name: document.getElementById('cfg-store-name').value,
+        platform: document.getElementById('cfg-platform').value,
+        api_url: document.getElementById('cfg-api-url').value,
+        return_window_days: parseInt(document.getElementById('cfg-window').value, 10),
+        api_token: document.getElementById('cfg-token').value,
+      };
+
+      try {
+        const res = await fetch('/api/store', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        alert('Store configuration saved successfully!');
+        loadStoreConfig();
+      } catch (e) {
+        alert('Failed to save store configuration');
+      }
+    }
+
+    function copyWidgetSnippet() {
+      const code = document.getElementById('widget-code').textContent;
+      navigator.clipboard.writeText(code);
+      alert('Widget snippet copied to clipboard!');
+    }
+
+    async function loadAuditVault() {
+      try {
+        const res = await fetch('/api/audit');
+        const data = await res.json();
+        document.getElementById('audit-block-count').textContent = `Total Entries: ${data.total_entries || 0}`;
+        const tbody = document.getElementById('audit-table-body');
+        const entries = data.entries || [];
+
+        if (entries.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-slate-500">No audit entries recorded yet.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = entries.map((e, idx) => {
+          const statusColor = e.status === 'SUCCESS' || e.status === 'SETTLED' ? 'text-emerald-400' : (e.status === 'DENIED' ? 'text-rose-400' : 'text-amber-400');
+          const hashShort = (e.hash || '').substring(0, 12);
+          const paramsStr = JSON.stringify(e.parameters || {});
+          return `
+            <tr class="hover:bg-slate-900/60 transition">
+              <td class="p-3 text-slate-500">${e.entry_id || (idx + 1)}</td>
+              <td class="p-3 font-semibold text-slate-200">${e.action}</td>
+              <td class="p-3 font-bold ${statusColor}">${e.status}</td>
+              <td class="p-3 text-slate-400 truncate max-w-xs" title="${escapeHtml(paramsStr)}">${escapeHtml(paramsStr)}</td>
+              <td class="p-3 text-indigo-400 font-mono">${hashShort}...</td>
+              <td class="p-3 text-slate-500">${(e.timestamp || '').replace('T', ' ').substring(0, 19)}</td>
+            </tr>
+          `;
+        }).join('');
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    function escapeHtml(str) {
+      return (str || '').replace(/[&<>'"]/g, tag => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+      }[tag] || tag));
+    }
+
+    // Initial load
+    loadApprovalsCount();
+    loadStoreConfig();
+  </script>
+  <!-- Embeddable Storefront Chat Widget -->
+  <script src="/widget.js" data-store-id="demo-store"></script>
+</body>
+</html>

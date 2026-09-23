@@ -33,9 +33,13 @@ class SynthesizerAgent:
                 ecom_order = item.result
             elif item.tool_name == "ecommerce_evaluate_return" and item.status == "SUCCESS":
                 ecom_return = item.result
+        
+        has_refund_request = any(item.tool_name == "ecommerce_request_refund" for item in dossier.items)
 
         if ecom_order:
-            return await self._draft_ecommerce_response(inquiry, ecom_order, ecom_return, revision_guidance)
+            return await self._draft_ecommerce_response(
+                inquiry, ecom_order, ecom_return, revision_guidance, has_refund_request=has_refund_request
+            )
 
         # 1. Extract Customer profile evidence
         customer_data = None
@@ -157,6 +161,7 @@ class SynthesizerAgent:
         order: dict[str, Any],
         return_decision: dict[str, Any] | None,
         revision_guidance: str | None = None,
+        has_refund_request: bool = False,
     ) -> DraftResponse:
         key_findings: list[str] = []
         cited_evidence: list[str] = []
@@ -183,6 +188,10 @@ class SynthesizerAgent:
             key_findings.append(f"Return Policy Check: {elig_status} (Eligible={is_elig}, Max Refund=${refund_usd:.2f})")
             cited_evidence.append(f"Return Eligibility: {elig_status} ({return_decision.get('reason')})")
 
+        if has_refund_request:
+            key_findings.append(f"Refund request submitted for Order #{ord_num} and queued for human merchant approval.")
+            cited_evidence.append("HITL Gate: Refund request pending merchant approval")
+
         # Try Gemini LLM generation if available
         prompt = (
             f"You are a professional, empathetic customer support AI agent for an online store.\n"
@@ -203,6 +212,8 @@ class SynthesizerAgent:
                 f"- Policy Reason: {return_decision.get('reason')}\n"
                 f"- Max Refund Amount: ${return_decision.get('total_refund_usd', 0.0):.2f}\n"
             )
+        if has_refund_request:
+            prompt += "- Refund Status: Refund request submitted to store manager for human approval before payout.\n"
         if revision_guidance:
             prompt += f"\nImportant Revision Note from Critic: {revision_guidance}\n"
 
@@ -244,7 +255,13 @@ class SynthesizerAgent:
         else:
             paragraphs.append(f"Your Order **#{ord_num}** (${total_usd:.2f}) is currently **{status.lower()}**.")
 
-        if return_decision:
+        if has_refund_request:
+            paragraphs.append(
+                f"I have submitted a refund request of ${total_usd:.2f} for Order **#{ord_num}**. "
+                "Because our security policy requires human authorization for financial disbursements, this request has been queued "
+                "in the Merchant Approval Inbox for supervisor review. You will receive an email confirmation once reviewed."
+            )
+        elif return_decision:
             if return_decision.get("eligible"):
                 paragraphs.append(
                     f"Regarding your return inquiry: your order is within our return policy window. "

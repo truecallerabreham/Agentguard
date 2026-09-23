@@ -38,9 +38,10 @@ async def test_planner_decomposes_ecommerce_return_inquiry():
     inquiry = "I want a refund for order #1001. My email is sarah.connor@example.com. The product is defective."
     plan = await planner.plan(inquiry=inquiry, tenant_id="demo-store")
 
-    assert len(plan.steps) == 2
+    assert len(plan.steps) == 3
     assert plan.steps[0].tool_name == "ecommerce_order_lookup"
     assert plan.steps[1].tool_name == "ecommerce_evaluate_return"
+    assert plan.steps[2].tool_name == "ecommerce_request_refund"
     assert plan.steps[1].arguments["order_number"] == "1001"
     assert plan.steps[1].arguments["customer_email"] == "sarah.connor@example.com"
 

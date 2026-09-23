@@ -21,8 +21,16 @@ class TenantMiddleware(BaseHTTPMiddleware):
         self.settings = settings or get_settings()
 
     async def dispatch(self, request: Request, call_next: RequestResponseEndpoint) -> Response:
-        # Public endpoints bypass tenant isolation checks
-        if request.url.path in ("/healthz", "/metrics", "/docs", "/openapi.json"):
+        # Public endpoints and UI routes bypass strict tenant rejection
+        path = request.url.path
+        if (
+            path in ("/healthz", "/metrics", "/docs", "/openapi.json")
+            or path in ("/", "/dashboard", "/widget.js")
+            or path.startswith("/dashboard/")
+            or path.startswith("/api/")
+        ):
+            active_tenant = request.headers.get(self.settings.tenant_header) or "demo-store"
+            current_tenant.set(active_tenant)
             return await call_next(request)
 
         principal: Principal | None = getattr(request.state, "principal", None)

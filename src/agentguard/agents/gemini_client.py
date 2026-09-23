@@ -68,3 +68,4 @@ async def generate_with_gemini(
         logger.warning("Gemini generation call failed: %s. Reverting to deterministic response.", exc)
 
     return None
+
