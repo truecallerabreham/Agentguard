@@ -30,6 +30,7 @@ class AuthMiddleware(BaseHTTPMiddleware):
             or path.startswith("/dashboard/")
             or path.startswith("/store/")
             or path.startswith("/demo/")
+            or path.startswith("/static/")
             or path.startswith("/api/")
         ):
             return await call_next(request)

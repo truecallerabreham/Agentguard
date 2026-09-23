@@ -367,3 +367,33 @@ async def api_kb_delete_endpoint(request: Request) -> Response:
 
     return JSONResponse({"status": "success", "message": f"Article '{article_id}' was deleted."})
 
+
+async def static_file_endpoint(request: Request) -> Response:
+    """Serve static assets (images, logos, icons) securely with directory traversal protection."""
+    filename = request.path_params.get("filename", "")
+    static_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "static"))
+    file_path = os.path.abspath(os.path.join(static_dir, filename))
+
+    if not file_path.startswith(static_dir) or not os.path.isfile(file_path):
+        return Response("Not Found", status_code=404)
+
+    mime_types = {
+        ".svg": "image/svg+xml",
+        ".jpg": "image/jpeg",
+        ".jpeg": "image/jpeg",
+        ".png": "image/png",
+        ".webp": "image/webp",
+        ".ico": "image/x-icon",
+        ".css": "text/css",
+        ".js": "application/javascript",
+    }
+    ext = os.path.splitext(filename)[1].lower()
+    media_type = mime_types.get(ext, "application/octet-stream")
+
+    with open(file_path, "rb") as f:
+        return Response(
+            content=f.read(),
+            media_type=media_type,
+            headers={"Cache-Control": "public, max-age=86400"},
+        )
+

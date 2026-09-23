@@ -354,9 +354,12 @@
 
         <div id="ag-chat" class="ag-chat-window">
             <div class="ag-chat-header">
-                <div class="ag-chat-header-info">
-                    <h3 id="ag-store-title">Lumina Audio Support</h3>
-                    <p><span class="ag-status-dot"></span> Copilot Active • Policy Grounded</p>
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <img src="${apiBase}/static/logo.svg" alt="AgentGuard" style="width:28px;height:28px;border-radius:7px;flex-shrink:0;">
+                    <div class="ag-chat-header-info">
+                        <h3 id="ag-store-title">Lumina Audio Support</h3>
+                        <p><span class="ag-status-dot"></span> Copilot Active • Policy Grounded</p>
+                    </div>
                 </div>
                 <button id="ag-close-header" class="ag-header-close" aria-label="Close Chat">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>

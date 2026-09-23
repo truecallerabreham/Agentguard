@@ -14,6 +14,7 @@ from agentguard.ui.routes import (
     api_kb_endpoint,
     api_kb_delete_endpoint,
     store_demo_endpoint,
+    static_file_endpoint,
 )
 
 __all__ = [
@@ -21,6 +22,7 @@ __all__ = [
     "landing_endpoint",
     "store_demo_endpoint",
     "widget_script_endpoint",
+    "static_file_endpoint",
     "api_chat_endpoint",
     "api_list_approvals_endpoint",
     "api_decide_approval_endpoint",

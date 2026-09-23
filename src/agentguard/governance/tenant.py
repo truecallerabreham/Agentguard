@@ -29,6 +29,7 @@ class TenantMiddleware(BaseHTTPMiddleware):
             or path.startswith("/dashboard/")
             or path.startswith("/store/")
             or path.startswith("/demo/")
+            or path.startswith("/static/")
             or path.startswith("/api/")
         ):
             active_tenant = request.headers.get(self.settings.tenant_header) or "demo-store"

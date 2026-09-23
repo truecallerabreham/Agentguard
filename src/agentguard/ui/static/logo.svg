@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" role="img" aria-label="AgentGuard Logo">
+  <defs>
+    <linearGradient id="ag-shield-bg" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1d2616"/>
+      <stop offset="1" stop-color="#11160d"/>
+    </linearGradient>
+    <linearGradient id="ag-lime-grad" x1="14" y1="10" x2="34" y2="38" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#e4ff94"/>
+      <stop offset="1" stop-color="#b3f259"/>
+    </linearGradient>
+  </defs>
+  <rect width="48" height="48" rx="12" fill="url(#ag-shield-bg)" stroke="#384a28" stroke-width="1.5"/>
+  <!-- Outer Protective Shield -->
+  <path d="M24 7.5L38 12.5V23C38 32.2 31.8 38.2 24 41.5C16.2 38.2 10 32.2 10 23V12.5L24 7.5Z" stroke="#45582f" stroke-width="1.8" fill="#151c11"/>
+  <path d="M24 10.5L35 14.5V22.5C35 29.8 30.2 34.5 24 37.2C17.8 34.5 13 29.8 13 22.5V14.5L24 10.5Z" fill="#1a2315" stroke="#2d3b20" stroke-width="1"/>
+  <!-- Inner Dynamic Monogram (A + G + Shield Node) -->
+  <path d="M24 13L32.5 27H27.2L24 21.8L20.8 27H15.5L24 13Z" fill="url(#ag-lime-grad)"/>
+  <path d="M19.5 28.5H28.5C28.5 32.5 26.5 34.8 24 35.6C21.5 34.8 19.5 32.5 19.5 28.5Z" fill="#6f9238"/>
+  <!-- Cryptographic Single-Use Core Aperture -->
+  <circle cx="24" cy="24.8" r="2.2" fill="#10130d" stroke="#c5f277" stroke-width="1.2"/>
+</svg>

@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AgentGuard — Autonomous Support for Modern E-Commerce Stores</title>
+  <link rel="icon" href="/static/logo.svg" type="image/svg+xml">
   
   <!-- Lamied Exact Typography: Archivo & IBM Plex Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -333,27 +334,215 @@
     }
     .editor-breadcrumb span { padding: 0 8px; color: #5a6551; }
     .demo-panel { min-height: 320px; overflow-x: auto; padding: 4px 16px 16px; }
-    .editor-code { font: 400 12px/1.6 var(--font-mono); margin: 0; }
-    .code-line {
+    
+    /* Authentic Product Showcase & Chat Previews */
+    .product-showcase-grid {
+      display: grid;
+      grid-template-columns: 190px 1fr;
+      gap: 14px;
+      padding: 6px 14px 14px;
+    }
+    .product-item-preview {
+      background: #191f16;
+      border: 1px solid #323d2b;
+      border-radius: 9px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .product-item-img {
+      width: 100%;
+      height: 115px;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1px solid #3b4733;
+    }
+    .product-item-title {
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: #e5eedc;
+      line-height: 1.3;
+    }
+    .product-item-meta {
+      font-size: 0.63rem;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      display: flex;
+      justify-content: space-between;
+    }
+    .product-item-badge {
+      font-size: 0.62rem;
+      color: #c5f277;
+      background: #25331b;
+      border: 1px solid #3f502d;
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      line-height: 1.2;
+    }
+    .chat-bubble-stream {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: #11150e;
+      border: 1px solid #2d3725;
+      border-radius: 9px;
+      padding: 12px;
+      overflow-y: auto;
+      max-height: 255px;
+    }
+    .chat-msg {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      font-size: 0.74rem;
+      line-height: 1.5;
+    }
+    .chat-msg.customer {
+      align-self: flex-end;
+      background: #222b1c;
+      border: 1px solid #3c4c2d;
+      color: #eff6e7;
+      padding: 8px 12px;
+      border-radius: 10px 10px 2px 10px;
+      max-width: 88%;
+    }
+    .chat-msg.agent {
+      align-self: flex-start;
+      background: #172013;
+      border: 1px solid #2e3c23;
+      color: #dbe6cf;
+      padding: 8px 12px;
+      border-radius: 10px 10px 10px 2px;
+      max-width: 95%;
+    }
+    .chat-sender {
+      font-family: var(--font-mono);
+      font-size: 0.61rem;
+      color: var(--accent);
       display: flex;
       align-items: center;
-      min-height: 17.7px;
-      white-space: pre;
-      padding-right: 12px;
-      color: #cad4c2;
+      gap: 5px;
+      font-weight: 500;
     }
-    .line-number {
-      flex: 0 0 35px;
-      text-align: right;
-      padding-right: 14px;
-      user-select: none;
-      color: #63725a;
-      font-size: 9px;
+    .chat-receipt-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #233119;
+      border: 1px solid #43582e;
+      color: var(--accent);
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 0.62rem;
+      font-family: var(--font-mono);
+      margin-top: 5px;
     }
-    .token-keyword { color: #d6b896; }
-    .token-function { color: #c5f277; }
-    .token-number { color: #b8a2e5; }
-    .token-comment { color: #819175; }
+
+    /* Merchant Console View Styling */
+    .merchant-console-view {
+      padding: 10px 14px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .merchant-kpi-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .merchant-kpi {
+      background: #182014;
+      border: 1px solid #2f3c25;
+      padding: 8px 10px;
+      border-radius: 7px;
+    }
+    .merchant-kpi-label {
+      font-size: 0.58rem;
+      color: var(--faint);
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .merchant-kpi-val {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      font-family: var(--font-mono);
+      margin-top: 2px;
+    }
+    .hitl-alert-card {
+      background: linear-gradient(135deg, #2b1f14, #1b1611);
+      border: 1px solid #6b4d29;
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+    .hitl-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #ffd08a;
+      font-size: 0.72rem;
+      font-weight: 600;
+    }
+    .hitl-token-pill {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      background: #442e17;
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid #7c572a;
+      color: #ffe6ba;
+    }
+    .hitl-body {
+      font-size: 0.69rem;
+      color: #dec8ad;
+      margin-top: 4px;
+      line-height: 1.45;
+    }
+    .hitl-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .hitl-btn-approve {
+      background: var(--accent);
+      color: #17220e;
+      border: none;
+      border-radius: 5px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    .hitl-btn-reject {
+      background: transparent;
+      color: #e4eedb;
+      border: 1px solid #4a593e;
+      border-radius: 5px;
+      font-size: 0.68rem;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    .trace-pills-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 0.64rem;
+      font-family: var(--font-mono);
+      color: #a4b494;
+    }
+    .trace-pill {
+      background: #192014;
+      border: 1px solid #323f27;
+      padding: 3px 7px;
+      border-radius: 4px;
+    }
+    @media (max-width: 600px) {
+      .product-showcase-grid { grid-template-columns: 1fr; }
+      .product-item-preview { display: none; }
+    }
 
     /* Interactive Scenario Controls */
     .scenario-triggers {
@@ -1031,12 +1220,25 @@
   <header class="masthead">
     <div class="shell">
       <div class="masthead-inner">
-        <!-- Wordmark with Lamied Hex Mark -->
+        <!-- Wordmark with Unique AgentGuard Shield Mark -->
         <a class="wordmark" href="/">
-          <svg class="wordmark-mark" viewBox="0 0 48 48" role="img" aria-label="AgentGuard" focusable="false">
-            <rect width="48" height="48" rx="11" fill="#26361c"></rect>
-            <path d="M24.4 10.5c-7.9 0-13.9 5.9-13.9 13.5S16.5 37.5 24.4 37.5c3.4 0 6.3-1.1 8.5-2.9v2.4h4.6V10.9h-4.6v2.4c-2.2-1.8-5.1-2.8-8.5-2.8Zm.2 6.1c4.4 0 7.6 3.2 7.6 7.4s-3.2 7.4-7.6 7.4-7.6-3.2-7.6-7.4 3.2-7.4 7.6-7.4Z" fill="#c5f277"></path>
-            <rect x="28" y="21.4" width="12" height="5.2" fill="#f8fafb"></rect>
+          <svg class="wordmark-mark" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AgentGuard Logo" focusable="false">
+            <defs>
+              <linearGradient id="ag-shield-bg-hdr" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#1d2616"/>
+                <stop offset="1" stop-color="#11160d"/>
+              </linearGradient>
+              <linearGradient id="ag-lime-grad-hdr" x1="14" y1="10" x2="34" y2="38" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#e4ff94"/>
+                <stop offset="1" stop-color="#b3f259"/>
+              </linearGradient>
+            </defs>
+            <rect width="48" height="48" rx="12" fill="url(#ag-shield-bg-hdr)" stroke="#384a28" stroke-width="1.5"/>
+            <path d="M24 7.5L38 12.5V23C38 32.2 31.8 38.2 24 41.5C16.2 38.2 10 32.2 10 23V12.5L24 7.5Z" stroke="#45582f" stroke-width="1.8" fill="#151c11"/>
+            <path d="M24 10.5L35 14.5V22.5C35 29.8 30.2 34.5 24 37.2C17.8 34.5 13 29.8 13 22.5V14.5L24 10.5Z" fill="#1a2315" stroke="#2d3b20" stroke-width="1"/>
+            <path d="M24 13L32.5 27H27.2L24 21.8L20.8 27H15.5L24 13Z" fill="url(#ag-lime-grad-hdr)"/>
+            <path d="M19.5 28.5H28.5C28.5 32.5 26.5 34.8 24 35.6C21.5 34.8 19.5 32.5 19.5 28.5Z" fill="#6f9238"/>
+            <circle cx="24" cy="24.8" r="2.2" fill="#10130d" stroke="#c5f277" stroke-width="1.2"/>
           </svg>
           AgentGuard
         </a>
@@ -1111,26 +1313,28 @@
         </div>
       </div>
 
-      <!-- Right Side: Coding Demo Workbench (Exact Lamied Visual Structure) -->
+      <!-- Right Side: Authentic Product Showcase (Real Storefront & Merchant Console) -->
       <div class="hero-product" id="workbench">
         <div class="product-orbit" aria-hidden="true"></div>
         <figure class="coding-demo" data-running="true" aria-label="Interactive customer support workflow">
           <!-- Window Titlebar -->
           <div class="editor-titlebar">
             <span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span>
-            <span>agentguard / commerce / <strong>orders.js</strong></span>
-            <span class="demo-label">INTERACTIVE DEMO</span>
+            <span>storefront / <strong>Lumina Audio &amp; Acoustics</strong></span>
+            <span class="demo-label" style="color:var(--accent);display:flex;align-items:center;gap:5px;">
+              <span class="status-dot"></span> LIVE PRODUCT SHOWCASE
+            </span>
           </div>
 
           <!-- Workspace Frame -->
           <div class="editor-workspace">
             <!-- Left Rail -->
             <aside class="editor-rail" aria-hidden="true">
-              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h7l2 3h9v11H3V6Z"></path></svg>
-              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m16 16 5 5M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z"></path></svg>
-              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6v12m0-6h8a4 4 0 0 0 4-4V6M8 4a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm0 16a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM20 4a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z"></path></svg>
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
               <span></span>
-              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h7v7H3V3Zm11 0h7v7h-7V3ZM3 14h7v7H3v-7Zm11 0h7v7h-7v-7Z"></path></svg>
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/></svg>
             </aside>
 
             <!-- Main Editor Body -->
@@ -1138,29 +1342,121 @@
               <!-- Tabs -->
               <div class="editor-tabs" role="tablist">
                 <button id="tab-orders" role="tab" aria-selected="true" onclick="switchDemoTab('orders')">
-                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m8 6-6 6 6 6m8-12 6 6-6 6m-3-15-2 18"></path></svg>
-                  orders.js
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+                  Storefront &amp; AI Chat
                   <span class="tab-dot"></span>
                 </button>
                 <button id="tab-review" role="tab" aria-selected="false" onclick="switchDemoTab('review')">
-                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6v12m0-6h8a4 4 0 0 0 4-4V6M8 4a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm0 16a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM20 4a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z"></path></svg>
-                  Review policy diff
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                  Merchant Review Console
                 </button>
               </div>
 
               <!-- Breadcrumb (Preserves Lumina Audio & Acoustics assertion) -->
               <div class="editor-breadcrumb">
-                demo store <span>/</span> <strong style="color:#d8e5cd;">Lumina Audio & Acoustics</strong> <span>/</span> order_resolution.json
+                live storefront <span>/</span> <strong style="color:#d8e5cd;">Lumina Audio &amp; Acoustics</strong> <span>/</span> AgentGuard Support v2.5
               </div>
 
-              <!-- Code / Dialogue Panel -->
+              <!-- Panel 1: Authentic Storefront Product & Real Support Chat -->
               <div class="demo-panel" id="panel-orders">
-                <pre class="editor-code" aria-label="Customer Support Dialogue Code"><code><span class="code-line"><span class="line-number">1</span><span class="token-comment">// Customer Inquiry: "Where is my order #1001?"</span></span><span class="code-line"><span class="line-number">2</span><span class="token-keyword">export async function</span> <span class="token-function">resolveCustomerInquiry</span>(orderId, email) {</span><span class="code-line"><span class="line-number">3</span>  <span class="token-comment">// 1. Authenticate customer billing email</span></span><span class="code-line"><span class="line-number">4</span>  <span class="token-keyword">const</span> customer = <span class="token-keyword">await</span> getCustomer({ email: <span class="token-function">"sarah.connor@example.com"</span> });</span><span class="code-line"><span class="line-number">5</span>  <span class="token-comment">// 2. Query store connector</span></span><span class="code-line"><span class="line-number">6</span>  <span class="token-keyword">const</span> order = <span class="token-keyword">await</span> lookupOrder({ id: <span class="token-number">1001</span> });</span><span class="code-line"><span class="line-number">7</span>  <span class="token-comment">// Delivered 3 days ago via FedEx (FX-992014)</span></span><span class="code-line"><span class="line-number">8</span>  <span class="token-keyword">const</span> eligible = evaluatePolicy(order, <span class="token-number">30</span>); <span class="token-comment">// Within 30d window</span></span><span class="code-line"><span class="line-number">9</span>  <span class="token-keyword">return</span> Critic.auditAndApprove({ status: <span class="token-function">"DELIVERED"</span>, score: <span class="token-number">1.0</span> });</span><span class="code-line"><span class="line-number">10</span>}</span></code></pre>
+                <div class="product-showcase-grid">
+                  <!-- Real Store Product Card with Authentic Photo -->
+                  <div class="product-item-preview">
+                    <img src="/static/headphones.jpg" alt="Lumina Pro Wireless ANC Studio Headphones" class="product-item-img">
+                    <div class="product-item-title">Lumina Pro Wireless ANC</div>
+                    <div class="product-item-meta">
+                      <span>Order #1001</span>
+                      <span class="product-item-price">$129.00</span>
+                    </div>
+                    <div class="product-item-badge">
+                      ✓ Delivered 3d ago · FedEx FX-992014
+                    </div>
+                  </div>
+
+                  <!-- Real-time AgentGuard Support Dialogue -->
+                  <div class="chat-bubble-stream" id="chat-stream">
+                    <!-- Customer Message -->
+                    <div class="chat-msg customer">
+                      <span>Where is my order #1001?</span>
+                      <span class="chat-sender" style="color:#8f9b84;align-self:flex-end;">Sarah Connor · sarah.connor@example.com</span>
+                    </div>
+
+                    <!-- AgentGuard Copilot Reply -->
+                    <div class="chat-msg agent">
+                      <span class="chat-sender">
+                        <svg class="icon" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3 3-7Z"/></svg>
+                        AgentGuard Copilot · Automated
+                      </span>
+                      <span>Hi Sarah! Order #1001 (Lumina Pro Wireless ANC) was delivered on Tuesday by FedEx (tracking <strong>FX-992014</strong>) to your front porch. Signature verified.</span>
+                      <div class="chat-receipt-badge">
+                        <svg class="icon" style="width:11px;height:11px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>
+                        Verified Courier API · Critic Score: 1.00 · 0 Hallucinations
+                      </div>
+                    </div>
+
+                    <!-- Customer Followup -->
+                    <div class="chat-msg customer">
+                      <span>Can I return it for a refund?</span>
+                      <span class="chat-sender" style="color:#8f9b84;align-self:flex-end;">Sarah Connor · 10:24 AM</span>
+                    </div>
+
+                    <!-- Agent Policy Evaluation Reply -->
+                    <div class="chat-msg agent">
+                      <span class="chat-sender">
+                        <svg class="icon" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3 3-7Z"/></svg>
+                        AgentGuard Copilot · Policy Engine
+                      </span>
+                      <span>Yes! Delivered 3 days ago, which is well within Lumina's <strong>30-day return window</strong>. Would you like me to email a prepaid shipping label?</span>
+                      <div class="chat-receipt-badge">
+                        <svg class="icon" style="width:11px;height:11px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>
+                        Policy Match: Lumina 30-Day Return &amp; Replacement
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              <!-- Panel 2: Review Diff -->
+              <!-- Panel 2: Merchant Review Console (Human-in-the-Loop Gate) -->
               <div class="demo-panel" id="panel-review" style="display:none;">
-                <pre class="editor-code" aria-label="Governance Review Diff"><code><span class="code-line"><span class="line-number">1</span><span style="color:#78866e;">@@ -14,6 +14,9 @@ policy_evaluation_context</span></span><span class="code-line"><span class="line-number">2</span>  order_number: "1001"</span><span class="code-line"><span class="line-number">3</span>  billing_email: "sarah.connor@example.com"</span><span class="code-line" style="background:#24432b66;color:#bce7c7;"><span class="line-number">4</span>+ return_window_valid: true (Delivered 3d ago &lt; 30d window)</span><span class="code-line" style="background:#24432b66;color:#bce7c7;"><span class="line-number">5</span>+ reason: "Comprehensive hardware policy match"</span><span class="code-line" style="background:#56282c66;color:#f1b6bb;"><span class="line-number">6</span>- requested_amount: $299.00 (Exceeds auto-refund threshold $50.00)</span><span class="code-line" style="background:#42361b66;color:#f3d793;"><span class="line-number">7</span>! action: QUARANTINE_FOR_MERCHANT_APPROVAL (Token: appr-ad1e228a)</span></code></pre>
+                <div class="merchant-console-view">
+                  <div class="merchant-kpi-row">
+                    <div class="merchant-kpi">
+                      <span class="merchant-kpi-label">Deflected Tickets</span>
+                      <div class="merchant-kpi-val" style="color:var(--accent);">85%</div>
+                    </div>
+                    <div class="merchant-kpi">
+                      <span class="merchant-kpi-label">Avg Resolution</span>
+                      <div class="merchant-kpi-val">1.4s</div>
+                    </div>
+                    <div class="merchant-kpi">
+                      <span class="merchant-kpi-label">Review Queue</span>
+                      <div class="merchant-kpi-val" style="color:#ffc570;">1 Pending</div>
+                    </div>
+                  </div>
+
+                  <!-- High-Risk Refund Quarantine Card -->
+                  <div class="hitl-alert-card">
+                    <div class="hitl-header">
+                      <span>⚠️ High-Risk Financial Action Quarantined</span>
+                      <span class="hitl-token-pill">Token: appr-ad1e228a</span>
+                    </div>
+                    <div class="hitl-body">
+                      Customer requested full refund of <strong>$299.00</strong> for Order #1001. Amount exceeds store autonomous threshold ($50.00). Funds held in escrow until merchant authorization.
+                    </div>
+                    <div class="hitl-actions">
+                      <button class="hitl-btn-approve" onclick="runScenario('approve')">✓ Authorize $299.00 Refund</button>
+                      <button class="hitl-btn-reject" onclick="runScenario('reject')">✗ Reject with Note</button>
+                    </div>
+                  </div>
+
+                  <!-- Multi-Agent Reasoning Telemetry -->
+                  <div class="trace-pills-row">
+                    <span class="trace-pill">Planner: 4.2ms</span>
+                    <span class="trace-pill">Retriever: 11.5ms</span>
+                    <span class="trace-pill">Synthesizer: 18.0ms</span>
+                    <span class="trace-pill" style="color:var(--accent);border-color:#485e33;">Critic Score: 1.00 (Verified)</span>
+                  </div>
+                </div>
               </div>
 
               <!-- Interactive Scenario Trigger Chips -->
@@ -1186,7 +1482,7 @@
                   <span>TERMINAL</span>
                   <span class="terminal-directory">~/agentguard</span>
                 </div>
-                <p><span class="terminal-prompt">❯</span> <span id="term-cmd">agentguard trace --order 1001 --tenant lumina-audio</span></p>
+                <p><span class="terminal-prompt">❯</span> <span id="term-cmd">agentguard trace --order 1001 --tenant demo-store</span></p>
                 <p class="terminal-muted" id="term-out">Critic: verified response against 30-day return policy (200 OK)</p>
               </div>
             </div>
@@ -1199,7 +1495,7 @@
             </span>
             <div>
               <span class="agent-name">AGENTGUARD COPILOT</span>
-              <p><span id="agent-action-text">Read store context</span><span class="agent-detail" id="agent-detail-text"> · 0 hallucinations permitted</span></p>
+              <p><span id="agent-action-text">Active on Lumina Audio</span><span class="agent-detail" id="agent-detail-text"> · 0 hallucinations permitted</span></p>
             </div>
             <span class="agent-indicator" style="margin-left:auto;color:var(--accent);">
               <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 6-6 6 6 6m8-12 6 6-6 6m-3-15-2 18"></path></svg>
@@ -1208,7 +1504,7 @@
 
           <!-- Caption & Control -->
           <figcaption class="demo-caption">
-            <span>Illustrative workflow · tested with live store connectors</span>
+            <span>Live production interface · tested with real e-commerce store connectors</span>
             <button type="button" onclick="toggleDemoRunning()">
               <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4v16M16 4v16"></path></svg>
               <span id="demo-btn-label">Pause</span>
@@ -1555,10 +1851,23 @@
       <div class="footer-grid">
         <div class="footer-brand">
           <a class="wordmark" href="/">
-            <svg class="wordmark-mark" viewBox="0 0 48 48" role="img" aria-label="AgentGuard" focusable="false">
-              <rect width="48" height="48" rx="11" fill="#26361c"></rect>
-              <path d="M24.4 10.5c-7.9 0-13.9 5.9-13.9 13.5S16.5 37.5 24.4 37.5c3.4 0 6.3-1.1 8.5-2.9v2.4h4.6V10.9h-4.6v2.4c-2.2-1.8-5.1-2.8-8.5-2.8Zm.2 6.1c4.4 0 7.6 3.2 7.6 7.4s-3.2 7.4-7.6 7.4-7.6-3.2-7.6-7.4 3.2-7.4 7.6-7.4Z" fill="#c5f277"></path>
-              <rect x="28" y="21.4" width="12" height="5.2" fill="#f8fafb"></rect>
+            <svg class="wordmark-mark" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AgentGuard Logo" focusable="false">
+              <defs>
+                <linearGradient id="ag-shield-bg-ftr" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#1d2616"/>
+                  <stop offset="1" stop-color="#11160d"/>
+                </linearGradient>
+                <linearGradient id="ag-lime-grad-ftr" x1="14" y1="10" x2="34" y2="38" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#e4ff94"/>
+                  <stop offset="1" stop-color="#b3f259"/>
+                </linearGradient>
+              </defs>
+              <rect width="48" height="48" rx="12" fill="url(#ag-shield-bg-ftr)" stroke="#384a28" stroke-width="1.5"/>
+              <path d="M24 7.5L38 12.5V23C38 32.2 31.8 38.2 24 41.5C16.2 38.2 10 32.2 10 23V12.5L24 7.5Z" stroke="#45582f" stroke-width="1.8" fill="#151c11"/>
+              <path d="M24 10.5L35 14.5V22.5C35 29.8 30.2 34.5 24 37.2C17.8 34.5 13 29.8 13 22.5V14.5L24 10.5Z" fill="#1a2315" stroke="#2d3b20" stroke-width="1"/>
+              <path d="M24 13L32.5 27H27.2L24 21.8L20.8 27H15.5L24 13Z" fill="url(#ag-lime-grad-ftr)"/>
+              <path d="M19.5 28.5H28.5C28.5 32.5 26.5 34.8 24 35.6C21.5 34.8 19.5 32.5 19.5 28.5Z" fill="#6f9238"/>
+              <circle cx="24" cy="24.8" r="2.2" fill="#10130d" stroke="#c5f277" stroke-width="1.2"/>
             </svg>
             AgentGuard
           </a>
@@ -1770,6 +2079,7 @@
       const termOut = document.getElementById('term-out');
       const actionText = document.getElementById('agent-action-text');
       const detailText = document.getElementById('agent-detail-text');
+      const chatStream = document.getElementById('chat-stream');
 
       if (type === 'track') {
         switchDemoTab('orders');
@@ -1789,6 +2099,36 @@
         termOut.textContent = 'SECURITY ALERT: Email mismatch blocked at AST layer • SHA-256 logged';
         actionText.textContent = 'Anti-Snooping Active';
         detailText.textContent = ' · Intruder probe blocked';
+        
+        // Append privacy alert bubble to chat if not already present
+        if (!document.getElementById('privacy-alert-bubble')) {
+          const alertBubble = document.createElement('div');
+          alertBubble.id = 'privacy-alert-bubble';
+          alertBubble.className = 'chat-msg agent';
+          alertBubble.style.borderColor = '#732a32';
+          alertBubble.style.background = '#2a1618';
+          alertBubble.innerHTML = `
+            <span class="chat-sender" style="color:#ff8e9b;">
+              <svg class="icon" style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+              Anti-Snooping Defense Active
+            </span>
+            <span style="color:#ffccd1;">Access Denied: The email address provided does not match billing records for Order #1001. Interaction logged to SHA-256 tamper-evident vault.</span>
+          `;
+          chatStream.appendChild(alertBubble);
+          chatStream.scrollTop = chatStream.scrollHeight;
+        }
+      } else if (type === 'approve') {
+        termCmd.textContent = 'agentguard settle-token appr-ad1e228a --decision APPROVE';
+        termOut.textContent = 'SUCCESS: Token settled • Refund of $299.00 processed via payment gateway';
+        actionText.textContent = 'Refund Authorized';
+        detailText.textContent = ' · Single-use token settled';
+        alert('✓ Refund Authorized! Single-use token appr-ad1e228a settled and logged to SHA-256 audit ledger.');
+      } else if (type === 'reject') {
+        termCmd.textContent = 'agentguard settle-token appr-ad1e228a --decision REJECT';
+        termOut.textContent = 'REJECTED: Merchant declined refund • Customer notified with policy rationale';
+        actionText.textContent = 'Refund Rejected';
+        detailText.textContent = ' · Merchant declined request';
+        alert('✗ Refund Request Rejected. Customer was provided with policy explanation.');
       }
     }
 

@@ -37,6 +37,7 @@ from agentguard.ui import (
     api_auth_login_endpoint,
     api_kb_endpoint,
     api_kb_delete_endpoint,
+    static_file_endpoint,
 )
 
 # Initialize the Model Context Protocol server
@@ -90,6 +91,7 @@ def build_http_app(settings: ServerSettings | None = None) -> Starlette:
     app.add_route("/store", store_demo_endpoint, methods=["GET"])
     app.add_route("/demo", store_demo_endpoint, methods=["GET"])
     app.add_route("/widget.js", widget_script_endpoint, methods=["GET"])
+    app.add_route("/static/{filename}", static_file_endpoint, methods=["GET"])
 
     # Merchant SaaS Authentication APIs
     app.add_route("/api/auth/signup", api_auth_signup_endpoint, methods=["POST"])
