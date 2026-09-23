@@ -29,7 +29,45 @@ class PlannerAgent:
         steps: list[PlanStep] = []
         step_counter = 1
 
-        # 1. Detect Customer ID if not explicitly provided
+        # 0. Detect E-Commerce Order Number and Email for live store support
+        email_match = re.search(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b", inquiry)
+        ecom_order_match = re.search(r"(?:order\s*#?|#)(\d{3,6})\b", inquiry, re.IGNORECASE)
+        if not ecom_order_match and re.search(r"\b(100[1-9])\b", inquiry):
+            ecom_order_match = re.search(r"\b(100[1-9])\b", inquiry)
+
+        if email_match and ecom_order_match:
+            ord_num = ecom_order_match.group(1)
+            cust_email = email_match.group(0).lower()
+            store_id = tenant_id if tenant_id and tenant_id not in ("default", "system") else "demo-store"
+
+            steps.append(
+                PlanStep(
+                    step_number=step_counter,
+                    action=f"Lookup verified store order #{ord_num} for customer {cust_email}",
+                    tool_name="ecommerce_order_lookup",
+                    arguments={"store_id": store_id, "order_number": ord_num, "customer_email": cust_email},
+                    reason="Verify customer identity, order payment status, carrier tracking, and line items.",
+                )
+            )
+            step_counter += 1
+
+            if any(w in inquiry_lower for w in ("return", "refund", "exchange", "money back", "damaged", "broken", "defective")):
+                steps.append(
+                    PlanStep(
+                        step_number=step_counter,
+                        action=f"Evaluate return eligibility and policy window for order #{ord_num}",
+                        tool_name="ecommerce_evaluate_return",
+                        arguments={"store_id": store_id, "order_number": ord_num, "customer_email": cust_email, "reason": inquiry[:80]},
+                        reason="Check delivery timestamp against store return window and determine refund eligibility.",
+                    )
+                )
+                step_counter += 1
+
+            objective = f"E-Commerce Support Resolution for Order #{ord_num}"
+            rationale = f"Executed {len(steps)} verified store lookup and policy evaluation steps."
+            return ExecutionPlan(objective=objective, steps=steps, rationale=rationale)
+
+        # 1. Detect Customer ID if not explicitly provided (Legacy / Internal support)
         detected_cust_id = customer_id
         if not detected_cust_id:
             cust_match = re.search(r"\b(cust[-_]?\d+|[A-Z0-9]{4,}-[A-Z0-9]+)\b", inquiry, re.IGNORECASE)

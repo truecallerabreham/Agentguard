@@ -130,6 +130,34 @@ tools:
       - "tool:write"
       - "tool:*"
 
+  ecommerce_order_lookup:
+    description: "Lookup e-commerce order details with customer email verification"
+    required_scopes:
+      - "tool:ecommerce:read"
+      - "tool:read"
+      - "tool:*"
+
+  ecommerce_evaluate_return:
+    description: "Evaluate return eligibility against store policy"
+    required_scopes:
+      - "tool:ecommerce:read"
+      - "tool:read"
+      - "tool:*"
+
+  ecommerce_request_refund:
+    description: "Initiate refund request for store order (guarded by HITL gate)"
+    required_scopes:
+      - "tool:ecommerce:refund"
+      - "tool:write"
+      - "tool:*"
+
+  ecommerce_execute_refund:
+    description: "Execute approved store refund disbursement"
+    required_scopes:
+      - "tool:ecommerce:refund"
+      - "tool:write"
+      - "tool:*"
+
 # Standard Role definitions mapping high-level roles to granular tool scopes
 roles:
   guest:
@@ -150,6 +178,7 @@ roles:
       - "tool:workflows:read"
       - "tool:network:fetch"
       - "tool:approvals:read"
+      - "tool:ecommerce:read"
 
   analyst:
     description: "Operational agent with database query, ticketing, and workflow execution capabilities"
@@ -168,6 +197,8 @@ roles:
       - "tool:network:fetch"
       - "tool:approvals:read"
       - "tool:finance:refund"
+      - "tool:ecommerce:read"
+      - "tool:ecommerce:refund"
 
   supervisor:
     description: "Human supervisor authorized to approve or reject pending actions"

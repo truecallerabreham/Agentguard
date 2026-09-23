@@ -312,9 +312,11 @@ class SimulatorStoreConnector(BaseStoreConnector):
             return_window_days=30,
         )
         super().__init__(cfg)
-        now = datetime.now(timezone.utc)
+        self.reset()
 
-        # Seed realistic orders covering all key customer support scenarios
+    def reset(self) -> None:
+        """Reset in-memory orders to initial state."""
+        now = datetime.now(timezone.utc)
         self._orders: dict[str, OrderDetails] = {
             "1001": OrderDetails(
                 order_id="ord_1001",
@@ -424,3 +426,4 @@ class SimulatorStoreConnector(BaseStoreConnector):
             code="ORDER_NOT_FOUND",
             hint=f"Simulated order '{order_id}' was not found for refund processing.",
         )
+

@@ -111,3 +111,4 @@ class StoreConfig:
         data["api_token"] = "***" if self.api_token else ""
         data["api_secret"] = "***" if self.api_secret else ""
         return data
+

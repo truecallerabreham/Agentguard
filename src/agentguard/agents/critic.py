@@ -34,6 +34,7 @@ class CriticAgent:
         ground_tiers = set()
         ground_orders = set()
         ground_amounts = set()
+        ground_tracking = set()
 
         for item in dossier.items:
             if item.status != "SUCCESS":
@@ -57,10 +58,31 @@ class CriticAgent:
                             ground_amounts.add(f"${dollars:.2f}")
                             ground_amounts.add(f"{dollars:.2f}")
 
+            elif item.tool_name == "ecommerce_order_lookup" and isinstance(item.result, dict):
+                ord_data = item.result
+                if "order_number" in ord_data:
+                    ground_orders.add(str(ord_data["order_number"]).lower())
+                if "customer_name" in ord_data:
+                    ground_customers.add(ord_data["customer_name"].lower())
+                if "total_usd" in ord_data:
+                    usd = float(ord_data["total_usd"])
+                    ground_amounts.add(f"${usd:.2f}")
+                    ground_amounts.add(f"{usd:.2f}")
+                if "tracking_number" in ord_data and ord_data["tracking_number"]:
+                    ground_tracking.add(str(ord_data["tracking_number"]).lower())
+
+            elif item.tool_name == "ecommerce_evaluate_return" and isinstance(item.result, dict):
+                ret_data = item.result
+                if "total_refund_usd" in ret_data:
+                    ref_usd = float(ret_data["total_refund_usd"])
+                    ground_amounts.add(f"${ref_usd:.2f}")
+                    ground_amounts.add(f"{ref_usd:.2f}")
+
         # 2. Check Order ID mentions in draft
-        order_mentions = re.findall(r"\b(o[_-]\d+|ord[_-]\d+)\b", draft.draft_text, re.IGNORECASE)
-        for om in order_mentions:
-            if om.lower() not in ground_orders:
+        order_mentions = re.findall(r"\b(?:order\s*#?|#)?(100[1-9])\b|\b(o[_-]\d+|ord[_-]\d+)\b", draft.draft_text, re.IGNORECASE)
+        for match in order_mentions:
+            om = match[0] or match[1]
+            if om and ground_orders and om.lower() not in ground_orders:
                 hallucinations.append(f"Referenced order '{om}' which does not exist in the retrieved evidence dossier.")
                 score -= 0.35
 

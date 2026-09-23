@@ -64,6 +64,12 @@ class EcommerceService:
     def get_store_config(self, store_id: str) -> StoreConfig:
         return self._stores.get(store_id, self._stores["demo-store"])
 
+    def reset(self) -> None:
+        """Reset all in-memory store states."""
+        for conn in self._connectors.values():
+            if hasattr(conn, "reset"):
+                conn.reset()
+
     async def lookup_verified_order(
         self,
         store_id: str,
@@ -261,3 +267,4 @@ def get_ecommerce_service() -> EcommerceService:
     if _GLOBAL_ECOMMERCE_SERVICE is None:
         _GLOBAL_ECOMMERCE_SERVICE = EcommerceService()
     return _GLOBAL_ECOMMERCE_SERVICE
+

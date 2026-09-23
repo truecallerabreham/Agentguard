@@ -32,6 +32,11 @@ from agentguard.tools.ecommerce_tools import (
 from agentguard.tools.registry import get_tool_registry
 
 
+@pytest.fixture(autouse=True)
+def reset_store():
+    get_ecommerce_service().reset()
+
+
 @pytest.fixture
 def ecommerce_service():
     """Provides a fresh EcommerceService instance."""
@@ -216,3 +221,4 @@ def test_tool_registry_contains_ecommerce_tools():
         tool = registry.get(tool_name)
         assert tool is not None, f"Tool '{tool_name}' must be registered"
         assert tool.level.value == "COMPOSED"
+
