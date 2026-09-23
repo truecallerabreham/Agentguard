@@ -13,11 +13,13 @@ from agentguard.ui.routes import (
     api_auth_login_endpoint,
     api_kb_endpoint,
     api_kb_delete_endpoint,
+    store_demo_endpoint,
 )
 
 __all__ = [
     "dashboard_endpoint",
     "landing_endpoint",
+    "store_demo_endpoint",
     "widget_script_endpoint",
     "api_chat_endpoint",
     "api_list_approvals_endpoint",

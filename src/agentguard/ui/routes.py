@@ -35,9 +35,24 @@ def get_landing_html() -> str:
     return get_dashboard_html()
 
 
+def get_store_demo_html() -> str:
+    """Load or return the customer storefront simulator HTML."""
+    html_path = os.path.join(os.path.dirname(__file__), "store_demo.html")
+    if os.path.exists(html_path):
+        with open(html_path, "r", encoding="utf-8") as f:
+            return f.read()
+    return get_landing_html()
+
+
 async def landing_endpoint(request: Request) -> Response:
     """Serve the public SaaS Landing Page."""
     html = get_landing_html()
+    return HTMLResponse(content=html)
+
+
+async def store_demo_endpoint(request: Request) -> Response:
+    """Serve the customer-facing storefront simulation page."""
+    html = get_store_demo_html()
     return HTMLResponse(content=html)
 
 

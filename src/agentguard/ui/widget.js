@@ -17,9 +17,23 @@
     const currentScript = document.currentScript || document.querySelector("script[src*='widget.js']");
     const scriptStoreId = currentScript ? currentScript.getAttribute("data-store-id") : null;
     const scriptApiBase = currentScript ? (currentScript.getAttribute("data-api-base") || "") : "";
+
+    // Auto-discover API origin from currentScript.src if embedded on remote storefront
+    let autoApiBase = "";
+    try {
+        if (currentScript && currentScript.src) {
+            const parsedUrl = new URL(currentScript.src, window.location.href);
+            if (parsedUrl.origin && parsedUrl.origin !== "null" && parsedUrl.origin !== window.location.origin) {
+                autoApiBase = parsedUrl.origin;
+            }
+        }
+    } catch (e) {
+        // Fallback to relative path
+    }
+
     const config = window.AgentGuardConfig || {};
     const storeId = config.storeId || scriptStoreId || "demo-store";
-    const apiBase = config.apiBase || scriptApiBase || "";
+    const apiBase = config.apiBase || scriptApiBase || autoApiBase || "";
 
     // State
     let isOpen = false;

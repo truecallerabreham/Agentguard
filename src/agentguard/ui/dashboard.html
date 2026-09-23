@@ -270,6 +270,31 @@
 &lt;script src="https://agentguard.local/widget.js" data-store-id="demo-store"&gt;&lt;/script&gt;</pre>
         </div>
 
+        <!-- Direct Shareable Storefront Demo Card -->
+        <div class="bg-gradient-to-r from-slate-900 via-indigo-950/40 to-slate-900 border border-indigo-500/30 p-6 rounded-2xl space-y-4 shadow-xl">
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="flex items-center space-x-2">
+                <span class="text-lg">🛍️</span>
+                <h3 class="text-base font-bold text-white">Live Customer Storefront Simulator & Shareable Link</h3>
+                <span class="bg-emerald-500/20 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded border border-emerald-500/30">READY TO SHARE</span>
+              </div>
+              <p class="text-xs text-slate-300 mt-1">Want to test the full customer experience or send your AI support agent to friends or evaluators to test? Use this direct storefront demo link:</p>
+            </div>
+            <button onclick="openStoreDemo()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-bold shadow-lg shadow-indigo-600/30 transition flex items-center space-x-1.5">
+              <span>🚀 Open Live Storefront</span>
+              <span>↗</span>
+            </button>
+          </div>
+
+          <div class="flex items-center space-x-2">
+            <input type="text" id="store-demo-link" readonly class="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-indigo-300 font-mono focus:outline-none" value="http://localhost:8080/store?store_id=demo-store">
+            <button onclick="copyStoreDemoLink()" class="px-3.5 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl text-xs font-semibold transition">
+              Copy Link
+            </button>
+          </div>
+        </div>
+
         <!-- Installation Instructions -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl">
@@ -428,6 +453,17 @@
       const code = document.getElementById('widget-code').textContent;
       navigator.clipboard.writeText(code);
       alert('Widget embed snippet copied to clipboard!');
+    }
+
+    function openStoreDemo() {
+      const url = `/store?store_id=${encodeURIComponent(currentStoreId)}`;
+      window.open(url, '_blank');
+    }
+
+    function copyStoreDemoLink() {
+      const link = document.getElementById('store-demo-link').value || `${window.location.origin}/store?store_id=${encodeURIComponent(currentStoreId)}`;
+      navigator.clipboard.writeText(link);
+      alert(`Copied storefront demo link:\n${link}`);
     }
 
     function fillPrompt(text) {
@@ -714,6 +750,10 @@
           document.getElementById('sidebar-platform').textContent = s.platform.toUpperCase();
           document.getElementById('sidebar-window').textContent = `${s.return_window_days} Days`;
           document.getElementById('widget-code').textContent = `<!-- AgentGuard Storefront Widget -->\n<script src="${window.location.origin}/widget.js" data-store-id="${s.store_id}"><\/script>`;
+          const demoInput = document.getElementById('store-demo-link');
+          if (demoInput) {
+            demoInput.value = `${window.location.origin}/store?store_id=${encodeURIComponent(s.store_id)}`;
+          }
         }
       } catch (e) {
         console.error(e);
@@ -787,7 +827,10 @@
     loadApprovalsCount();
     loadStoreConfig();
   </script>
-  <!-- Embeddable Storefront Chat Widget -->
-  <script src="/widget.js" data-store-id="demo-store"></script>
+  <!-- Embeddable Storefront Chat Widget Bound to Current Merchant Tenant -->
+  <script>
+    window.AgentGuardConfig = { storeId: currentStoreId };
+  </script>
+  <script src="/widget.js"></script>
 </body>
 </html>

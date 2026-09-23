@@ -26,8 +26,10 @@ class AuthMiddleware(BaseHTTPMiddleware):
         path = request.url.path
         if (
             path in _PUBLIC_PATHS
-            or path in ("/", "/dashboard", "/widget.js")
+            or path in ("/", "/landing", "/dashboard", "/widget.js", "/store", "/demo")
             or path.startswith("/dashboard/")
+            or path.startswith("/store/")
+            or path.startswith("/demo/")
             or path.startswith("/api/")
         ):
             return await call_next(request)

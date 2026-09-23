@@ -6,6 +6,7 @@ import json
 import os
 from typing import Any
 from starlette.applications import Starlette
+from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import JSONResponse, Response
 import uvicorn
 from mcp.server.fastmcp import FastMCP
@@ -25,6 +26,7 @@ from agentguard.tools.registry import get_tool_registry
 from agentguard.ui import (
     dashboard_endpoint,
     landing_endpoint,
+    store_demo_endpoint,
     widget_script_endpoint,
     api_chat_endpoint,
     api_list_approvals_endpoint,
@@ -81,10 +83,12 @@ def build_http_app(settings: ServerSettings | None = None) -> Starlette:
 
         app.add_route("/metrics", metrics_endpoint, methods=["GET"])
 
-    # Public SaaS Landing Page, Merchant Control Panel, and Embeddable Widget
+    # Public SaaS Landing Page, Merchant Control Panel, Storefront Demo, and Embeddable Widget
     app.add_route("/", landing_endpoint, methods=["GET"])
     app.add_route("/landing", landing_endpoint, methods=["GET"])
     app.add_route("/dashboard", dashboard_endpoint, methods=["GET"])
+    app.add_route("/store", store_demo_endpoint, methods=["GET"])
+    app.add_route("/demo", store_demo_endpoint, methods=["GET"])
     app.add_route("/widget.js", widget_script_endpoint, methods=["GET"])
 
     # Merchant SaaS Authentication APIs
@@ -103,12 +107,19 @@ def build_http_app(settings: ServerSettings | None = None) -> Starlette:
     app.add_route("/api/audit", api_audit_log_endpoint, methods=["GET"])
 
     # Starlette wraps middleware in reverse order (outermost to innermost):
-    # Request enters: ObservabilityMiddleware -> AuthMiddleware -> TenantMiddleware -> RateLimitMiddleware -> App endpoint
+    # Request enters: CORSMiddleware -> ObservabilityMiddleware -> AuthMiddleware -> TenantMiddleware -> RateLimitMiddleware -> App endpoint
     app.add_middleware(RateLimitMiddleware, settings=settings)
     app.add_middleware(TenantMiddleware, settings=settings)
     app.add_middleware(AuthMiddleware, settings=settings)
     if settings.tracing_enabled:
         app.add_middleware(ObservabilityMiddleware)
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
     @asynccontextmanager
     async def lifespan(asgi_app):
@@ -140,7 +151,9 @@ def main():
         mcp.run(transport="stdio")
     elif transport in ("http", "sse"):
         app = build_http_app()
-        uvicorn.run(app, host=settings.http_host, port=settings.http_port)
+        port = int(os.getenv("PORT", str(settings.http_port)))
+        host = os.getenv("HOST", settings.http_host)
+        uvicorn.run(app, host=host, port=port)
     else:
         raise ValueError(
             f"Unsupported AGENTGUARD_TRANSPORT: '{transport}'. Valid options are 'stdio' or 'http'."

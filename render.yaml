@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: agentguard
+    env: python
+    plan: free
+    buildCommand: pip install -e .
+    startCommand: python -m agentguard.server
+    envVars:
+      - key: AGENTGUARD_TRANSPORT
+        value: http
+      - key: AGENTGUARD_HTTP_HOST
+        value: 0.0.0.0
+      - key: AGENTGUARD_REQUIRE_TENANT
+        value: "false"
+      - key: PYTHONUNBUFFERED
+        value: "1"

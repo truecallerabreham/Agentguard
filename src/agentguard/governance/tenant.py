@@ -25,8 +25,10 @@ class TenantMiddleware(BaseHTTPMiddleware):
         path = request.url.path
         if (
             path in ("/healthz", "/metrics", "/docs", "/openapi.json")
-            or path in ("/", "/dashboard", "/widget.js")
+            or path in ("/", "/landing", "/dashboard", "/widget.js", "/store", "/demo")
             or path.startswith("/dashboard/")
+            or path.startswith("/store/")
+            or path.startswith("/demo/")
             or path.startswith("/api/")
         ):
             active_tenant = request.headers.get(self.settings.tenant_header) or "demo-store"

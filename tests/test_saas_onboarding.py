@@ -154,3 +154,42 @@ def test_custom_knowledge_base_ingestion_and_agent_search(client):
     )
     assert del_res.status_code == 200
     assert del_res.json()["status"] == "success"
+
+
+def test_customer_storefront_demo_routes(client):
+    """Verify that /store and /demo serve the customer storefront simulator."""
+    # Test /store
+    res_store = client.get("/store?store_id=demo-store")
+    assert res_store.status_code == 200
+    assert "LIVE STORE SIMULATION" in res_store.text
+    assert "Featured Products" in res_store.text
+    assert "Interactive Tester Bench" in res_store.text
+
+    # Test /demo alias
+    res_demo = client.get("/demo?store_id=demo-store")
+    assert res_demo.status_code == 200
+    assert "LIVE STORE SIMULATION" in res_demo.text
+
+
+def test_cors_headers_for_embeddable_widget(client):
+    """Verify CORS headers allow cross-origin requests from merchant stores."""
+    # Preflight OPTIONS request
+    opt_res = client.options(
+        "/api/chat",
+        headers={
+            "Origin": "https://myshopify-store.com",
+            "Access-Control-Request-Method": "POST",
+            "Access-Control-Request-Headers": "Content-Type",
+        },
+    )
+    assert opt_res.status_code == 200
+    assert opt_res.headers.get("access-control-allow-origin") in ("*", "https://myshopify-store.com")
+
+    # Cross-origin POST request
+    post_res = client.post(
+        "/api/chat",
+        json={"inquiry": "What is the return window?", "store_id": "demo-store"},
+        headers={"Origin": "https://myshopify-store.com"},
+    )
+    assert post_res.status_code == 200
+    assert post_res.headers.get("access-control-allow-origin") in ("*", "https://myshopify-store.com")
