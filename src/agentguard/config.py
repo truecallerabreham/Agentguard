@@ -61,6 +61,10 @@ class ServerSettings(BaseSettings):
     block_private_ips: bool = True
     outbound_domain_allowlist: list[str] = ["*"]
 
+    # Milestone 13: Multi-Agent Support Copilot
+    copilot_max_revisions: int = 3
+    copilot_llm_mode: str = "mock"  # "mock", "gemini", "openai"
+
 
 @lru_cache(maxsize=1)
 def get_settings() -> ServerSettings:

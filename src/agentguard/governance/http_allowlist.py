@@ -160,3 +160,4 @@ async def safe_http_get(
             }
         except httpx.RequestError as exc:
             raise SSRFViolationError(url=url, reason=f"HTTP request error: {exc}") from exc
+

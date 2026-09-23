@@ -64,3 +64,4 @@ async def reject_action(approval_id: str, reason: str = "Rejected by supervisor"
         "reason": reason,
         "message": "Action rejected and cancelled.",
     }
+

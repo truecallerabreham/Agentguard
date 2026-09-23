@@ -12,3 +12,4 @@ async def fetch_url(url: str) -> dict[str, Any]:
     and cloud metadata endpoints (169.254.169.254) can never be accessed.
     """
     return await safe_http_get(url)
+
