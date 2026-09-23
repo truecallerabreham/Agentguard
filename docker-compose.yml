@@ -1,0 +1,110 @@
+services:
+  # ---------------------------------------------------------------------------
+  # 1. PostgreSQL 16 with Multi-Tenant Row-Level Security (RLS)
+  # ---------------------------------------------------------------------------
+  postgres:
+    image: postgres:16-alpine
+    container_name: agentguard-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: agentguard
+      POSTGRES_PASSWORD: agentguard
+      POSTGRES_DB: agentguard
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./deploy/sql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U agentguard -d agentguard"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - agentguard-net
+
+  # ---------------------------------------------------------------------------
+  # 2. Redis 7 for Distributed Token-Bucket Rate Limiting & L2 Caching
+  # ---------------------------------------------------------------------------
+  redis:
+    image: redis:7-alpine
+    container_name: agentguard-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - agentguard-net
+
+  # ---------------------------------------------------------------------------
+  # 3. Prometheus Observability Scraper
+  # ---------------------------------------------------------------------------
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: agentguard-prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./deploy/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    depends_on:
+      - agentguard
+    networks:
+      - agentguard-net
+
+  # ---------------------------------------------------------------------------
+  # 4. AgentGuard Production MCP Server
+  # ---------------------------------------------------------------------------
+  agentguard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: agentguard-server
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      AGENTGUARD_TRANSPORT: "http"
+      AGENTGUARD_HTTP_HOST: "0.0.0.0"
+      AGENTGUARD_HTTP_PORT: "8080"
+      AGENTGUARD_POSTGRES_URL: "postgresql://agentguard:agentguard@postgres:5432/agentguard"
+      AGENTGUARD_REDIS_URL: "redis://redis:6379/0"
+      AGENTGUARD_POLICY_FILE: "config/policy.yaml"
+      AGENTGUARD_ENFORCE_POLICY: "true"
+      AGENTGUARD_REQUIRE_TENANT: "true"
+      AGENTGUARD_RATE_LIMIT_ENABLED: "true"
+      AGENTGUARD_CACHE_ENABLED: "true"
+      AGENTGUARD_METRICS_ENABLED: "true"
+      AGENTGUARD_TRACING_ENABLED: "true"
+      AGENTGUARD_AUDIT_LOGGING_ENABLED: "true"
+      AGENTGUARD_AUDIT_LOG_PATH: "/app/logs/audit.jsonl"
+    volumes:
+      - agentguard_logs:/app/logs
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    networks:
+      - agentguard-net
+
+volumes:
+  postgres_data:
+  redis_data:
+  agentguard_logs:
+
+networks:
+  agentguard-net:
+    driver: bridge

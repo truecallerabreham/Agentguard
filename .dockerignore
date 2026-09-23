@@ -1,0 +1,28 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache
+*.egg-info
+dist
+build
+.venv
+venv
+env
+
+# Logs and runtime artifacts
+logs/*.jsonl
+*.log
+.coverage
+htmlcov
+
+# IDE & OS
+.idea
+.vscode
+.DS_Store
+Thumbs.db

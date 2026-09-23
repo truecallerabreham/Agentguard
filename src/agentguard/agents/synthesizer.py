@@ -137,3 +137,4 @@ class SynthesizerAgent:
             cited_evidence=cited_evidence,
             confidence_score=0.98 if (customer_data and target_order) else 0.85,
         )
+

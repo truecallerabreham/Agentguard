@@ -150,3 +150,4 @@ class CopilotFinalResult:
             "total_duration_ms": self.total_duration_ms,
             "trace_id": self.trace_id,
         }
+
