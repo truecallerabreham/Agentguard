@@ -129,6 +129,11 @@ def _populate_default_tools(reg: ToolRegistry) -> None:
         TroubleshootInquiryInput,
         ReturnRemediationInput,
         WorkflowStatusInput,
+        FetchUrlInput,
+        HighRiskRefundInput,
+        ListApprovalsInput,
+        ApproveActionInput,
+        RejectActionInput,
     )
     from agentguard.tools.atomic import (
         postgres_query,
@@ -136,8 +141,16 @@ def _populate_default_tools(reg: ToolRegistry) -> None:
         order_lookup,
         kb_search,
         ticket_create,
+        fetch_url,
     )
-    from agentguard.tools.composed import customer_360, troubleshoot_inquiry
+    from agentguard.tools.composed import (
+        customer_360,
+        troubleshoot_inquiry,
+        issue_high_risk_refund,
+        list_pending_approvals,
+        approve_action,
+        reject_action,
+    )
     from agentguard.tools.workflow import start_return_remediation, get_workflow_status
 
     # Primitive helpers
@@ -170,12 +183,46 @@ def _populate_default_tools(reg: ToolRegistry) -> None:
         res = await ticket_create(customer_id=customer_id, title=title, description=description, priority=priority)
         return json.dumps(res, indent=2)
 
+    async def _fetch_url_wrapper(url: str) -> str:
+        res = await fetch_url(url=url)
+        return json.dumps(res, indent=2)
+
     async def _c360_wrapper(customer_id: str) -> str:
         res = await customer_360(customer_id)
         return json.dumps(res, indent=2)
 
     async def _troubleshoot_wrapper(customer_id: str, issue_description: str) -> str:
         res = await troubleshoot_inquiry(customer_id=customer_id, issue_description=issue_description)
+        return json.dumps(res, indent=2)
+
+    async def _refund_wrapper(
+        order_id: str,
+        customer_id: str,
+        amount_usd: float,
+        reason: str,
+        approval_id: str | None = None,
+        approval_token: str | None = None,
+    ) -> str:
+        res = await issue_high_risk_refund(
+            order_id=order_id,
+            customer_id=customer_id,
+            amount_usd=amount_usd,
+            reason=reason,
+            approval_id=approval_id,
+            approval_token=approval_token,
+        )
+        return json.dumps(res, indent=2)
+
+    async def _list_approvals_wrapper(tenant_id: str | None = None) -> str:
+        res = await list_pending_approvals(tenant_id=tenant_id)
+        return json.dumps(res, indent=2)
+
+    async def _approve_wrapper(approval_id: str, approval_token: str) -> str:
+        res = await approve_action(approval_id=approval_id, approval_token=approval_token)
+        return json.dumps(res, indent=2)
+
+    async def _reject_wrapper(approval_id: str, reason: str = "Rejected by supervisor") -> str:
+        res = await reject_action(approval_id=approval_id, reason=reason)
         return json.dumps(res, indent=2)
 
     async def _return_wrapper(order_id: str, customer_id: str, reason: str) -> str:
@@ -247,6 +294,13 @@ def _populate_default_tools(reg: ToolRegistry) -> None:
         handler=_postgres_wrapper,
         cacheable=True,
     ))
+    reg.register(ToolMetadata(
+        name="fetch_url",
+        level=ToolLevel.ATOMIC,
+        description="Safely fetch external web resources protected against SSRF vulnerabilities.",
+        input_schema=FetchUrlInput,
+        handler=_fetch_url_wrapper,
+    ))
 
     # 2. COMPOSED TOOLS
     reg.register(ToolMetadata(
@@ -264,6 +318,34 @@ def _populate_default_tools(reg: ToolRegistry) -> None:
         input_schema=TroubleshootInquiryInput,
         handler=_troubleshoot_wrapper,
     ))
+    reg.register(ToolMetadata(
+        name="issue_high_risk_refund",
+        level=ToolLevel.COMPOSED,
+        description="Issue high-risk refund to customer; requires Human-in-the-Loop approval token.",
+        input_schema=HighRiskRefundInput,
+        handler=_refund_wrapper,
+    ))
+    reg.register(ToolMetadata(
+        name="list_pending_approvals",
+        level=ToolLevel.COMPOSED,
+        description="List active Human-in-the-Loop pending approval requests.",
+        input_schema=ListApprovalsInput,
+        handler=_list_approvals_wrapper,
+    ))
+    reg.register(ToolMetadata(
+        name="approve_action",
+        level=ToolLevel.COMPOSED,
+        description="Authorize and approve a pending high-risk action with its confirmation token.",
+        input_schema=ApproveActionInput,
+        handler=_approve_wrapper,
+    ))
+    reg.register(ToolMetadata(
+        name="reject_action",
+        level=ToolLevel.COMPOSED,
+        description="Reject and cancel a pending high-risk action.",
+        input_schema=RejectActionInput,
+        handler=_reject_wrapper,
+    ))
 
     # 3. WORKFLOW TOOLS
     reg.register(ToolMetadata(
@@ -280,3 +362,5 @@ def _populate_default_tools(reg: ToolRegistry) -> None:
         input_schema=WorkflowStatusInput,
         handler=_wf_status_wrapper,
     ))
+
+

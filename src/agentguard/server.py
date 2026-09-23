@@ -43,6 +43,11 @@ customer_360 = registry.build_decorated_handler(registry.get("customer_360"))
 troubleshoot_inquiry = registry.build_decorated_handler(registry.get("troubleshoot_inquiry"))
 start_return_remediation = registry.build_decorated_handler(registry.get("start_return_remediation"))
 get_workflow_status = registry.build_decorated_handler(registry.get("get_workflow_status"))
+fetch_url = registry.build_decorated_handler(registry.get("fetch_url"))
+issue_high_risk_refund = registry.build_decorated_handler(registry.get("issue_high_risk_refund"))
+list_pending_approvals = registry.build_decorated_handler(registry.get("list_pending_approvals"))
+approve_action = registry.build_decorated_handler(registry.get("approve_action"))
+reject_action = registry.build_decorated_handler(registry.get("reject_action"))
 
 
 def build_http_app(settings: ServerSettings | None = None) -> Starlette:

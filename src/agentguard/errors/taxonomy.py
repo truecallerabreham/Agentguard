@@ -27,6 +27,10 @@ class ToolError(Exception):
     suggested_actions: list[str] = field(default_factory=list)
     context: dict[str, Any] | None = None
 
+    @property
+    def message(self) -> str:
+        return self.hint or self.code
+
     def to_dict(self) -> dict[str, Any]:
         return {
             "code": self.code,
@@ -123,6 +127,64 @@ class NotFoundError(ToolError):
             suggested_actions=suggested_actions or ["Verify resource identifier and retry", "List available resources"],
             context=context,
         )
+
+
+class ApprovalRequiredError(ToolError):
+    """High-risk action intercepted; requires explicit human confirmation."""
+
+    def __init__(
+        self,
+        approval_id: str,
+        tool_name: str,
+        hint: str | None = None,
+        context: dict[str, Any] | None = None,
+    ) -> None:
+        self.approval_id = approval_id
+        self.tool_name = tool_name
+        ctx = dict(context or {})
+        ctx.update({"approval_id": approval_id, "tool_name": tool_name})
+        super().__init__(
+            code="APPROVAL_REQUIRED",
+            category=ErrorCategory.AUTHORIZATION,
+            retryable=False,
+            hint=hint or (
+                f"Action '{tool_name}' is classified as HIGH-RISK and requires human supervisor approval. "
+                f"Pending approval ID: '{approval_id}'. Submit authorization token via approve_action to proceed."
+            ),
+            suggested_actions=[
+                f"Prompt human supervisor for approval of request '{approval_id}'",
+                f"Invoke approve_action(approval_id='{approval_id}', approval_token=...)",
+                "Cancel operation or choose a lower-risk alternative tool",
+            ],
+            context=ctx,
+        )
+
+
+class SSRFViolationError(ToolError):
+    """Outbound HTTP request was blocked due to Server-Side Request Forgery safeguards."""
+
+    def __init__(
+        self,
+        url: str,
+        reason: str,
+        context: dict[str, Any] | None = None,
+    ) -> None:
+        self.url = url
+        self.reason = reason
+        ctx = dict(context or {})
+        ctx.update({"url": url, "reason": reason})
+        super().__init__(
+            code="SSRF_VIOLATION_BLOCKED",
+            category=ErrorCategory.VALIDATION,
+            retryable=False,
+            hint=f"Outbound request to '{url}' blocked: {reason}.",
+            suggested_actions=[
+                "Provide a public, routable HTTPS URL",
+                "Requests to loopback, link-local, RFC-1918 private subnets, and cloud metadata (169.254.169.254) are strictly forbidden",
+            ],
+            context=ctx,
+        )
+
 
 
 

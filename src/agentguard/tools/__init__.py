@@ -20,10 +20,15 @@ from agentguard.tools.atomic import (
     order_lookup,
     kb_search,
     ticket_create,
+    fetch_url,
 )
 from agentguard.tools.composed import (
     customer_360,
     troubleshoot_inquiry,
+    issue_high_risk_refund,
+    list_pending_approvals,
+    approve_action,
+    reject_action,
 )
 from agentguard.tools.workflow import (
     WorkflowStatus,
@@ -52,9 +57,14 @@ __all__ = [
     "order_lookup",
     "kb_search",
     "ticket_create",
+    "fetch_url",
     # Level 2: Composed
     "customer_360",
     "troubleshoot_inquiry",
+    "issue_high_risk_refund",
+    "list_pending_approvals",
+    "approve_action",
+    "reject_action",
     # Level 3: Workflow
     "WorkflowStatus",
     "WorkflowStep",
@@ -65,3 +75,4 @@ __all__ = [
     "get_workflow_status",
     "stream_return_remediation",
 ]
+

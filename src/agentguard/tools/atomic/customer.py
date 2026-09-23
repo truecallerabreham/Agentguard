@@ -16,3 +16,4 @@ async def customer_lookup(customer_id: str) -> dict[str, Any]:
             context={"customer_id": customer_id},
         )
     return rows[0]
+

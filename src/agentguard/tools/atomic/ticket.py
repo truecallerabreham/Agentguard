@@ -35,3 +35,4 @@ async def ticket_create(
 
     db = get_db_manager()
     return db.create_ticket(tenant_id, ticket_data)
+

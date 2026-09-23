@@ -36,3 +36,4 @@ async def kb_search(query: str, category: str | None = None) -> list[dict[str, A
     # Sort descending by relevance score
     matches.sort(key=lambda x: x[0], reverse=True)
     return [m[1] for m in matches]
+

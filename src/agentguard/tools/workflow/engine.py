@@ -163,3 +163,4 @@ def get_workflow_engine() -> WorkflowEngine:
         if _GLOBAL_ENGINE is None:
             _GLOBAL_ENGINE = WorkflowEngine()
         return _GLOBAL_ENGINE
+

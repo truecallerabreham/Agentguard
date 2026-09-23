@@ -214,3 +214,69 @@ class WorkflowStatusInput(BaseModel):
     )
 
 
+class ApproveActionInput(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    approval_id: str = Field(
+        ...,
+        min_length=4,
+        max_length=64,
+        description="Pending approval ID to approve",
+    )
+    approval_token: str = Field(
+        ...,
+        min_length=8,
+        max_length=128,
+        description="Secret confirmation token provided by human supervisor",
+    )
+
+
+class RejectActionInput(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    approval_id: str = Field(
+        ...,
+        min_length=4,
+        max_length=64,
+        description="Pending approval ID to reject and cancel",
+    )
+    reason: str = Field(
+        default="Rejected by supervisor",
+        max_length=500,
+        description="Reason for rejecting the action",
+    )
+
+
+class ListApprovalsInput(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    tenant_id: str | None = Field(
+        default=None,
+        max_length=64,
+        description="Optional tenant filter",
+    )
+
+
+class FetchUrlInput(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    url: str = Field(
+        ...,
+        min_length=8,
+        max_length=2000,
+        description="Outbound HTTP or HTTPS URL to fetch safely",
+    )
+
+
+class HighRiskRefundInput(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    order_id: str = Field(..., max_length=64, description="Target order ID")
+    customer_id: str = Field(..., max_length=64, description="Customer ID")
+    amount_usd: float = Field(..., gt=0, le=100_000, description="Refund amount in USD")
+    reason: str = Field(..., min_length=3, max_length=500, description="Justification for refund")
+    approval_id: str | None = Field(default=None, max_length=64, description="Approval ID if previously requested")
+    approval_token: str | None = Field(default=None, max_length=128, description="Approval token if previously authorized")
+
+
+

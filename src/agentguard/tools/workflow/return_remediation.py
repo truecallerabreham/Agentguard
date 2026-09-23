@@ -191,3 +191,4 @@ async def stream_return_remediation(
     result = {"workflow_id": wf.workflow_id, "rma_code": rma_code, "status": "COMPLETED"}
     engine.complete_workflow(wf.workflow_id, result)
     yield {"event": "WORKFLOW_COMPLETED", "result": result}
+

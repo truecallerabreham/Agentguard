@@ -15,3 +15,4 @@ async def order_lookup(
     elif customer_id:
         return await postgres_query("SELECT * FROM orders WHERE customer_id = $1", [customer_id])
     return []
+

@@ -56,6 +56,11 @@ class ServerSettings(BaseSettings):
     audit_logging_enabled: bool = True
     audit_log_path: str = "logs/audit.jsonl"
 
+    # Governance: Human-in-the-Loop (HITL) & SSRF Defense
+    approval_timeout_seconds: int = 900
+    block_private_ips: bool = True
+    outbound_domain_allowlist: list[str] = ["*"]
+
 
 @lru_cache(maxsize=1)
 def get_settings() -> ServerSettings:

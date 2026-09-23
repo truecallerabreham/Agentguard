@@ -7,6 +7,7 @@ from agentguard.tools.atomic.customer import customer_lookup
 from agentguard.tools.atomic.order import order_lookup
 from agentguard.tools.atomic.kb import kb_search
 from agentguard.tools.atomic.ticket import ticket_create
+from agentguard.tools.atomic.network import fetch_url
 
 __all__ = [
     "postgres_query",
@@ -14,4 +15,5 @@ __all__ = [
     "order_lookup",
     "kb_search",
     "ticket_create",
+    "fetch_url",
 ]

@@ -95,6 +95,41 @@ tools:
       - "tool:read"
       - "tool:*"
 
+  fetch_url:
+    description: "Safely fetch external web resources protected against SSRF"
+    required_scopes:
+      - "tool:network:fetch"
+      - "tool:read"
+      - "tool:*"
+
+  issue_high_risk_refund:
+    description: "Execute high-risk financial refund (requires human confirmation)"
+    required_scopes:
+      - "tool:finance:refund"
+      - "tool:write"
+      - "tool:*"
+
+  list_pending_approvals:
+    description: "List pending human approval requests"
+    required_scopes:
+      - "tool:approvals:read"
+      - "tool:read"
+      - "tool:*"
+
+  approve_action:
+    description: "Authorize and approve a pending high-risk action"
+    required_scopes:
+      - "tool:approvals:decide"
+      - "tool:write"
+      - "tool:*"
+
+  reject_action:
+    description: "Reject and cancel a pending high-risk action"
+    required_scopes:
+      - "tool:approvals:decide"
+      - "tool:write"
+      - "tool:*"
+
 # Standard Role definitions mapping high-level roles to granular tool scopes
 roles:
   guest:
@@ -113,6 +148,8 @@ roles:
       - "tool:c360:read"
       - "tool:troubleshoot"
       - "tool:workflows:read"
+      - "tool:network:fetch"
+      - "tool:approvals:read"
 
   analyst:
     description: "Operational agent with database query, ticketing, and workflow execution capabilities"
@@ -128,9 +165,19 @@ roles:
       - "tool:workflows:execute"
       - "tool:tickets:write"
       - "tool:db:query"
+      - "tool:network:fetch"
+      - "tool:approvals:read"
+      - "tool:finance:refund"
+
+  supervisor:
+    description: "Human supervisor authorized to approve or reject pending actions"
+    scopes:
+      - "tool:*"
+      - "tool:approvals:decide"
 
   admin:
     description: "Platform administrator with full permissions"
     scopes:
       - "tool:*"
       - "tenant:*:impersonate"
+
