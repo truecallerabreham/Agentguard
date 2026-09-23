@@ -152,6 +152,16 @@ def _populate_default_tools(reg: ToolRegistry) -> None:
         reject_action,
     )
     from agentguard.tools.workflow import start_return_remediation, get_workflow_status
+    from agentguard.tools.ecommerce_tools import (
+        EcommerceOrderLookupInput,
+        EcommerceEvaluateReturnInput,
+        EcommerceRequestRefundInput,
+        EcommerceExecuteRefundInput,
+        ecommerce_order_lookup,
+        ecommerce_evaluate_return,
+        ecommerce_request_refund,
+        ecommerce_execute_refund,
+    )
 
     # Primitive helpers
     def _greet(name: str = "World") -> str:
@@ -231,6 +241,22 @@ def _populate_default_tools(reg: ToolRegistry) -> None:
 
     async def _wf_status_wrapper(workflow_id: str) -> str:
         res = await get_workflow_status(workflow_id)
+        return json.dumps(res, indent=2)
+
+    async def _ecom_lookup_wrapper(store_id: str = "demo-store", order_number: str = "", customer_email: str = "") -> str:
+        res = await ecommerce_order_lookup(store_id=store_id, order_number=order_number, customer_email=customer_email)
+        return json.dumps(res, indent=2)
+
+    async def _ecom_return_wrapper(store_id: str = "demo-store", order_number: str = "", customer_email: str = "", reason: str = "Customer requested return") -> str:
+        res = await ecommerce_evaluate_return(store_id=store_id, order_number=order_number, customer_email=customer_email, reason=reason)
+        return json.dumps(res, indent=2)
+
+    async def _ecom_refund_wrapper(store_id: str = "demo-store", order_number: str = "", customer_email: str = "", amount_cents: int = 0, reason: str = "", **kwargs: Any) -> str:
+        res = await ecommerce_request_refund(store_id=store_id, order_number=order_number, customer_email=customer_email, amount_cents=amount_cents, reason=reason, **kwargs)
+        return json.dumps(res, indent=2)
+
+    async def _ecom_exec_refund_wrapper(store_id: str = "demo-store", order_number: str = "", approval_id: str = "", approval_token: str = "", amount_cents: int = 0, reason: str = "Authorized refund") -> str:
+        res = await ecommerce_execute_refund(store_id=store_id, order_number=order_number, approval_id=approval_id, approval_token=approval_token, amount_cents=amount_cents, reason=reason)
         return json.dumps(res, indent=2)
 
     # 1. ATOMIC TOOLS
@@ -361,6 +387,37 @@ def _populate_default_tools(reg: ToolRegistry) -> None:
         description="Query execution state, step progress, and outcomes for a workflow instance.",
         input_schema=WorkflowStatusInput,
         handler=_wf_status_wrapper,
+    ))
+
+    # 4. E-COMMERCE TOOLS
+    reg.register(ToolMetadata(
+        name="ecommerce_order_lookup",
+        level=ToolLevel.COMPOSED,
+        description="Lookup e-commerce order status, tracking, and items with customer email verification.",
+        input_schema=EcommerceOrderLookupInput,
+        handler=_ecom_lookup_wrapper,
+        cacheable=True,
+    ))
+    reg.register(ToolMetadata(
+        name="ecommerce_evaluate_return",
+        level=ToolLevel.COMPOSED,
+        description="Evaluate order return eligibility against store policy for delivered orders.",
+        input_schema=EcommerceEvaluateReturnInput,
+        handler=_ecom_return_wrapper,
+    ))
+    reg.register(ToolMetadata(
+        name="ecommerce_request_refund",
+        level=ToolLevel.COMPOSED,
+        description="Initiate refund request for an order. Protected by Human-in-the-Loop approval gate.",
+        input_schema=EcommerceRequestRefundInput,
+        handler=_ecom_refund_wrapper,
+    ))
+    reg.register(ToolMetadata(
+        name="ecommerce_execute_refund",
+        level=ToolLevel.COMPOSED,
+        description="Disburse store refund using verified single-use approval token.",
+        input_schema=EcommerceExecuteRefundInput,
+        handler=_ecom_exec_refund_wrapper,
     ))
 
 

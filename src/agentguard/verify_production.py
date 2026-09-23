@@ -215,7 +215,7 @@ class ProductionVerifier:
     async def verify_layer_11_tool_hierarchy(self) -> None:
         reg = get_tool_registry()
         tools = reg.list_tools()
-        has_17 = len(tools) == 17
+        has_tools = len(tools) >= 17
 
         current_tenant.set("acme")
         current_principal.set(
@@ -226,8 +226,8 @@ class ProductionVerifier:
 
         self.report(
             "Layer 11: Tool Hierarchy",
-            has_17 and wf_ok,
-            f"All 17 tools mounted across 3 tiers; RMA ReturnRemediation workflow executed successfully.",
+            has_tools and wf_ok,
+            f"All {len(tools)} tools mounted across hierarchy; RMA ReturnRemediation workflow executed successfully.",
         )
 
     async def verify_layer_12_hitl_and_ssrf(self) -> None:

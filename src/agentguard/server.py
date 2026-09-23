@@ -48,6 +48,10 @@ issue_high_risk_refund = registry.build_decorated_handler(registry.get("issue_hi
 list_pending_approvals = registry.build_decorated_handler(registry.get("list_pending_approvals"))
 approve_action = registry.build_decorated_handler(registry.get("approve_action"))
 reject_action = registry.build_decorated_handler(registry.get("reject_action"))
+ecommerce_order_lookup = registry.build_decorated_handler(registry.get("ecommerce_order_lookup"))
+ecommerce_evaluate_return = registry.build_decorated_handler(registry.get("ecommerce_evaluate_return"))
+ecommerce_request_refund = registry.build_decorated_handler(registry.get("ecommerce_request_refund"))
+ecommerce_execute_refund = registry.build_decorated_handler(registry.get("ecommerce_execute_refund"))
 
 
 def build_http_app(settings: ServerSettings | None = None) -> Starlette:
