@@ -1933,9 +1933,10 @@
         <div id="auth-field-platform" class="form-group">
           <label for="auth-platform">Store Platform</label>
           <select id="auth-platform" class="form-input">
-            <option value="simulator">Built-in Simulator (Instant Offline Testing)</option>
+            <option value="native" selected>Native Persistent Store (Instant Production SQLite)</option>
             <option value="shopify">Shopify Admin REST API</option>
             <option value="woocommerce">WooCommerce REST API v3</option>
+            <option value="simulator">Built-in Simulator (Offline Testing)</option>
           </select>
         </div>
 

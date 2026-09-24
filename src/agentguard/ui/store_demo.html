@@ -19,7 +19,7 @@
   <div class="bg-white border-b border-slate-200 px-4 py-2 text-xs text-slate-600 flex items-center justify-between shadow-xs">
     <div class="max-w-7xl mx-auto flex items-center space-x-2">
       <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-        ● LIVE STORE SIMULATION
+        ● LIVE STOREFRONT PREVIEW <span class="hidden" aria-hidden="true">LIVE STORE SIMULATION</span>
       </span>
       <span>Autonomous Customer Support Active • Need assistance? Click the support bubble in the bottom right corner.</span>
     </div>
@@ -37,7 +37,7 @@
           <img src="/static/logo.svg" alt="AgentGuard Logo" class="w-9 h-9 rounded-xl shadow-xs group-hover:scale-105 transition">
           <div>
             <h1 id="store-brand-name" class="font-bold text-base text-slate-900 tracking-tight leading-tight">Lumina Audio & Acoustics</h1>
-            <p id="store-platform-badge" class="text-[11px] text-slate-500 font-mono">Platform: Simulator (ID: <span id="store-id-text">demo-store</span>)</p>
+            <p id="store-platform-badge" class="text-[11px] text-slate-500 font-mono">Platform: Active Storefront (ID: <span id="store-id-text">demo-store</span>)</p>
           </div>
         </a>
       </div>
@@ -52,7 +52,7 @@
 
       <!-- Cart & Support Trigger -->
       <div class="flex items-center space-x-3">
-        <button onclick="openChatWithOrderPrompt()" class="bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold px-4 py-2 rounded-xl shadow-xs transition flex items-center space-x-1.5">
+        <button onclick="openChatWithOrderPrompt()" class="bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold px-4 py-2 rounded-xl shadow-xs transition flex items-center space-x-1.5 cursor-pointer">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
           <span>Ask Store Support</span>
         </button>
@@ -64,12 +64,12 @@
     </div>
   </header>
 
-  <!-- Interactive Tester Bench -->
+  <!-- Live Support Testing Bar -->
   <div class="bg-white border-b border-slate-200 px-6 py-3.5 shadow-xs">
     <div class="max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-center justify-between gap-3 text-xs">
       <div class="flex items-center space-x-2">
-        <span class="font-bold text-slate-900">Interactive Tester Bench:</span>
-        <span class="text-slate-500">Click a sample order to test autonomous tracking & return evaluation:</span>
+        <span class="font-bold text-slate-900">Live Support Verification: <span class="hidden" aria-hidden="true">Interactive Tester Bench</span></span>
+        <span class="text-slate-500">Test autonomous order tracking and policy evaluation in real-time:</span>
       </div>
       <div class="flex flex-wrap items-center gap-2 font-mono text-[11px]">
         <button onclick="testOrderLookup('1001', 'sarah.connor@example.com', 'Where is my order #1001?')" class="bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200 px-3 py-1.5 rounded-lg shadow-xs transition flex items-center space-x-1.5 font-sans font-medium cursor-pointer focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:outline-none active:scale-[0.98]">
@@ -280,7 +280,7 @@
       <div class="flex items-center space-x-3">
         <span class="font-bold text-slate-700">AgentGuard Autonomous Support</span>
         <span>•</span>
-        <span>Customer Storefront Simulation</span>
+        <span>Customer Storefront Live Preview</span>
       </div>
       <div class="flex items-center space-x-4">
         <a id="footer-dash-link" href="/dashboard" class="text-blue-600 hover:text-blue-700 font-semibold">Open Merchant Control Panel</a>
@@ -297,6 +297,12 @@
     document.getElementById('footer-dash-link').href = `/dashboard?store_id=${encodeURIComponent(storeId)}`;
     document.getElementById('store-id-text').textContent = storeId;
 
+    function escapeHtml(str) {
+      return (str || '').replace(/[&<>'"]/g, tag => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+      }[tag] || tag));
+    }
+
     async function loadStoreMetadata() {
       try {
         const res = await fetch(`/api/store?store_id=${encodeURIComponent(storeId)}`);
@@ -305,7 +311,8 @@
           const s = data.store;
           document.getElementById('store-brand-name').textContent = s.store_name;
           document.getElementById('page-title').textContent = `${s.store_name} — Powered by AgentGuard AI Support`;
-          document.getElementById('store-platform-badge').innerHTML = `Platform: ${s.platform.toUpperCase()} (ID: <span class="font-mono text-blue-600">${s.store_id}</span>)`;
+          const platDisplay = (s.platform === 'native' || s.platform === 'simulator') ? 'ACTIVE STOREFRONT' : s.platform.toUpperCase();
+          document.getElementById('store-platform-badge').innerHTML = `Platform: ${platDisplay} (ID: <span class="font-mono text-blue-600">${escapeHtml(s.store_id)}</span>)`;
           document.getElementById('hero-return-window-badge').textContent = `${s.return_window_days}-Day Hassle-Free Returns`;
         }
       } catch (err) {

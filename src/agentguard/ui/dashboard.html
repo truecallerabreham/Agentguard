@@ -58,12 +58,17 @@
         <span>Review Required</span>
       </div>
 
+      <div id="header-user-badge" class="hidden md:flex items-center space-x-1.5 bg-slate-100 border border-slate-200 px-2.5 py-1 rounded-md text-slate-700">
+        <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+        <span id="header-user-email" class="font-medium text-[11px] max-w-[130px] truncate">owner@store.com</span>
+      </div>
+
       <a id="nav-storefront-btn" href="/store?store_id=demo-store" target="_blank" class="bg-slate-900 hover:bg-slate-800 text-white font-semibold px-3.5 py-1.5 rounded-lg transition flex items-center space-x-1.5 text-xs shadow-xs">
-        <span>Storefront Simulator</span>
+        <span>Storefront Live Preview</span>
         <svg class="w-3.5 h-3.5 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
       </a>
 
-      <button onclick="handleSignOut()" class="text-slate-400 hover:text-slate-700 p-1.5 rounded-lg hover:bg-slate-100 transition" title="Sign out">
+      <button onclick="handleSignOut()" class="text-slate-400 hover:text-slate-700 p-1.5 rounded-lg hover:bg-slate-100 transition" title="Sign out of account">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
       </button>
     </div>
@@ -79,6 +84,14 @@
         <button onclick="switchTab('chat')" id="nav-chat" class="w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-semibold transition bg-slate-900 text-white shadow-xs">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
           <span>Live Support Console</span>
+        </button>
+
+        <button onclick="switchTab('orders')" id="nav-orders" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
+          <div class="flex items-center space-x-3">
+            <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+            <span>Orders &amp; Fulfillment</span>
+          </div>
+          <span id="nav-orders-count" class="text-[10px] bg-slate-200 text-slate-700 font-semibold px-2 py-0.5 rounded-full">0</span>
         </button>
 
         <button onclick="switchTab('approvals')" id="nav-approvals" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
@@ -116,7 +129,7 @@
       <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-[11px] space-y-2">
         <div class="flex items-center justify-between text-slate-500">
           <span>Platform:</span>
-          <span id="sidebar-platform" class="font-mono text-slate-800 font-semibold">SIMULATOR</span>
+          <span id="sidebar-platform" class="font-mono text-slate-800 font-semibold">NATIVE</span>
         </div>
         <div class="flex items-center justify-between text-slate-500">
           <span>Return Policy:</span>
@@ -125,7 +138,6 @@
         <div class="pt-1.5 border-t border-slate-200/80 flex items-center justify-between">
           <span class="text-slate-500">Edition:</span>
           <span class="font-semibold text-emerald-700">100% Free Forever</span>
-        </div>
       </div>
     </aside>
 
@@ -238,6 +250,95 @@
         </div>
       </section>
 
+      <!-- TAB: ORDERS & FULFILLMENT -->
+      <section id="tab-orders" class="hidden space-y-6 max-w-6xl mx-auto">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center space-x-2">
+              <h2 class="text-xl font-bold text-slate-900 tracking-tight">Orders &amp; Fulfillment</h2>
+              <span class="text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold px-2 py-0.5 rounded-full">ACID SQLite Persistence</span>
+            </div>
+            <p class="text-xs text-slate-600 mt-0.5">Live store orders saved directly to persistent storage. Inspect tracking status, review customer purchases, and test autonomous support.</p>
+          </div>
+          <div class="flex items-center space-x-2">
+            <button onclick="loadOrders()" class="text-xs text-slate-700 hover:text-slate-900 px-3 py-2 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 shadow-xs transition flex items-center space-x-1.5 cursor-pointer">
+              <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+              <span>Refresh</span>
+            </button>
+            <button onclick="openOrderModal()" class="text-xs bg-slate-900 hover:bg-slate-800 text-white font-semibold px-4 py-2 rounded-xl shadow-xs transition flex items-center space-x-1.5 cursor-pointer">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+              <span>Create New Order</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Metric Summary Cards -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-xs">
+            <div class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Total Orders</div>
+            <div id="metric-total-orders" class="text-2xl font-extrabold text-slate-900 mt-1 font-mono">0</div>
+            <div class="text-[11px] text-slate-500 mt-0.5">ACID Database Records</div>
+          </div>
+          <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-xs">
+            <div class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Gross Sales Volume</div>
+            <div id="metric-total-volume" class="text-2xl font-extrabold text-slate-900 mt-1 font-mono">$0.00</div>
+            <div class="text-[11px] text-slate-500 mt-0.5">Customer transactions</div>
+          </div>
+          <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-xs">
+            <div class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Delivered Orders</div>
+            <div id="metric-delivered-orders" class="text-2xl font-extrabold text-emerald-700 mt-1 font-mono">0</div>
+            <div class="text-[11px] text-emerald-600 mt-0.5">Eligible for return window</div>
+          </div>
+          <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-xs">
+            <div class="text-[11px] font-bold uppercase tracking-wider text-slate-500">In Transit / Processing</div>
+            <div id="metric-transit-orders" class="text-2xl font-extrabold text-blue-700 mt-1 font-mono">0</div>
+            <div class="text-[11px] text-blue-600 mt-0.5">Active carrier fulfillment</div>
+          </div>
+        </div>
+
+        <!-- Search and Filter Bar -->
+        <div class="bg-white border border-slate-200 p-4 rounded-2xl shadow-xs flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+          <div class="relative w-full sm:w-80">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            </div>
+            <input type="text" id="orders-search-input" oninput="filterOrders()" placeholder="Search by order #, customer, or email..." class="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition text-xs">
+          </div>
+          <div class="flex items-center space-x-2 w-full sm:w-auto">
+            <label class="text-slate-500 whitespace-nowrap">Filter Status:</label>
+            <select id="orders-status-filter" onchange="filterOrders()" class="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-800 text-xs focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400">
+              <option value="all">All Statuses</option>
+              <option value="delivered">Delivered</option>
+              <option value="in_transit">In Transit</option>
+              <option value="processing">Processing / Pending</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Orders Table -->
+        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-50 border-b border-slate-200 text-[11px] text-slate-500 uppercase font-semibold">
+                <tr>
+                  <th class="p-3.5">Order #</th>
+                  <th class="p-3.5">Customer &amp; Email</th>
+                  <th class="p-3.5">Items Purchased</th>
+                  <th class="p-3.5">Amount</th>
+                  <th class="p-3.5">Status</th>
+                  <th class="p-3.5">Carrier &amp; Tracking</th>
+                  <th class="p-3.5">Date</th>
+                  <th class="p-3.5 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="orders-table-body" class="divide-y divide-slate-100 text-slate-700">
+                <tr><td colspan="8" class="p-6 text-center text-slate-400">Loading persistent store orders...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
       <!-- TAB 2: APPROVAL INBOX -->
       <section id="tab-approvals" class="hidden space-y-6 max-w-4xl mx-auto">
         <div>
@@ -335,12 +436,12 @@
                 <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">
                   LIVE & SHAREABLE
                 </span>
-                <h3 class="text-sm font-bold text-slate-900">Customer Storefront Simulator Link</h3>
+                <h3 class="text-sm font-bold text-slate-900">Customer Storefront Live Preview Link</h3>
               </div>
               <p class="text-xs text-slate-600 mt-1">Send this link to anyone (colleagues, friends, clients) to test the customer chat widget live on a realistic store:</p>
             </div>
-            <button onclick="openStoreDemo()" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-semibold shadow-xs transition flex items-center space-x-1.5 flex-shrink-0">
-              <span>Open Storefront Simulator</span>
+            <button onclick="openStoreDemo()" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-semibold shadow-xs transition flex items-center space-x-1.5 flex-shrink-0 cursor-pointer">
+              <span>Open Storefront Live Preview</span>
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
             </button>
           </div>
@@ -415,9 +516,10 @@
             <div>
               <label class="block font-semibold text-slate-700 mb-1">Platform Connector</label>
               <select id="cfg-platform" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition">
-                <option value="simulator">Built-in Simulator (Instant Offline Testing)</option>
+                <option value="native">Native Persistent Database (SQLite WAL)</option>
                 <option value="shopify">Shopify Admin REST API</option>
                 <option value="woocommerce">WooCommerce REST API v3</option>
+                <option value="simulator">Built-in Simulator (Offline Testing)</option>
               </select>
             </div>
             <div>
@@ -473,6 +575,82 @@
     </main>
   </div>
 
+  <!-- Modal: Create New Order -->
+  <div id="order-modal" role="dialog" aria-modal="true" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full border border-slate-200 shadow-xl overflow-hidden p-6 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div>
+          <h3 class="font-bold text-slate-900 text-base">Create Customer Order</h3>
+          <p class="text-xs text-slate-500">Insert an authentic order into the persistent SQLite database.</p>
+        </div>
+        <button onclick="closeOrderModal()" class="text-slate-400 hover:text-slate-700 p-1.5 rounded-lg transition" aria-label="Close dialog">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <div id="order-modal-error" class="hidden text-xs bg-rose-50 border border-rose-200 text-rose-700 p-3 rounded-xl font-medium"></div>
+
+      <form onsubmit="handleCreateOrder(event)" class="space-y-3.5 text-xs">
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Order #</label>
+            <input type="text" id="order-inp-id" required placeholder="e.g. 1005" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Total Amount ($)</label>
+            <input type="number" step="0.01" id="order-inp-total" required placeholder="149.00" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Customer Full Name</label>
+            <input type="text" id="order-inp-name" required placeholder="e.g. Maya Lin" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Customer Email</label>
+            <input type="email" id="order-inp-email" required placeholder="e.g. maya.lin@example.com" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Fulfillment Status</label>
+            <select id="order-inp-fulfillment" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400">
+              <option value="delivered">Delivered</option>
+              <option value="in_transit">In Transit</option>
+              <option value="processing">Processing</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Carrier</label>
+            <select id="order-inp-carrier" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400">
+              <option value="FedEx">FedEx</option>
+              <option value="UPS">UPS</option>
+              <option value="USPS">USPS</option>
+              <option value="DHL Express">DHL Express</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Tracking Number</label>
+          <input type="text" id="order-inp-tracking" placeholder="e.g. 9400111899562537624109" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 font-mono text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400">
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Primary Purchased Item</label>
+          <input type="text" id="order-inp-item" placeholder="e.g. Lumina Pro Wireless ANC Studio Headphones" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400">
+        </div>
+
+        <div class="flex items-center justify-end space-x-2 pt-3 border-t border-slate-100">
+          <button type="button" onclick="closeOrderModal()" class="px-4 py-2 rounded-xl text-slate-700 hover:bg-slate-100 transition font-medium">Cancel</button>
+          <button type="submit" id="order-submit-btn" class="px-5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold transition shadow-xs cursor-pointer">Save Order</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <script>
     const urlParams = new URLSearchParams(window.location.search);
     let currentStoreId = urlParams.get('store_id') || localStorage.getItem('agentguard_store_id') || 'demo-store';
@@ -484,25 +662,28 @@
 
     function switchTab(tab) {
       activeTab = tab;
-      const tabs = ['chat', 'approvals', 'kb', 'embed', 'store', 'audit'];
+      const tabs = ['chat', 'orders', 'approvals', 'kb', 'embed', 'store', 'audit'];
       tabs.forEach(t => {
         const sec = document.getElementById(`tab-${t}`);
         const nav = document.getElementById(`nav-${t}`);
         if (sec && nav) {
+          const isJustifyBetween = t === 'approvals' || t === 'orders';
+          const justifyCls = isJustifyBetween ? 'justify-between' : '';
           if (t === tab) {
             sec.classList.remove('hidden');
-            nav.className = 'w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-semibold transition bg-slate-900 text-white shadow-xs';
+            nav.className = `w-full flex items-center ${justifyCls} px-3 py-2 rounded-lg text-xs font-semibold transition bg-slate-900 text-white shadow-xs`;
             const icon = nav.querySelector('svg');
             if (icon) icon.className = 'w-4 h-4 text-white';
           } else {
             sec.classList.add('hidden');
-            nav.className = 'w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition';
+            nav.className = `w-full flex items-center ${justifyCls} px-3 py-2 rounded-lg text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition`;
             const icon = nav.querySelector('svg');
             if (icon) icon.className = 'w-4 h-4 text-slate-500';
           }
         }
       });
 
+      if (tab === 'orders') loadOrders();
       if (tab === 'approvals') loadApprovals();
       if (tab === 'kb') loadKnowledgeBase();
       if (tab === 'audit') loadAuditVault();
@@ -912,11 +1093,234 @@
       }
     }
 
-    function handleSignOut() {
+    let allOrders = [];
+
+    async function loadOrders() {
+      const tbody = document.getElementById('orders-table-body');
+      try {
+        const res = await fetch(`/api/orders?store_id=${encodeURIComponent(currentStoreId)}`);
+        const data = await res.json();
+        if (data.status === 'success' && data.orders) {
+          allOrders = data.orders;
+          updateOrdersMetrics(allOrders);
+          renderOrders(allOrders);
+          const navCount = document.getElementById('nav-orders-count');
+          if (navCount) navCount.textContent = allOrders.length;
+        } else {
+          if (tbody) tbody.innerHTML = '<tr><td colspan="8" class="p-6 text-center text-slate-400 font-sans">No persistent orders found.</td></tr>';
+        }
+      } catch (err) {
+        console.error(err);
+        if (tbody) tbody.innerHTML = `<tr><td colspan="8" class="p-6 text-center text-rose-500 font-sans">Error loading orders: ${escapeHtml(err.message)}</td></tr>`;
+      }
+    }
+
+    function updateOrdersMetrics(orders) {
+      const totalCount = orders.length;
+      let totalVolume = 0;
+      let deliveredCount = 0;
+      let transitCount = 0;
+
+      orders.forEach(o => {
+        totalVolume += (parseFloat(o.total_amount) || 0);
+        const st = (o.fulfillment_status || o.status || '').toLowerCase();
+        if (st === 'delivered' || st === 'fulfilled') {
+          deliveredCount++;
+        } else if (st === 'in_transit' || st === 'transit' || st === 'processing' || st === 'pending') {
+          transitCount++;
+        }
+      });
+
+      const mCount = document.getElementById('metric-total-orders');
+      const mVol = document.getElementById('metric-total-volume');
+      const mDel = document.getElementById('metric-delivered-orders');
+      const mTr = document.getElementById('metric-transit-orders');
+
+      if (mCount) mCount.textContent = totalCount;
+      if (mVol) mVol.textContent = '$' + totalVolume.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      if (mDel) mDel.textContent = deliveredCount;
+      if (mTr) mTr.textContent = transitCount;
+    }
+
+    function renderOrders(orders) {
+      const tbody = document.getElementById('orders-table-body');
+      if (!tbody) return;
+
+      if (orders.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" class="p-8 text-center text-slate-400 font-sans">No orders match your filter criteria.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = orders.map(ord => {
+        const orderId = escapeHtml(String(ord.order_id || ''));
+        const custName = escapeHtml(ord.customer_name || 'Customer');
+        const custEmail = escapeHtml(ord.customer_email || '');
+        const amount = '$' + (parseFloat(ord.total_amount) || 0).toFixed(2);
+        const fStatus = (ord.fulfillment_status || ord.status || 'delivered').toLowerCase();
+        
+        let statusBadge = '<span class="bg-slate-100 text-slate-700 border border-slate-200 px-2 py-0.5 rounded-md font-semibold text-[10px] uppercase font-sans">' + escapeHtml(fStatus) + '</span>';
+        if (fStatus === 'delivered' || fStatus === 'fulfilled') {
+          statusBadge = '<span class="bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-md font-bold text-[10px] uppercase font-sans">Delivered</span>';
+        } else if (fStatus === 'in_transit' || fStatus === 'transit') {
+          statusBadge = '<span class="bg-blue-50 text-blue-700 border border-blue-200 px-2 py-0.5 rounded-md font-bold text-[10px] uppercase font-sans">In Transit</span>';
+        } else if (fStatus === 'processing' || fStatus === 'pending') {
+          statusBadge = '<span class="bg-amber-50 text-amber-800 border border-amber-200 px-2 py-0.5 rounded-md font-bold text-[10px] uppercase font-sans">Processing</span>';
+        }
+
+        const carrier = escapeHtml(ord.carrier || 'FedEx');
+        const tracking = escapeHtml(ord.tracking_number || 'N/A');
+        const trackingDisplay = tracking && tracking !== 'N/A' 
+          ? `<span class="font-mono text-slate-700 bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200 text-[11px]">${tracking}</span>`
+          : '<span class="text-slate-400 font-sans">—</span>';
+
+        const items = ord.items || [];
+        let itemSummary = 'Store Item';
+        if (items.length > 0) {
+          const first = items[0];
+          const firstTitle = first.title || first.name || 'Product';
+          itemSummary = items.length === 1 ? firstTitle : `${firstTitle} +${items.length - 1} more`;
+        }
+
+        const dateStr = (ord.created_at || '').substring(0, 10) || 'Active';
+
+        return `
+          <tr class="hover:bg-slate-50 transition group font-sans">
+            <td class="p-3.5 font-mono font-bold text-slate-900">#${orderId}</td>
+            <td class="p-3.5">
+              <div class="font-semibold text-slate-900">${custName}</div>
+              <div class="text-[11px] text-slate-500">${custEmail}</div>
+            </td>
+            <td class="p-3.5 text-slate-600 max-w-xs truncate text-xs" title="${escapeHtml(itemSummary)}">${escapeHtml(itemSummary)}</td>
+            <td class="p-3.5 font-mono font-bold text-slate-900">${amount}</td>
+            <td class="p-3.5">${statusBadge}</td>
+            <td class="p-3.5">
+              <div class="text-slate-800 font-medium text-xs">${carrier}</div>
+              <div class="mt-0.5">${trackingDisplay}</div>
+            </td>
+            <td class="p-3.5 text-slate-400 text-[11px] font-mono">${dateStr}</td>
+            <td class="p-3.5 text-right">
+              <button onclick="quickTestOrder('${orderId}', '${custEmail}')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-900 hover:text-white text-slate-700 rounded-lg text-[11px] font-semibold transition cursor-pointer shadow-2xs">
+                Test Inquiry →
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function filterOrders() {
+      const q = (document.getElementById('orders-search-input')?.value || '').toLowerCase().trim();
+      const statusFilter = document.getElementById('orders-status-filter')?.value || 'all';
+
+      const filtered = allOrders.filter(ord => {
+        const matchesQuery = !q ||
+          String(ord.order_id || '').toLowerCase().includes(q) ||
+          String(ord.customer_name || '').toLowerCase().includes(q) ||
+          String(ord.customer_email || '').toLowerCase().includes(q) ||
+          String(ord.tracking_number || '').toLowerCase().includes(q);
+
+        const fStatus = (ord.fulfillment_status || ord.status || '').toLowerCase();
+        let matchesStatus = true;
+        if (statusFilter === 'delivered') matchesStatus = fStatus === 'delivered' || fStatus === 'fulfilled';
+        else if (statusFilter === 'in_transit') matchesStatus = fStatus === 'in_transit' || fStatus === 'transit';
+        else if (statusFilter === 'processing') matchesStatus = fStatus === 'processing' || fStatus === 'pending';
+
+        return matchesQuery && matchesStatus;
+      });
+
+      renderOrders(filtered);
+    }
+
+    function openOrderModal() {
+      const err = document.getElementById('order-modal-error');
+      if (err) err.classList.add('hidden');
+      const maxId = allOrders.length > 0 
+        ? Math.max(...allOrders.map(o => parseInt(o.order_id, 10) || 1000))
+        : 1004;
+      document.getElementById('order-inp-id').value = maxId + 1;
+      document.getElementById('order-modal').classList.remove('hidden');
+      document.getElementById('order-inp-name').focus();
+    }
+
+    function closeOrderModal() {
+      document.getElementById('order-modal').classList.add('hidden');
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !document.getElementById('order-modal').classList.contains('hidden')) {
+        closeOrderModal();
+      }
+    });
+
+    async function handleCreateOrder(e) {
+      e.preventDefault();
+      const btn = document.getElementById('order-submit-btn');
+      const errEl = document.getElementById('order-modal-error');
+      errEl.classList.add('hidden');
+      btn.disabled = true;
+      btn.textContent = 'Saving...';
+
+      const orderId = document.getElementById('order-inp-id').value.trim();
+      const totalAmount = parseFloat(document.getElementById('order-inp-total').value);
+      const customerName = document.getElementById('order-inp-name').value.trim();
+      const customerEmail = document.getElementById('order-inp-email').value.trim();
+      const fulfillmentStatus = document.getElementById('order-inp-fulfillment').value;
+      const carrier = document.getElementById('order-inp-carrier').value;
+      const trackingNumber = document.getElementById('order-inp-tracking').value.trim() || `TRK${Date.now()}`;
+      const itemName = document.getElementById('order-inp-item').value.trim() || 'Lumina Pro Wireless ANC Studio Headphones';
+
+      const payload = {
+        store_id: currentStoreId,
+        order_id: orderId,
+        customer_email: customerEmail,
+        customer_name: customerName,
+        total_amount: totalAmount,
+        carrier: carrier,
+        tracking_number: trackingNumber,
+        fulfillment_status: fulfillmentStatus,
+        status: fulfillmentStatus === 'delivered' ? 'fulfilled' : 'unfulfilled',
+        items: [
+          { title: itemName, quantity: 1, price: totalAmount }
+        ]
+      };
+
+      try {
+        const res = await fetch('/api/orders', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (data.status === 'success') {
+          closeOrderModal();
+          await loadOrders();
+          alert(`✓ Order #${orderId} created successfully in persistent SQLite database!`);
+        } else {
+          errEl.textContent = data.message || 'Failed to create order.';
+          errEl.classList.remove('hidden');
+        }
+      } catch (err) {
+        errEl.textContent = `Network error creating order: ${err.message}`;
+        errEl.classList.remove('hidden');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Save Order';
+      }
+    }
+
+    function quickTestOrder(orderId, customerEmail) {
+      switchTab('chat');
+      fillPrompt(`Where is order #${orderId}? (Customer email: ${customerEmail})`);
+    }
+
+    async function handleSignOut() {
+      try {
+        await fetch('/api/auth/logout', { method: 'POST' });
+      } catch (e) {}
       localStorage.removeItem('agentguard_merchant');
       localStorage.removeItem('agentguard_store_id');
       localStorage.removeItem('agentguard_api_key');
-      window.location.href = '/';
+      window.location.href = '/landing';
     }
 
     function escapeHtml(str) {
@@ -925,9 +1329,46 @@
       }[tag] || tag));
     }
 
+    async function checkAuthAndInit() {
+      try {
+        const res = await fetch('/api/auth/me');
+        const data = await res.json();
+        if (data.status === 'success' && data.merchant) {
+          const m = data.merchant;
+          currentStoreId = m.store_id || currentStoreId;
+          localStorage.setItem('agentguard_store_id', currentStoreId);
+          localStorage.setItem('agentguard_merchant', JSON.stringify(m));
+
+          const uEmail = document.getElementById('header-user-email');
+          const uBadge = document.getElementById('header-user-badge');
+          if (uEmail) uEmail.textContent = m.email;
+          if (uBadge) uBadge.classList.remove('hidden');
+
+          const sName = document.getElementById('header-store-name');
+          const sId = document.getElementById('header-store-id-pill');
+          if (sName) sName.textContent = m.store_name || 'My Store';
+          if (sId) sId.textContent = currentStoreId;
+
+          const sfBtn = document.getElementById('nav-storefront-btn');
+          if (sfBtn) sfBtn.href = `/store?store_id=${encodeURIComponent(currentStoreId)}`;
+        } else {
+          // If unauthenticated and no explicit query store_id and no merchant stored:
+          if (!urlParams.get('store_id') && !localStorage.getItem('agentguard_merchant')) {
+            window.location.href = '/landing';
+            return;
+          }
+        }
+      } catch (err) {
+        console.warn('Auth check skipped:', err);
+      }
+
+      loadApprovalsCount();
+      loadStoreConfig();
+      loadOrders();
+    }
+
     // Initial load
-    loadApprovalsCount();
-    loadStoreConfig();
+    checkAuthAndInit();
   </script>
 
   <!-- Embeddable Storefront Chat Widget Bound to Current Merchant Tenant -->
