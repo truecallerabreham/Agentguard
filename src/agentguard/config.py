@@ -26,6 +26,7 @@ class ServerSettings(BaseSettings):
 
     # Database & Multi-Tenancy
     postgres_url: str = "postgresql://agentguard:agentguard@localhost:5432/agentguard"
+    db_path: str = "data/agentguard.db"
     require_tenant: bool = True
     tenant_header: str = "X-Tenant-Id"
 
