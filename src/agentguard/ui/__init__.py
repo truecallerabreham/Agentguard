@@ -15,6 +15,10 @@ from agentguard.ui.routes import (
     api_kb_delete_endpoint,
     store_demo_endpoint,
     static_file_endpoint,
+    api_auth_logout_endpoint,
+    api_auth_me_endpoint,
+    api_orders_endpoint,
+    api_products_endpoint,
 )
 
 __all__ = [
@@ -30,6 +34,10 @@ __all__ = [
     "api_audit_log_endpoint",
     "api_auth_signup_endpoint",
     "api_auth_login_endpoint",
+    "api_auth_logout_endpoint",
+    "api_auth_me_endpoint",
+    "api_orders_endpoint",
+    "api_products_endpoint",
     "api_kb_endpoint",
     "api_kb_delete_endpoint",
 ]

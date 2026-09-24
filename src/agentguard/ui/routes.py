@@ -124,10 +124,36 @@ async def api_chat_endpoint(request: Request) -> Response:
 
 
 async def api_list_approvals_endpoint(request: Request) -> Response:
-    """List pending high-risk Human-in-the-Loop approval requests."""
+    """List pending high-risk Human-in-the-Loop approval requests from persistent database and memory."""
+    store_id = request.query_params.get("store_id", "demo-store")
+    svc = get_ecommerce_service()
+    db_approvals = svc.db.list_approvals(store_id=store_id, status="PENDING")
+
     manager = get_approval_manager()
-    pending = manager.list_pending()
-    return JSONResponse({"status": "success", "approvals": pending})
+    mgr_pending = manager.list_pending()
+
+    combined = []
+    seen_ids = set()
+    for row in db_approvals:
+        params = json.loads(row.get("parameters_json") or "{}")
+        item = {
+            "approval_id": row["approval_id"],
+            "tool_name": row["tool_name"],
+            "arguments": params,
+            "tenant_id": row["store_id"],
+            "approval_token": row["token"],
+            "status": row["status"],
+            "created_at": row["created_at"],
+        }
+        combined.append(item)
+        seen_ids.add(row["approval_id"])
+
+    for item in mgr_pending:
+        if item.get("approval_id") not in seen_ids:
+            combined.append(item)
+            seen_ids.add(item.get("approval_id"))
+
+    return JSONResponse({"status": "success", "approvals": combined})
 
 
 async def api_decide_approval_endpoint(request: Request) -> Response:
@@ -251,7 +277,7 @@ async def api_audit_log_endpoint(request: Request) -> Response:
 
 
 async def api_auth_signup_endpoint(request: Request) -> Response:
-    """Create a new merchant account, provision store ID, and return session token."""
+    """Create a new merchant account, provision store ID, and return persistent session."""
     try:
         body = await request.json()
     except Exception:
@@ -260,7 +286,7 @@ async def api_auth_signup_endpoint(request: Request) -> Response:
     email = body.get("email", "").strip()
     password = body.get("password", "").strip()
     store_name = body.get("store_name", "").strip()
-    platform = body.get("platform", "simulator")
+    platform = body.get("platform", "native")
     api_url = body.get("api_url", "")
     api_token = body.get("api_token", "")
     api_secret = body.get("api_secret", "")
@@ -278,17 +304,28 @@ async def api_auth_signup_endpoint(request: Request) -> Response:
             api_secret=api_secret,
             return_window_days=return_window_days,
         )
-        return JSONResponse({
+        session = svc.create_session(merchant.merchant_id)
+        res = JSONResponse({
             "status": "success",
             "message": "Merchant account created successfully.",
             "merchant": merchant.to_dict(),
+            "session_id": session["session_id"],
         })
+        res.set_cookie(
+            key="agentguard_session",
+            value=session["session_id"],
+            httponly=True,
+            samesite="lax",
+            max_age=30 * 86400,
+            path="/",
+        )
+        return res
     except Exception as exc:
         return JSONResponse({"status": "error", "message": str(exc)}, status_code=400)
 
 
 async def api_auth_login_endpoint(request: Request) -> Response:
-    """Authenticate an existing merchant by email and password."""
+    """Authenticate an existing merchant by email and password and issue persistent session cookie."""
     try:
         body = await request.json()
     except Exception:
@@ -302,11 +339,126 @@ async def api_auth_login_endpoint(request: Request) -> Response:
     if not merchant:
         return JSONResponse({"status": "error", "message": "Invalid email or password."}, status_code=401)
 
-    return JSONResponse({
+    session = svc.create_session(merchant.merchant_id)
+    res = JSONResponse({
         "status": "success",
         "message": "Authenticated successfully.",
         "merchant": merchant.to_dict(),
+        "session_id": session["session_id"],
     })
+    res.set_cookie(
+        key="agentguard_session",
+        value=session["session_id"],
+        httponly=True,
+        samesite="lax",
+        max_age=30 * 86400,
+        path="/",
+    )
+    return res
+
+
+async def api_auth_logout_endpoint(request: Request) -> Response:
+    """Log out current merchant by invalidating session and clearing cookie."""
+    token = request.cookies.get("agentguard_session")
+    svc = get_ecommerce_service()
+    if token:
+        svc.delete_session(token)
+
+    res = JSONResponse({"status": "success", "message": "Logged out successfully."})
+    res.delete_cookie("agentguard_session", path="/")
+    return res
+
+
+async def api_auth_me_endpoint(request: Request) -> Response:
+    """Get profile of current authenticated merchant from session cookie or Authorization header."""
+    svc = get_ecommerce_service()
+    token = request.cookies.get("agentguard_session")
+    session = None
+    if token:
+        session = svc.get_session(token)
+
+    if not session:
+        auth_hdr = request.headers.get("authorization", "")
+        if auth_hdr.lower().startswith("bearer "):
+            bearer = auth_hdr[7:].strip()
+            m = svc.get_merchant_by_api_key(bearer)
+            if m:
+                return JSONResponse({"status": "success", "merchant": m.to_dict()})
+            session = svc.get_session(bearer)
+
+    if not session:
+        return JSONResponse({"status": "error", "message": "Not authenticated"}, status_code=401)
+
+    merchant = svc.get_merchant_by_store_id(session["store_id"])
+    if not merchant:
+        return JSONResponse({"status": "error", "message": "Merchant account not found"}, status_code=404)
+
+    return JSONResponse({"status": "success", "merchant": merchant.to_dict()})
+
+
+async def api_orders_endpoint(request: Request) -> Response:
+    """List or create orders for a store in persistent database."""
+    svc = get_ecommerce_service()
+
+    if request.method == "GET":
+        store_id = request.query_params.get("store_id", "demo-store")
+        orders = svc.db.list_orders(store_id=store_id, limit=50)
+        parsed = []
+        for ord_row in orders:
+            d = dict(ord_row)
+            d["items"] = json.loads(d.get("items_json") or "[]")
+            parsed.append(d)
+        return JSONResponse({"status": "success", "store_id": store_id, "orders": parsed})
+
+    # POST: Create a new order
+    try:
+        body = await request.json()
+    except Exception:
+        return JSONResponse({"status": "error", "message": "Invalid JSON"}, status_code=400)
+
+    order_id = str(body.get("order_id", "")).strip().lstrip("#")
+    store_id = body.get("store_id", "demo-store").strip()
+    customer_email = body.get("customer_email", "").strip().lower()
+    customer_name = body.get("customer_name", "").strip() or "Customer"
+    total_amount = float(body.get("total_amount", 0.0))
+    carrier = body.get("carrier", "FedEx").strip()
+    tracking_number = body.get("tracking_number", "").strip()
+    fulfillment_status = body.get("fulfillment_status", "delivered").strip()
+    status = body.get("status", "fulfilled").strip()
+    items = body.get("items", [])
+
+    if not order_id or not customer_email or total_amount <= 0:
+        return JSONResponse(
+            {"status": "error", "message": "order_id, customer_email, and valid total_amount are required."},
+            status_code=400,
+        )
+
+    try:
+        new_order = svc.db.create_order(
+            order_id=order_id,
+            store_id=store_id,
+            customer_email=customer_email,
+            customer_name=customer_name,
+            total_amount=total_amount,
+            carrier=carrier,
+            tracking_number=tracking_number,
+            fulfillment_status=fulfillment_status,
+            status=status,
+            items=items,
+        )
+        d = dict(new_order)
+        d["items"] = json.loads(d.get("items_json") or "[]")
+        return JSONResponse({"status": "success", "message": "Order created successfully.", "order": d})
+    except Exception as exc:
+        return JSONResponse({"status": "error", "message": str(exc)}, status_code=400)
+
+
+async def api_products_endpoint(request: Request) -> Response:
+    """List products for a store from persistent database."""
+    svc = get_ecommerce_service()
+    store_id = request.query_params.get("store_id", "demo-store")
+    products = svc.db.list_products(store_id=store_id)
+    return JSONResponse({"status": "success", "store_id": store_id, "products": products})
 
 
 async def api_kb_endpoint(request: Request) -> Response:

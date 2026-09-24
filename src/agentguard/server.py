@@ -35,6 +35,10 @@ from agentguard.ui import (
     api_audit_log_endpoint,
     api_auth_signup_endpoint,
     api_auth_login_endpoint,
+    api_auth_logout_endpoint,
+    api_auth_me_endpoint,
+    api_orders_endpoint,
+    api_products_endpoint,
     api_kb_endpoint,
     api_kb_delete_endpoint,
     static_file_endpoint,
@@ -96,6 +100,12 @@ def build_http_app(settings: ServerSettings | None = None) -> Starlette:
     # Merchant SaaS Authentication APIs
     app.add_route("/api/auth/signup", api_auth_signup_endpoint, methods=["POST"])
     app.add_route("/api/auth/login", api_auth_login_endpoint, methods=["POST"])
+    app.add_route("/api/auth/logout", api_auth_logout_endpoint, methods=["POST"])
+    app.add_route("/api/auth/me", api_auth_me_endpoint, methods=["GET"])
+
+    # Orders & Catalog APIs
+    app.add_route("/api/orders", api_orders_endpoint, methods=["GET", "POST"])
+    app.add_route("/api/products", api_products_endpoint, methods=["GET"])
 
     # Multi-Tenant Knowledge Base APIs
     app.add_route("/api/kb", api_kb_endpoint, methods=["GET", "POST"])

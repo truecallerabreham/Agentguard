@@ -41,8 +41,8 @@ def test_sqlite_seeded_default_data(temp_db):
 
     order = temp_db.get_order("1001", "demo-store")
     assert order is not None
-    assert order["customer_email"] == "alex.chen@example.com"
-    assert order["carrier"] == "FedEx"
+    assert order["customer_email"] == "sarah.connor@example.com"
+    assert order["carrier"] == "USPS"
 
 
 def test_sqlite_data_persistence_across_reconnect(tmp_path):

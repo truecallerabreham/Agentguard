@@ -25,3 +25,6 @@ htmlcov/
 logs/
 *.log
 
+# SQLite persistent data
+data/*.db*
+!data/.gitkeep

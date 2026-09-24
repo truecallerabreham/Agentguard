@@ -28,9 +28,13 @@ class SynthesizerAgent:
         # Check for E-Commerce specific evidence
         ecom_order = None
         ecom_return = None
+        ecom_error = None
         for item in dossier.items:
-            if item.tool_name == "ecommerce_order_lookup" and item.status == "SUCCESS":
-                ecom_order = item.result
+            if item.tool_name == "ecommerce_order_lookup":
+                if item.status == "SUCCESS":
+                    ecom_order = item.result
+                elif item.status in ("FAILED", "ERROR"):
+                    ecom_error = item.error
             elif item.tool_name == "ecommerce_evaluate_return" and item.status == "SUCCESS":
                 ecom_return = item.result
         
@@ -39,6 +43,23 @@ class SynthesizerAgent:
         if ecom_order:
             return await self._draft_ecommerce_response(
                 inquiry, ecom_order, ecom_return, revision_guidance, has_refund_request=has_refund_request
+            )
+
+        if ecom_error:
+            key_findings = [f"Order security verification: {ecom_error}"]
+            cited_evidence = [f"Security Gate: {ecom_error}"]
+            paragraphs = [
+                "Dear Customer,",
+                "Thank you for reaching out to customer support.",
+                f"For your account security and privacy protection: {ecom_error}",
+                "Please verify that you are contacting us with the email address used when placing the order, or provide your order confirmation details so we can assist you safely.",
+                "Best regards,\nAgentGuard Support Copilot",
+            ]
+            return DraftResponse(
+                draft_text="\n\n".join(paragraphs),
+                key_findings=key_findings,
+                cited_evidence=cited_evidence,
+                confidence_score=0.98,
             )
 
         # 1. Extract Customer profile evidence

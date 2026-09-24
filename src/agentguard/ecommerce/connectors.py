@@ -491,9 +491,9 @@ class SimulatorStoreConnector(BaseStoreConnector):
         amount_cents: int,
         reason: str,
     ) -> dict[str, Any]:
-        # Find order by order_id
+        # Find order by order_id or order_number
         for order in self._orders.values():
-            if order.order_id == order_id:
+            if order.order_id == order_id or order.order_number == order_id:
                 order.financial_status = "refunded"
                 order.fulfillment_status = OrderFulfillmentStatus.REFUNDED
                 return {

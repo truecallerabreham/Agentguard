@@ -1,6 +1,7 @@
 """ACID-compliant SQLite database manager for AgentGuard with WAL mode and thread safety."""
 
 from __future__ import annotations
+from contextlib import contextmanager
 from datetime import datetime, timezone, timedelta
 import hashlib
 import json
@@ -31,8 +32,9 @@ class SqliteDatabaseManager:
         self._lock = threading.RLock()
         self._init_db()
 
-    def _get_connection(self) -> sqlite3.Connection:
-        """Create a connection with WAL mode and row factory enabled."""
+    @contextmanager
+    def _get_connection(self):
+        """Yield a connection with WAL mode and ensure it is properly closed."""
         conn = sqlite3.connect(
             str(self.db_path),
             timeout=30.0,
@@ -41,7 +43,10 @@ class SqliteDatabaseManager:
         conn.row_factory = sqlite3.Row
         conn.execute("PRAGMA foreign_keys = ON;")
         conn.execute("PRAGMA journal_mode = WAL;")
-        return conn
+        try:
+            yield conn
+        finally:
+            conn.close()
 
     def _init_db(self) -> None:
         """Initialize database schema and seed initial data if empty."""
@@ -55,6 +60,18 @@ class SqliteDatabaseManager:
             # Check if default store is seeded
             self._seed_default_data_if_needed()
 
+    def reset_database(self) -> None:
+        """Clear all data, preserve schema, and re-seed default production data."""
+        with self._lock:
+            with self._get_connection() as conn:
+                conn.execute("PRAGMA foreign_keys = OFF;")
+                for tbl in ["sessions", "approvals", "knowledge_articles", "orders", "products", "stores", "merchants"]:
+                    conn.execute(f"DELETE FROM {tbl};")
+                conn.commit()
+                conn.execute("PRAGMA foreign_keys = ON;")
+                conn.commit()
+            self._seed_default_data_if_needed()
+
     def _seed_default_data_if_needed(self) -> None:
         """Seed default store, merchant, products, orders, and policies if not present."""
         with self._lock:
@@ -66,8 +83,8 @@ class SqliteDatabaseManager:
                 logger.info("Seeding default production data into persistent SQLite database: %s", self.db_path)
                 now = datetime.now(timezone.utc)
                 now_str = now.isoformat()
-                delivered_3d_ago = (now - timedelta(days=3)).isoformat()
-                delivered_45d_ago = (now - timedelta(days=45)).isoformat()
+                delivered_6d_ago = (now - timedelta(days=6)).isoformat()
+                delivered_48d_ago = (now - timedelta(days=48)).isoformat()
 
                 salt = "agentguard_salt_2026"
                 pwd_hash = hashlib.sha256(f"{salt}:demo123".encode("utf-8")).hexdigest()
@@ -131,53 +148,69 @@ class SqliteDatabaseManager:
                     (
                         "1001",
                         "demo-store",
-                        "alex.chen@example.com",
-                        "Alex Chen",
-                        249.00,
+                        "sarah.connor@example.com",
+                        "Sarah Connor",
+                        114.00,
                         "USD",
                         "fulfilled",
                         "delivered",
-                        "FedEx",
-                        "TRK-FDX-998811",
-                        "https://www.fedex.com/fedextrack/?trknbr=TRK-FDX-998811",
-                        json.dumps([{"id": "prod_101", "title": "Studio ANC Wireless Headphones", "quantity": 1, "unit_price": 249.00}]),
-                        delivered_3d_ago,
-                        delivered_3d_ago,
+                        "USPS",
+                        "9400111899562537624128",
+                        "https://tools.usps.com/go/TrackConfirmAction?tLabels=9400111899562537624128",
+                        json.dumps([
+                            {"id": "item_1", "title": "Wireless Noise-Canceling Headphones", "quantity": 1, "unit_price": 99.00},
+                            {"id": "item_2", "title": "Braided Audio Cable 3.5mm", "quantity": 1, "unit_price": 15.00},
+                        ]),
+                        (now - timedelta(days=12)).isoformat(),
+                        delivered_6d_ago,
                     ),
                     (
                         "1002",
                         "demo-store",
-                        "sarah.connor@example.com",
-                        "Sarah Connor",
-                        89.00,
+                        "alex.chen@example.com",
+                        "Alex Chen",
+                        249.00,
                         "USD",
                         "processing",
                         "in_transit",
                         "UPS",
-                        "TRK-UPS-442200",
-                        "https://www.ups.com/track?tracknum=TRK-UPS-442200",
-                        json.dumps([{"id": "prod_102", "title": "Waterproof Rugged Speaker", "quantity": 1, "unit_price": 89.00}]),
-                        now_str,
+                        "1Z9999999999999999",
+                        "https://www.ups.com/track?tracknum=1Z9999999999999999",
+                        json.dumps([{"id": "item_3", "title": "Smart Ergonomic Desk Chair", "quantity": 1, "unit_price": 249.00}]),
+                        (now - timedelta(days=2)).isoformat(),
                         None,
                     ),
                     (
                         "1003",
                         "demo-store",
-                        "david.kim@example.com",
-                        "David Kim",
-                        528.00,
+                        "elena.rostova@example.com",
+                        "Elena Rostova",
+                        135.00,
                         "USD",
                         "fulfilled",
                         "delivered",
-                        "USPS",
-                        "TRK-USPS-771199",
-                        "https://tools.usps.com/go/TrackConfirmAction?tLabels=TRK-USPS-771199",
-                        json.dumps([
-                            {"id": "prod_103", "title": "Broadcast Pro Condenser Mic", "quantity": 1, "unit_price": 179.00},
-                            {"id": "prod_104", "title": "Studio Acoustic Reference Monitors", "quantity": 1, "unit_price": 349.00},
-                        ]),
-                        delivered_45d_ago,
-                        delivered_45d_ago,
+                        "DHL Express",
+                        "4209021093612898",
+                        "https://www.dhl.com/en/express/tracking.html?AWB=4209021093612898",
+                        json.dumps([{"id": "item_4", "title": "Mechanical Gaming Keyboard RGB", "quantity": 1, "unit_price": 135.00}]),
+                        (now - timedelta(days=55)).isoformat(),
+                        delivered_48d_ago,
+                    ),
+                    (
+                        "1004",
+                        "demo-store",
+                        "marcus.vance@example.com",
+                        "Marcus Vance",
+                        89.00,
+                        "USD",
+                        "processing",
+                        "out_for_delivery",
+                        "FedEx",
+                        "794829103948",
+                        "https://www.fedex.com/apps/fedextrack/?tracknumbers=794829103948",
+                        json.dumps([{"id": "item_5", "title": "Compact Espresso Machine", "quantity": 1, "unit_price": 89.00}]),
+                        (now - timedelta(days=3)).isoformat(),
+                        None,
                     ),
                 ]
                 conn.executemany(

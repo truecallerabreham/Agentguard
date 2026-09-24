@@ -12,6 +12,7 @@ class StorePlatform(str, Enum):
     SHOPIFY = "shopify"
     WOOCOMMERCE = "woocommerce"
     SIMULATOR = "simulator"
+    NATIVE = "native"
 
 
 class OrderFulfillmentStatus(str, Enum):
